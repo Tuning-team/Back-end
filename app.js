@@ -5,11 +5,16 @@ const cors = require("cors");
 const Https = require("https");
 const cookieParser = require("cookie-parser");
 const connect = require("./d_schemas/index.js");
+const passport = require("passport");
 connect(); // mongoDB에 연결
 
 const routes = require("./a_routes");
+const passportConfig = require("./passport");
+passportConfig();
 
 const app = express();
+
+app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
@@ -19,6 +24,8 @@ app.use(
     credentials: true,
   })
 );
+
+
 
 // https 옵션 적용해서 서버 개설
 const fs = require("fs");
