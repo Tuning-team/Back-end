@@ -1,5 +1,5 @@
 const passport = require('passport');
-const google = require('./googleStrategy'); // 구글서버로 로그인할때
+const google = require('./googleStrategy');
  
 // const User = require('../models/user');
  
@@ -15,5 +15,5 @@ module.exports = () => {
       //    .catch(err => done(err));
    }); 
  
-   google(); // 구글 전략 등록
+   google();
 };

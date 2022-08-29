@@ -1,20 +1,27 @@
-require("dotenv").config();
+require("dotenv").config(); // 환경변수 적용
 
+// 각종 외부 모듈 설치
 const express = require("express");
 const cors = require("cors");
 const Https = require("https");
 const cookieParser = require("cookie-parser");
-const connect = require("./d_schemas/index.js");
 const passport = require("passport");
-connect(); // mongoDB에 연결
-
-const routes = require("./a_routes");
-const passportConfig = require("./passport");
+const mongoose = require("mongoose")
+const passportConfig = require("./passport"); // passportIndex
 passportConfig();
+// const { session } = require("passport");
+const session = require("express-session");
 
+// DB 연결
+const connect = require("./d_schemas/index.js");
+connect(); // mongoDB에 연결
+const MongoStore = require("connect-mongo");
+// const mongoStore = new MongoStore(session)
+
+// express 객체 
 const app = express();
-
 app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
@@ -25,7 +32,17 @@ app.use(
   })
 );
 
-
+// sessions
+app.use(
+  session(
+  //   {
+  //   secret: process.env.MY_SECRET_KEY,
+  //   resave: false,
+  //   saveUninitialized: false,
+  //   store: mongoStore({ mongooseConnection: mongoose.connection }),
+  // }
+  )
+);
 
 // https 옵션 적용해서 서버 개설
 const fs = require("fs");
@@ -38,8 +55,11 @@ const https = Https.createServer(
   app
 );
 
-app.use("/api", routes); // to /routes/index.js
+// 라우터 적용
+const routes = require("./a_routes");
+app.use("/api", routes); // to /a_routes/index.js
 
+// 서버 Open
 https.listen(process.env.HTTPS_PORT, () => {
   console.log(`Start listen Server: ${process.env.HTTPS_PORT}`);
 });

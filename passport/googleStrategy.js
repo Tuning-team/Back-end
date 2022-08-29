@@ -15,9 +15,7 @@ module.exports = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
 
-
         try {
-
           console.log("accessToken", accessToken);
           console.log("refreshToken", refreshToken);
   
@@ -30,23 +28,24 @@ module.exports = () => {
             PROFILE_PIC: profile.photos[0].value,
           };
   
-          const subscription = await axios.get("https://www.googleapis.com/youtube/v3/subscriptions?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&mine=true&access_token="+accessToken, {
-          headers: {
-            Host: "accounts.google.com",
-            "Content-Type": "application/x-www-form-urlencoded",
-            },
-          });
-      
-          console.log(subscription)
+          const subscription = await axios.get("https://www.googleapis.com/youtube/v3/subscriptions?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&mine=true&maxResults=50&access_token="+accessToken);
 
-          console.log(newUser)
+          console.log("subscription", subscription.data.items)
+          console.log("newUser", newUser)
+
+          // 토큰 만들어서 전달
           // let user = await User.findOne({ GOOGLE_ID: profile.id });
-          if (user) {
-            return done(null, user);
-          } else {
+          // if (user) {
+            return done(null, newUser);
+            // return done(null, user);
+          // } else {
             // newser = await User.create(newUser);
-            return done(null, user);
-          }
+            // return done(null, "user");
+            // return done(null, user);
+          // }
+
+          
+
         } catch (error) {
           console.log(error);
           done(error);
