@@ -4,10 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const Https = require("https");
 const cookieParser = require("cookie-parser");
-const connect = require("./schemas/index.js");
+const connect = require("./d_schemas/index.js");
 connect(); // mongoDB에 연결
 
-const routes = require("./routes");
+const routes = require("./a_routes");
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
