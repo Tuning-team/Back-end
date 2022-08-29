@@ -1,0 +1,96 @@
+
+### 회원가입
+POST http://localhost:8001/api/signup
+Content-Type: application/json
+
+{  
+    "nickname": "Tester1",  
+    "password": "12345",  
+    "confirm": "12345"
+}
+
+## ALTER TABLE `database_testbed`.`Users` CHANGE COLUMN `userId` `userId` INT NOT NULL AUTO_INCREMENT ;
+## ALTER TABLE `database_testbed`.`Posts` CHANGE COLUMN `_id` `_id` INT NOT NULL AUTO_INCREMENT ;
+## ALTER TABLE `database_testbed`.`Comments` CHANGE COLUMN `_id` `_id` INT NOT NULL AUTO_INCREMENT ;
+
+### 로그인
+POST http://localhost:8001/api/login
+Content-Type: application/json
+
+{  
+    "nickname": "Tester3",
+    "password": "12345"
+}
+
+
+
+### 게시글 작성 셍성 
+POST http://localhost:8001/api/posts
+Content-Type: application/json
+
+{
+    "title": "안녕하세요33",
+    "content": "이런저런 글입니다24444 안녕히계세요~~"
+}
+    
+    
+### 게시글 모두 조회 
+GET http://localhost:8001/api/posts
+
+### 특정 게시글 상세 조회
+GET http://localhost:8001/api/posts/5
+
+### 게시글 수정 
+PUT http://localhost:8001/api/posts/11
+Content-Type: application/json
+
+{ 
+    "title": "안녕하세요333333",
+    "content": "안녕하세요 게시글 수정합니당~."
+}
+
+### 게시글 삭제
+DELETE http://localhost:8001/api/posts/3
+Content-Type: application/json
+
+
+
+#################### Like! ########################
+
+### 게시글 좋아요
+PUT http://localhost:8001/api/posts/3/like
+Content-Type: application/json
+
+
+### 사용자가 좋아한 게시글 리스트
+GET http://localhost:8001/api/posts/like
+Content-Type: application/json
+
+
+#################### Comments ########################
+
+### 특정 게시글에 댓글 작성   // 사용중인 유저로 진행 필요
+POST http://localhost:8001/api/comments/3
+Content-Type: application/json
+
+{
+    "comment": "안녕하세요 댓글입니다~~."
+}
+    
+### 특정 게시글의 댓글 조회
+GET http://localhost:8001/api/comments/3
+
+
+
+### 댓글 수정
+PUT http://localhost:8001/api/comments/11
+Content-Type: application/json
+
+{ 
+    "comment": "안녕하세요 수정된 댓글입니다."
+}
+
+
+### 댓글 삭제 
+DELETE http://localhost:8001/api/comments/11
+Content-Type: application/json
