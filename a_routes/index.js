@@ -6,7 +6,8 @@ const Users = require("../d_schemas/user")
 router.use("/", [authRouter]);
 router.use("/DBtest", async (req, res) => {
 
-    await Users.create({  user_id: "tester",
+    await Users.create({  
+      user_id: "tester",
       email: "tester@test.com",
       firstName: "bohyeon",
       lastName: "kim",
