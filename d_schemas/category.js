@@ -6,17 +6,17 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  categoryId: {
+  categoryName: {
     type: String,
     required: true,
   },
-  categoryKoName: {
+  youtubeCategoryId: {
     type: String,
     required: true,
   },
-  categoryEngName: {
-    type: String,
-    required: true,
+  isVisible: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,
