@@ -1,8 +1,8 @@
 const mongoose = require("mongoose"); // 몽구스를 사용하겠다는 선언
 
 // 몽구스로 post라는 객체는 이런 모양으로 받겠다고 선언
-const UserSchema = new mongoose.Schema({
-  _id: {
+const Users = new mongoose.Schema({
+  googleId: {
     type: String,
     required: true,
     unique: true,
@@ -31,17 +31,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
-  likesArr: {
-    type: Array,
-    required: true,
-    default: [],
-  },
-  follwersArr: {
-    type: Array,
-    required: true,
-    default: [],
-  },
-  followingsArr: {
+  likedCollectionsArr: {
     type: Array,
     required: true,
     default: [],
@@ -58,4 +48,4 @@ const UserSchema = new mongoose.Schema({
 });
 
 // 이로써 Users 관련 DB는, 여기서 만든 몽구스 모델을 기준으로 받겠다고 외부에 선언/공개합니다.
-module.exports = mongoose.model("Users", UserSchema);
+module.exports = mongoose.model("Users", Users);
