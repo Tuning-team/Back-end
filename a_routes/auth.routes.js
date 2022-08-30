@@ -4,11 +4,22 @@ const router = express.Router();
 const axios = require("axios");
 const passport = require("passport");
 
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email', 'youtube'] })); 
-router.get("/google_callback", passport.authenticate('google', { failureRedirect: '/' }), 
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] })); 
+router.get("/google_callback", passport.authenticate('google', { failureRedirect: 'http://localhost:3000' }), 
 (req, res) => {
-   console.log("res", res)
-   res.redirect('/');
+   console.log("sessionID", res.req.sessionID)
+   console.log("user", res.req.user.user)
+   console.log("accessToken", res.req.user.accessToken)
+   res
+   .cookie("accessToken", `Bearer ${res.req.user.accessToken}`, {
+          maxAge: 30000, 
+          httpOnly: true,
+        })
+        .cookie("userInfo", res.req.user.user, {
+          maxAge: 30000, 
+          httpOnly: true,
+        })     
+        .redirect('http://localhost:3000');
 },);
 
 module.exports = router;

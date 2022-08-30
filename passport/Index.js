@@ -1,18 +1,22 @@
 const passport = require('passport');
 const google = require('./googleStrategy');
- 
-// const User = require('../models/user');
- 
+const Users = require("../d_schemas/user") 
+
 module.exports = () => {
- 
-   passport.serializeUser((user, done) => {
-      done(null, user.id);
+   
+   
+   passport.serializeUser((data, done) => {
+      done(null, data);
    });
  
-   passport.deserializeUser((id, done) => {
-      // User.findOne({ where: { id } })
-      //    .then(user => done(null, user))
-      //    .catch(err => done(err));
+   // serialize 한 후 deserializeUser로 넘겨줌 
+   passport.deserializeUser((data, done) => {
+      console.log("data", data)
+      Users.findOne({ googleId: data.user.googleId })
+         .then(user => {
+            done(null, user)
+         })
+         .catch(err => done(err));
    }); 
  
    google();

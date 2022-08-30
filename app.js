@@ -9,17 +9,24 @@ const passport = require("passport");
 const mongoose = require("mongoose")
 const passportConfig = require("./passport"); // passportIndex
 passportConfig();
-// const { session } = require("passport");
 const session = require("express-session");
 
 // DB 연결
 const connect = require("./d_schemas/index.js");
 connect(); // mongoDB에 연결
-const MongoStore = require("connect-mongo");
-// const mongoStore = new MongoStore(session)
+// const MongoStore = require("connect-mongo");
 
 // express 객체 
 const app = express();
+// sessions
+app.use(
+  session(
+    {
+    secret: process.env.MY_SECRET_KEY,
+    resave: true,
+    saveUninitialized: true }
+  )
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
@@ -32,17 +39,6 @@ app.use(
   })
 );
 
-// sessions
-app.use(
-  session(
-  //   {
-  //   secret: process.env.MY_SECRET_KEY,
-  //   resave: false,
-  //   saveUninitialized: false,
-  //   store: mongoStore({ mongooseConnection: mongoose.connection }),
-  // }
-  )
-);
 
 // https 옵션 적용해서 서버 개설
 const fs = require("fs");
