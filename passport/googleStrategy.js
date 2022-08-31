@@ -36,8 +36,8 @@ module.exports = () => {
           } else {
             console.log("가입 진행");
             user = await Users.create(newUser);
-            // 새로 가입한 유저 -> 엑세스 토큰 넣어 videoSearch에 구독채널의 주요 영상 추가
-            await videoDataBaseCreator.createAllVideosOnSubscribed(accessToken);
+
+            await videoDataBaseCreator.createAllVideosOnSubscribed(accessToken); // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
             return done(null, { user, accessToken });
           }
         } catch (error) {

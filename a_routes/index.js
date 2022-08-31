@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const authRouter = require("./auth.routes.js");
-const Users = require("../d_schemas/user");
 
 router.use("/", [authRouter]);
 

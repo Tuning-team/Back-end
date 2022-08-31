@@ -1,21 +1,42 @@
+require("dotenv").config(); // 환경변수 적용
+const mongoose = require("mongoose");
+const connect = require("../d_schemas/index.js");
+connect();
+
 const {
   users,
   collections,
   comments,
   categories,
   videos,
-} = require("../main-data-in.js");
+} = require("./main-data-in_wo_ids.js");
 
+// const Users = require("../d_schemas/user");
 const Collections = require("../d_schemas/collection");
 const Comments = require("../d_schemas/comment");
 const Categories = require("../d_schemas/category");
 const Videos = require("../d_schemas/video");
 
-const dataInitializer = () => {
-  const createdCollections = Collections.create();
-  const createdComments = Comments.create();
-  const createdCategories = Categories.create();
-  const createdVideos = Videos.create();
-};
+console.log("users", users);
+console.log("collections", collections);
+console.log("comments", comments);
+console.log("categories", categories);
+console.log("videos", videos);
 
-module.exports = dataInitializer;
+try {
+  Collections.create(collections).then((e) => e);
+  Comments.create(comments).then((e) => e);
+  Categories.create(categories).then((e) => e);
+  Videos.create(videos).then((e) => e);
+} catch (error) {
+  console.log(error);
+}
+
+// const dataInitializer = () => {
+//   const createdCollections = Collections.create(collections);
+//   const createdComments = Comments.create(comments);
+//   const createdCategories = Categories.create(categories);
+//   const createdVideos = Videos.create(videos);
+// };
+
+// module.exports = dataInitializer;
