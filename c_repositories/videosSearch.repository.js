@@ -3,20 +3,20 @@ const VideoSearch = require("../d_schemas/videoSearch");
 
 class VideosSearchRepository {
   getVideoSearch = async (_id) => {
-    const thisVideo = await VideoSearch.findOne({ where: { _id:_id } });
+    const thisVideo = await VideoSearch.findOne({ where: { _id: _id } });
     return thisVideo;
   };
-  
-  createVideoSearch = async ( video_id, title, description) => {
+
+  createVideoSearch = async (videoId, title, description) => {
     const createdVideoSearch = await VideoSearch.create({
-      video_id,
+      videoId,
       title,
       description,
     });
 
     return createdVideoSearch;
   };
-};
+}
 
 module.exports = VideosSearchRepository;
-1
+1;
