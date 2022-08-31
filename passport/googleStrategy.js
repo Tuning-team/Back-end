@@ -31,10 +31,10 @@ module.exports = () => {
           let user = await Users.findOne({ googleId: newUser.googleId });
 
           if (user) {
-            console.log("있음");
+            console.log("기존 회원");
             return done(null, { user, accessToken });
           } else {
-            console.log("없어서 만듦");
+            console.log("가입 진행");
             user = await Users.create(newUser);
             // 새로 가입한 유저 -> 엑세스 토큰 넣어 videoSearch에 구독채널의 주요 영상 추가
             await videoDataBaseCreator.createAllVideosOnSubscribed(accessToken);

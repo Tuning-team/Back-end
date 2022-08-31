@@ -18,16 +18,17 @@ connect(); // mongoDB에 연결
 
 // express 객체
 const app = express();
-// sessions
+// app은 session을 사용
 app.use(
   session({
     secret: process.env.MY_SECRET_KEY,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
   })
 );
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); // 그 세션은 passport에서 관리
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());

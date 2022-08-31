@@ -35,7 +35,7 @@ class VideoDataBaseCreator {
     }
   };
 
-  // 모든 카테고리의 인기동영상을 저장하는 기능 수행
+  // 모든 카테고리의 인기동영상을 수집
   createAllPopularVideosToday = async () => {
     // 카테고리 리스트를 확보
     try {
@@ -66,7 +66,7 @@ class VideoDataBaseCreator {
               return {
                 videoId: e.id,
                 title: e.snippet.title,
-                description: e.snippet.description,
+                // description: e.snippet.description,
               };
             });
             console.log("category_id", category_id, ":", array.length);
@@ -82,7 +82,7 @@ class VideoDataBaseCreator {
     }
   };
 
-  // 특정 채널리스트의
+  // 가입자의 accessToken으로 구독채널 리스트 > 재생목록 > 영상을 수집
   createAllVideosOnSubscribed = async (accessToken) => {
     try {
       const { data } = await axios.get(
@@ -111,7 +111,7 @@ class VideoDataBaseCreator {
             return {
               videoId: e.snippet.resourceId.videoId,
               title: e.snippet.title,
-              description: e.snippet.description,
+              // description: e.snippet.description,
             };
           });
 
@@ -129,14 +129,14 @@ class VideoDataBaseCreator {
 module.exports = VideoDataBaseCreator;
 
 const videoDataBaseCreator = new VideoDataBaseCreator();
+
+// 매일 1번씩만
 // videoDataBaseCreator.createAllPopularVideosToday();
 
 // 검색 기능
 // VideoSearch.find({ title: /아이폰/i }).then((e) => console.log("검색완료!", e));
 
-// 새로 가입하면,
-// 유튜브 동의 -> 구독한 채널 -> 재생목록 -> 재생목록의 영상 -> keep.
-
-videoDataBaseCreator.createAllVideosOnSubscribed(
-  "ya29.a0AVA9y1u4ULMc-dW8SfkStIrBwcyadR5wsj4gY54PWL7prB1KWougjQwZxEmR43kp5qRMistPYStlKDnEhWcYPAHhZRiyGAvPFSVGzlpF8DNQveRAEuxjwvNlZ-kddF0tHBzBi7Km53z-VfGLIYiGDhdafPA2aCgYKATASAQASFQE65dr8XPvMDIZo7dWLk4lySmf55A0163"
-);
+// 새로 가입한 accessToken
+// videoDataBaseCreator.createAllVideosOnSubscribed(
+//   "ya29.a0AVA9y1u4ULMc-dW8SfkStIrBwcyadR5wsj4gY54PWL7prB1KWougjQwZxEmR43kp5qRMistPYStlKDnEhWcYPAHhZRiyGAvPFSVGzlpF8DNQveRAEuxjwvNlZ-kddF0tHBzBi7Km53z-VfGLIYiGDhdafPA2aCgYKATASAQASFQE65dr8XPvMDIZo7dWLk4lySmf55A0163"
+// );

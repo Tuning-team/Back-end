@@ -4,7 +4,8 @@ const axios = require("axios");
 const passport = require("passport");
 
 router.get("/", (req, res) => {
-  console.log("req.user:", req.user);
+  console.log("req.sessionID:", req.sessionID);
+  console.log("req.session:", req.session);
 });
 router.get(
   "/google",
