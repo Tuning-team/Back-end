@@ -1,18 +1,18 @@
 const mongoose = require("mongoose");
 
 const VideoSearchSchema = new mongoose.Schema({
-  _id: {
+  videoId: {
     type: String,
     required: true,
     unique: true,
   },
   title: {
     type: String,
-    required: true,   
+    required: true,
   },
   description: {
     type: String,
-    required: true,    
+    required: true,
   },
   createdAt: {
     type: Date,
