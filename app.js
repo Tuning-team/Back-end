@@ -1,20 +1,15 @@
 require("dotenv").config(); // 환경변수 적용
-
-// 각종 외부 모듈 설치
 const express = require("express");
 const cors = require("cors");
 const Https = require("https");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
-const mongoose = require("mongoose");
-const passportConfig = require("./passport"); // passportIndex
-passportConfig();
-const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
 
-// DB 연결
+const mongoose = require("mongoose");
 const connect = require("./d_schemas/index.js");
 connect(); // mongoDB에 연결
+
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session); // 세션 저장도 mongoDB 연결
 const store = new MongoDBStore({
   uri: process.env.MONGO_DB_ACCESS,
   collection: "mySessions",
@@ -23,21 +18,30 @@ store.on("error", function (error) {
   console.log(error);
 });
 
-// express 객체
+// 패스포트를 사용하겠음
+const passport = require("passport");
+const passportConfig = require("./passport/index.js"); // passportIndex
+passportConfig();
+console.log("Passport & GoogleStrategy _ 설정 완료!");
+
+// express 객체인 app은, CORS와 세션을 사용
 const app = express();
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:3000"],
     credentials: true,
   })
 );
-// app은 session을 사용
+
 app.use(
   session({
     secret: process.env.MY_SECRET_KEY,
     cookie: {
-      SameSite: "none",
-      Secure: true,
+      sameSite: "none",
+      secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
     store: store,
@@ -45,12 +49,9 @@ app.use(
     saveUninitialized: true,
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session()); // 그 세션은 passport에서 관리
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(cookieParser());
+console.log("-------- app 객체에 세션 설정완료 ----------------");
 
 // https 옵션 적용해서 서버 개설
 const fs = require("fs");

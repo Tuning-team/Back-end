@@ -39,11 +39,15 @@ router.get(
   "/google_callback",
   passport.authenticate("google", { failureRedirect: "http://localhost:3000" }),
   (req, res) => {
-    console.log("req.user", req.user);
-    res.redirect("http://localhost:3000");
-    // console.log("sessionID", res.req.sessionID);
-    // console.log("sessionID", res.req.session);
-    // console.log("user", res.req.user.user);
-    // console.log("accessToken", res.req.user.accessToken);
+    console.log("세션에 들어갈 user 객체:", req.user);
+
+    res
+      .cookie("user", req.user, {
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+      })
+      .redirect("http://localhost:3000");
   }
 );

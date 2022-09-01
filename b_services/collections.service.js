@@ -97,12 +97,13 @@ class CollectionsService {
   // 컬렉션 좋아요 누르기
   likeCollection = async (user_id, _id) => {
     const thisCollection = await this.collectionRepository.getCollection(_id);
+
     // User DB에 찾아봤더니 이미 좋아하고 있으면
-    //---User DB에서 컬렉션 id 빼고 다시 저장 (filter)
+    //-- -User DB에서 likeCollectionsArr 컬렉션 id 빼고 다시 저장 (filter)
     //--- Collection DB에서 likes count 1개 빼기
     // 아직 좋아하기 전이면
-    //--- User DB에 이번 컬렉션 id 추가
-    //--- Collection DB에서 likes count 1개 올리기
+    //--- User DB에 이번 컬렉션 id 추가 User.update()
+    //--- Collection DB에서 likes count 1개 올리기 ++
   };
 
   // 검색어와 내용, 제목 일부 일치하는 컬렉션 찾기
