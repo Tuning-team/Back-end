@@ -1,7 +1,7 @@
 ### 유저 정보 찾기 
 GET https://localhost/api/user/630f68469dbf3047bc750ca2
 
-### 로그인한 유저 정보 찾기 
+### 로그인한 유저 정보 찾기
 GET	https://localhost/api/user/
 
 
@@ -15,9 +15,11 @@ GET	https://localhost/api/categories
 POST https://localhost/api/collections
 Content-Type: application/json
 
-{  
-    "nickname": "Tester8",
-    "password": "12345"
+{
+    "category_id": "101",
+    "collectionTitle": "또 듣고 싶은 신나는 음악",
+    "description": "또 듣고 싶은 신나는 음악입니다.",
+    "videos": ["630f30fa71d6081b5c178f19","630f30fa71d6081b5c178f1a"]
 }
 
 
