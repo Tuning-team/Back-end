@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const CollectionSchema = new mongoose.Schema({
   user_id: {
     type: String,
@@ -33,4 +34,4 @@ const CollectionSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Collections", CollectionSchema);
+module.exports = mongoose.model("Collections", Collection);
