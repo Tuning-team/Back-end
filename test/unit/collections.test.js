@@ -29,7 +29,8 @@ describe("CollectionsService 클래스 테스트", () => {
   describe("getAllCollectionsByUserId 메소드 테스트", () => {
     beforeEach(() => {
       // getAllCollectionsByUserId 메소드안에서 사용할 메소드 mocking
-      collectionsService.collectionRepository.getAllCollectionsByUserId = jest.fn();
+      collectionsService.collectionRepository.getAllCollectionsByUserId =
+        jest.fn();
 
       // mock함수로 정의된 collectionsService.getAllCollectionsByUserId
       // 본 테스터 안에서 호출되는 collectionsService의 getAllCollectionsByUserId는 항상 collectionDataOut.getCollectionRes.data값을 리턴하기로 함
@@ -49,7 +50,9 @@ describe("CollectionsService 클래스 테스트", () => {
       ); // 일반적인 Equal 보다는 훨씬 엄격한 Equal라서 기존과는 다르게 특정 요소에 undefined가 나오는 것을 허용하지 않음.
     });
     test("예외처리: 받아온 데이터가 빈 배열일 경우에도 빈 배열을 리턴한다.", async () => {
-      collectionsService.collectionRepository.getAllCollectionsByUserId.mockReturnValue([]); // 저장소의 getAllPosts는 항상 빈 배열을 주기로 했을 때
+      collectionsService.collectionRepository.getAllCollectionsByUserId.mockReturnValue(
+        []
+      ); // 저장소의 getAllPosts는 항상 빈 배열을 주기로 했을 때
       const resultData = await collectionsService.getAllCollectionsByUserId();
       // 서비스가 리턴한 resultData을 아래와 같이 검증한다.
       expect(resultData).toMatchObject([]); // toBe 가 아니라 toMatchObject를 쓰는 이유 : Array는 참조형이기 때문 _ ex. [] === [] : false
@@ -79,8 +82,11 @@ describe("CollectionsService 클래스 테스트", () => {
       );
     });
     test("예외처리: 받아온 데이터가 빈 배열일 경우에도 빈 배열을 리턴한다.", async () => {
-      collectionsService.collectionRepository.getAllCollectionsByCategoryId.mockReturnValue([]); // 저장소의 getAllPosts는 항상 빈 배열을 주기로 했을 때
-      const resultData = await collectionsService.getAllCollectionsByCategoryId();
+      collectionsService.collectionRepository.getAllCollectionsByCategoryId.mockReturnValue(
+        []
+      ); // 저장소의 getAllPosts는 항상 빈 배열을 주기로 했을 때
+      const resultData =
+        await collectionsService.getAllCollectionsByCategoryId();
       // 서비스가 리턴한 resultData을 아래와 같이 검증한다.
       expect(resultData).toMatchObject([]); // toBe 가 아니라 toMatchObject를 쓰는 이유 : Array는 참조형이기 때문 _ ex. [] === [] : false
     });
@@ -133,6 +139,4 @@ describe("CollectionsService 클래스 테스트", () => {
       );
     });
   });
-
 });
-

@@ -24,7 +24,7 @@ router.get("/logout", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect("http://localhost:3000");
+    res.redirect(process.env.REDIRECT_PATH);
   });
 });
 
@@ -37,7 +37,9 @@ router.get(
 );
 router.get(
   "/google_callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:3000" }),
+  passport.authenticate("google", {
+    failureRedirect: process.env.REDIRECT_PATH,
+  }),
   (req, res) => {
     console.log("세션에 들어갈 user 객체:", req.user);
 
@@ -48,6 +50,6 @@ router.get(
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24, // 1 day
       })
-      .redirect("http://localhost:3000");
+      .redirect(process.env.REDIRECT_PATH);
   }
 );

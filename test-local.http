@@ -4,7 +4,6 @@ GET https://localhost/api/user/630f68469dbf3047bc750ca2
 ### 로그인한 유저 정보 찾기
 GET	https://localhost/api/user/
 
-
 ## ---------------------- 카테고리 관련 API (승민 님) ------------------------
 ### 카테고리 요소의 리스트 찾아오기 
 GET	https://localhost/api/categories
@@ -12,7 +11,7 @@ GET	https://localhost/api/categories
 
 ## ---------------------- 컬렉션 관련 API (혜미 님) ------------------------
 ### 컬렉션 정보 추가 
-POST https://localhost/api/collections
+post https://localhost/api/collections
 Content-Type: application/json
 
 {

@@ -46,6 +46,11 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session()); // 그 세션은 passport에서 관리
+
+// 라우터 적용
+const routes = require("./a_routes/index.js");
+app.use("/api", routes); // to /a_routes/index.js
+
 console.log("-------- app 객체에 세션 설정완료 ----------------");
 
 // https 옵션 적용해서 서버 개설
@@ -58,10 +63,6 @@ const https = Https.createServer(
   },
   app
 );
-
-// 라우터 적용
-const routes = require("./a_routes");
-app.use("/api", routes); // to /a_routes/index.js
 
 // 서버 Open
 https.listen(process.env.HTTPS_PORT, () => {

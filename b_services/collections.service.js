@@ -65,13 +65,9 @@ class CollectionsService {
   };
 
   // 컬렉션 생성
-  createCollection = async (
-    user_id,
-    category_id,
-    collectionTitle,
-    description,
-    videos
-  ) => {
+  createCollection = async (req, res) => {
+    const { user_id, category_id, collectionTitle, description, videos } =
+      req.body;
     await this.collectionRepository.createCollection(
       user_id,
       category_id,
