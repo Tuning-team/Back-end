@@ -6,39 +6,51 @@ const cors = require("cors");
 const Https = require("https");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const passportConfig = require("./passport"); // passportIndex
 passportConfig();
 const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 
 // DB 연결
 const connect = require("./d_schemas/index.js");
 connect(); // mongoDB에 연결
-// const MongoStore = require("connect-mongo");
+const store = new MongoDBStore({
+  uri: process.env.MONGO_DB_ACCESS,
+  collection: "mySessions",
+});
+store.on("error", function (error) {
+  console.log(error);
+});
 
-// express 객체 
+// express 객체
 const app = express();
-// sessions
-app.use(
-  session(
-    {
-    secret: process.env.MY_SECRET_KEY,
-    resave: true,
-    saveUninitialized: true }
-  )
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:3000"],
     credentials: true,
   })
 );
+// app은 session을 사용
+app.use(
+  session({
+    secret: process.env.MY_SECRET_KEY,
+    cookie: {
+      SameSite: "none",
+      Secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
+    store: store,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
+app.use(passport.initialize());
+app.use(passport.session()); // 그 세션은 passport에서 관리
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
 
 // https 옵션 적용해서 서버 개설
 const fs = require("fs");

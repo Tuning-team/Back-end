@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
 
-const Collection = new mongoose.Schema({
+
+const CollectionSchema = new mongoose.Schema({
   user_id: {
     type: String,
     required: true,
-    unique: true,
   },
   category_id: {
     type: String,
     required: true,
-    unique: true,
   },
   collectionTitle: {
     type: String,

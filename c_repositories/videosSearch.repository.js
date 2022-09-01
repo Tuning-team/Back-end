@@ -3,7 +3,7 @@ const VideoSearch = require("../d_schemas/videoSearch");
 
 class VideosSearchRepository {
   getVideoSearch = async (_id) => {
-    const thisVideo = await VideoSearch.findOne({ where: { _id:_id } });
+    const thisVideo = await VideoSearch.findOne({ _id:_id });
     return thisVideo;
   };
   
@@ -19,4 +19,4 @@ class VideosSearchRepository {
 };
 
 module.exports = VideosSearchRepository;
-1
+
