@@ -2,7 +2,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const axios = require("axios");
 const Users = require("../d_schemas/user");
-const VideoDataBaseCreator = require("../evertyday-data-setter/video-db.creator");
+const VideoDataBaseCreator = require("../everyday-data-setter/video-db.creator");
 
 const videoDataBaseCreator = new VideoDataBaseCreator();
 

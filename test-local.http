@@ -1,0 +1,8 @@
+### 
+GET https://localhost/api/user/630f68469dbf3047bc750ca2
+
+### 
+GET https://localhost/api/search/videos/db?keyword=운동
+
+### 
+GET https://localhost/api/search/videos/youtube?keyword=운동
