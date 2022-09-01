@@ -16,7 +16,6 @@ router.get("/user", async (req, res) => {
 
 router.get("/user/:user_id", async (req, res) => {
   const user = await userRepository.getUserById(req.params.user_id);
-  console.log(user);
   res.send(user);
 });
 
