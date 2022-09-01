@@ -1,7 +1,6 @@
 const VideosSearchRepository = require("../c_repositories/videosSearch.repository");
 
 const axios = require("axios");
-const urllib = require("urllib");
 
 class SearchService {
   videosSearchRepository = new VideosSearchRepository();
@@ -9,7 +8,12 @@ class SearchService {
   videoSearchViaDB = async (req, res) => {
     const { keyword } = req.query;
 
+    console.log(
+      req.session.passport.user.user.displayName + "님이 검색하셨습니다."
+    );
+
     console.log("keyword", keyword);
+
     const returnVideos =
       await this.videosSearchRepository.getVideoSearchByKeyword(keyword);
 

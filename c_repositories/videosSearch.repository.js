@@ -1,13 +1,20 @@
-// const videoSearch = require("../d_schemas/videoSearch");
 const VideoSearch = require("../d_schemas/videoSearch");
 
 class VideosSearchRepository {
   getVideoSearch = async (_id) => {
-    const thisVideo = await VideoSearch.findOne({ _id:_id });
+    const thisVideo = await VideoSearch.findOne({ _id: _id });
     return thisVideo;
   };
-  
-  createVideoSearch = async ( video_id, title, description) => {
+
+  getVideoSearchByKeyword = async (keyword) => {
+    const searchedVideos = await VideoSearch.find({
+      title: new RegExp(keyword, "i"),
+    });
+
+    return searchedVideos;
+  };
+
+  createVideoSearch = async (video_id, title, description) => {
     const createdVideoSearch = await VideoSearch.create({
       video_id,
       title,
@@ -16,7 +23,6 @@ class VideosSearchRepository {
 
     return createdVideoSearch;
   };
-};
+}
 
 module.exports = VideosSearchRepository;
-

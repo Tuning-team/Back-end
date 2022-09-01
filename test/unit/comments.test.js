@@ -26,9 +26,8 @@ describe("leaveCommentOn 메소드 테스트", () => {
 
     commentsService.leaveCommentOn.mockReturnValue({
       status: 201,
-      message:"댓글을 작성하였습니다.",
+      message: "댓글을 작성하였습니다.",
     });
     res.locals.user = userDataIn.mockUser_ResLocals;
   });
 });
-
