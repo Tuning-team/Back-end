@@ -26,7 +26,7 @@ class CollectionRepository {
     return collection;
   };
 
-  // 전달된 내용으로 새로운 컬렉션 작성. returns 작성한 컬렉션 정보
+  // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
   createCollection = async (
     user_id,
     category_id,
@@ -44,14 +44,14 @@ class CollectionRepository {
     return collection;
   };
 
-  // _id에 해당하는 컬렉션 수정하여 저장. return 수정한 게시글정보
-  updateCollection = async (collectionTitle, description, videos) => {
-    const updateCollection = await Collection.updateOne(
-      { _id },
-      { $set: { collectionTitle, description, videos } }
-    );
-    return updateCollection;
-  };
+  // // _id에 해당하는 컬렉션 수정하여 저장. return 수정한 게시글정보
+  // updateCollection = async (collectionTitle, description, videos) => {
+  //   const updateCollection = await Collection.updateOne(
+  //     { _id },
+  //     { $set: { collectionTitle, description, videos } }
+  //   );
+  //   return updateCollection;
+  // };
 
   // _id에 해당하는 컬렉션 삭제. returns 삭제한 컬렉션 정보
   deleteCollection = async (_id) => {

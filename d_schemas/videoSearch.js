@@ -12,6 +12,15 @@ const VideoSearchSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+<<<<<<< HEAD
+=======
+    required: true,    
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    required: true,
+>>>>>>> feature
   },
 });
 
