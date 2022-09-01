@@ -12,11 +12,6 @@ router.get("/user", (req, res) => {
   res.send(req.session.passport.user);
 });
 
-// router.get("/logout", (req, res) => {
-//   req.logout();
-//   req.session.save();
-// });
-
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
     if (err) {

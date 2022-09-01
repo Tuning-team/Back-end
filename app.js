@@ -25,14 +25,19 @@ store.on("error", function (error) {
 
 // express 객체
 const app = express();
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  })
+);
 // app은 session을 사용
 app.use(
   session({
     secret: process.env.MY_SECRET_KEY,
     cookie: {
-      SameSite: None,
-      Secure,
+      SameSite: "none",
+      Secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
     store: store,
@@ -46,12 +51,7 @@ app.use(passport.session()); // 그 세션은 passport에서 관리
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    credentials: true,
-  })
-);
+
 // https 옵션 적용해서 서버 개설
 const fs = require("fs");
 const https = Https.createServer(
