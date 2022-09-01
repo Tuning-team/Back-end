@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
-const CollectionSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
+const Collection = new mongoose.Schema({
   user_id: {
     type: String,
     required: true,
@@ -40,4 +35,4 @@ const CollectionSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Collections", CollectionSchema);
+module.exports = mongoose.model("Collections", Collection);

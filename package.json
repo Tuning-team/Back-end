@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/hemi333/hanghae99-s8team5-Tunning_Back-end/issues"
   },
-  "homepage": "https://github.com/hemi333/hanghae99-s8team5-Tunning_Back-end#readme"
+  "homepage": "https://github.com/hemi333/hanghae99-s8team5-Tunning_Back-end#readme",
+  "devDependencies": {
+    "jest": "^29.0.1"
+  }
 }
