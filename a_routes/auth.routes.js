@@ -1,71 +1,50 @@
-
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const passport = require("passport");
+const UserRepository = require("../c_repositories/users.repository");
+const userRepository = new UserRepository();
+// const session = require("express-session");
 
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] })); 
-router.get("/google_callback", passport.authenticate('google', { failureRedirect: 'http://localhost:3000' }), 
-(req, res) => {
-   console.log("sessionID", res.req.sessionID)
-   console.log("user", res.req.user.user)
-   console.log("accessToken", res.req.user.accessToken)
-   res
-   .cookie("accessToken", `Bearer ${res.req.user.accessToken}`, {
-          maxAge: 30000, 
-          httpOnly: true,
-        })
-        .cookie("userInfo", res.req.user.user, {
-          maxAge: 30000, 
-          httpOnly: true,
-        })     
-        .redirect('http://localhost:3000');
-},);
+// 세션ID를 가진 사용자가 접속했을 때,유저 정보 받아보기
+router.get("/user", async (req, res) => {
+  console.log(
+    "여기에" + req.session.passport.user.user.displayName + "님이 접속했습니다."
+  );
+  res.send(req.session.passport.user);
+});
+
+router.get("/user/:user_id", async (req, res) => {
+  const user = await userRepository.getUserById(req.params.user_id);
+  console.log(user);
+  res.send(user);
+});
+
+router.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("http://localhost:3000");
+  });
+});
 
 module.exports = router;
 
-// async (req, res, next) => {
-//   try {
-
-//     var data = {};
-//     const params = new URLSearchParams({
-//       code: req.query.code,
-//       client_id:
-//       process.env.GOOGLE_CLIENT_ID,
-//       client_secret: process.env.GOOGLE_CLIENT_SECRET,
-//       redirect_uri: "https://localhost/api/google_callback",
-//       grant_type: "authorization_code",
-//     }).toString();
-
-//     const url = "https://accounts.google.com/o/oauth2/token?" + params;
-//     const result = await axios.post(url, data, {
-//       headers: {
-//         Host: "accounts.google.com",
-//         "Content-Type": "application/x-www-form-urlencoded",
-//       },
-//     });
-
-//     console.log("구글로 접속한 유저의 엑세스 토큰 발행 완료:", result.data.access_token);
-//     // 이게 있으면 이제 유저의 ID, Email 등 유튜브 정보 들을 구글이 줄 수 있다. 
-
-
-//     const getUserInfo = await axios.get("https://www.googleapis.com/v1/people/me?personFields=names,emailAddressesaccess_token="+result.data.access_token, {
-//       headers: {
-//         Host: "accounts.google.com",
-//         "Content-Type": "application/x-www-form-urlencoded",
-//       },
-//     });
-    
-//     console.log(getUserInfo.email)
-
-
-//     res.cookie("token", `Bearer ${result.data.access_token}`, {
-//       maxAge: 30000, 
-//       httpOnly: true,
-//     }).redirect(
-//       "http://localhost:3000"
-//     );
-//   } catch (error) {
-//     res.status(400).send({ message: error + "구글 로그인 실패" });
-//   }
-// }
+// 구글 로그인 관련
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+router.get(
+  "/google_callback",
+  passport.authenticate("google", { failureRedirect: "http://localhost:3000" }),
+  (req, res) => {
+    console.log("req.user", req.user);
+    res.redirect("http://localhost:3000");
+    // console.log("sessionID", res.req.sessionID);
+    // console.log("sessionID", res.req.session);
+    // console.log("user", res.req.user.user);
+    // console.log("accessToken", res.req.user.accessToken);
+  }
+);

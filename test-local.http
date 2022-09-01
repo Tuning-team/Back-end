@@ -1,0 +1,87 @@
+### 유저 정보 찾기 
+GET https://localhost/api/user/630f68469dbf3047bc750ca2
+
+### 로그인한 유저 정보 찾기 
+GET	https://localhost/api/user/
+
+
+## ---------------------- 카테고리 관련 API (승민 님) ------------------------
+### 카테고리 요소의 리스트 찾아오기 
+GET	https://localhost/api/categories
+
+
+## ---------------------- 컬렉션 관련 API (혜미 님) ------------------------
+### 컬렉션 정보 추가 
+POST https://localhost/api/collections
+Content-Type: application/json
+
+{  
+    "nickname": "Tester8",
+    "password": "12345"
+}
+
+
+### 카테고리에 맞는 컬렉션 리스트 찾기 
+GET	https://localhost/api/collections?category_id=10
+
+
+### 검색어에 맞는 컬렉션 리스트 찾기
+GET	https://localhost/api/collections?keyword=뷰티
+
+
+### 컬렉션 ID에 맞는 컬렉션 ID 찾기 
+GET	https://localhost/api/collections/:collection_id
+
+
+### 특정 id 컬렉션 삭제하기 
+DELETE https://localhost/api/collections/:collection_id
+
+
+### 내가 만든 컬렉션 리스트
+GET	https://localhost/api/collections/mine
+
+
+### 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소)
+PUT	https://localhost/api/collections/like
+
+
+### 특정 id의 영상을 컬렉션에 추가하기
+PUT	https://localhost/api/collections/:collection_id?video_id=
+
+
+## ---------------------- 영상 관련 API (승민 님) ------------------------
+### 특정 id 컬렉션의 영상들의 리스트 불러오기 
+GET	https://localhost/api/videos/:collection_id
+
+
+### 특정 id 영상의 디테일한 정보를 불러오기
+GET	https://localhost/api/videos/detail/:video_id
+
+
+## ---------------------- 컬렉션에 달린 댓글 관련 API (승민 님) ------------------------
+### collection_id 컬렉션에 달린 댓글 리스트 보기 
+GET	https://localhost/api/comments/:collection_id
+
+
+### collection_id 컬렉션에 댓글 달기 
+POST https://localhost/api/comments/:collection_id
+
+
+### 특정 id를 가진 댓글을 수정하기
+PUT	https://localhost/api/comments/:comment_id
+
+
+### 특정 id를 가진 댓글을 삭제하기
+DELETE https://localhost/api/comments/:comment_id
+
+
+
+
+## ---------------------- 영상 찾기 관련 API (보현) ------------------------
+### (기본찾기) 운동이라는 키워드 - videoSearchDB에서 찾기
+GET https://localhost/api/search/videos/db?keyword=운동
+
+
+### (더찾아보기) 운동이라는 키워드 유튜브API에서 찾기
+GET https://localhost/api/search/videos/youtube?keyword=운동
+
