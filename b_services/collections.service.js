@@ -182,12 +182,13 @@ class CollectionsService {
       res.status(200).json({ message: "컬렉션에 좋아요를 취소하였습니다." });
       return;
     }
+
     // User DB에 찾아봤더니 이미 좋아하고 있으면
-    //---User DB에서 컬렉션 id 빼고 다시 저장 (filter)
+    //-- -User DB에서 likeCollectionsArr 컬렉션 id 빼고 다시 저장 (filter)
     //--- Collection DB에서 likes count 1개 빼기
     // 아직 좋아하기 전이면
-    //--- User DB에 이번 컬렉션 id 추가
-    //--- Collection DB에서 likes count 1개 올리기
+    //--- User DB에 이번 컬렉션 id 추가 User.update()
+    //--- Collection DB에서 likes count 1개 올리기 ++
   };
 
   // 내가 좋아한 컬렉션 조회
