@@ -19,14 +19,14 @@ class CommentService {
     }
   };
   //댓글 목록 조회
-  getCommentOn = async (collection_id) => {
+  getCommentOn = async () => {
     const thisCollection = await this.collectionRepository.getColletion(
       collection_id
     );
     if (!thisCollection) {
       return {
         status: 400,
-        message: "해당 게시글이 없습니다.",
+        message: "만들어진 컬렉션이 없습니다.",
         data: undefined,
       };
     } else {
