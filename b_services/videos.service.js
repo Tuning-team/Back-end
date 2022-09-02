@@ -1,59 +1,75 @@
-const VideoRepository = require("../c_repositories/videos.repository");3
+const VideoRepository = require("../c_repositories/videos.repository");
+3;
 const CollectionRepository = require("../c_repositories/collections.repository");
-
+const axios = require("axios");
 
 class VideoService {
   videoRepository = new VideoRepository();
   collectionRepository = new CollectionRepository();
 
   //비디오 리스트 보기
-
-  getVideosOn = async (_id) => {
-    const thisCollection = await thist.collectionRepository.getColletion(
-      _id
-    );
-    if(!thisCollection) {
-      return {
-        status: 400,
-        message: "만들어진 컬렉션이 없습니다.",
-        data: undefined,
-      };
-    } else {
-      const allVideosInfo = await this.videoRepository.getAllVideos(
-        _id
+  getVideosOn = async (req, res) => {
+    try {
+      // 재료
+      const { collection_id } = req.params;
+      const thisCollection = await this.collectionRepository.getCollectionById(
+        collection_id
       );
 
-      const data = allVideosInfo.map((el) => {
+      if (!thisCollection) {
         return {
-          _id: el._id,
-          videoTitle: el.videoTitle,
-          category_id: el.category_id,
-          channelTitle: el.channelTitle,
-          channel_id: el.channel_id,
-          thumbnails: el.thumbnails,
+          status: 400,
+          message: "만들어진 컬렉션이 없습니다.",
         };
-      });
+      } else {
+        // ["p9HjZshdjt4", .... ]
+        const videosArray = thisCollection.videos;
 
-      return { status: 200, message: "비디오 목록을 불러왔습니다.", data: data };
+        let element;
+        let data = [];
+        for (let i = 0; i < videosArray.length; i++) {
+          element = await this.videoRepository.getVideoById(videosArray[i]);
+          data.push(element);
+        }
+
+        res.json({
+          status: 200,
+          message: "비디오 목록을 불러왔습니다.",
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
   //비디오 상세 조회
-  getVideos = async () => {
-    const thisVideos = await this.videoRepository.getVideoById(_id);
-    if(!thisVideos) {
-      return {message: "해당 영상이 없습니다."};
-    } else {
-      return{
-        _id:_id,
-        videoTitle: videoTitle,
-        category_id: category_id,
-        channelTitle: channelTitle,
-        channel_id: channel_id,
-        thumbnails: thumbnails,
-      };
+  getVideosDetail = async (req, res) => {
+    try {
+      // 비디오 DB 아이디 -> DB 찾아보고
+      const { video_id } = req.params;
+      const thisVideo = await this.videoRepository.getVideoById(video_id);
+
+      if (!thisVideo) {
+        res.json({ message: "해당 영상이 없습니다." });
+
+        // 찾으면 그 비디오의 유튜브 아이디로 영상 디테일을 확보
+      } else {
+        const axiosResult = await axios.get(
+          `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=${thisVideo.videoId}`
+        );
+
+        console.log(axiosResult.data.items);
+
+        res.json({
+          status: 200,
+          message: "비디오 목록을 불러왔습니다.",
+          data: axiosResult.data.items,
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }
-
-
-};
+  };
+}
 module.exports = VideoService;

@@ -8,9 +8,9 @@ class SearchService {
   videoSearchViaDB = async (req, res) => {
     const { keyword } = req.query;
 
-    console.log(
-      `${req.session.passport.user.user.displayName} 님이 ${keyword}를 검색하였습니다.`
-    );
+    // console.log(
+    //   `${req.session.passport.user.user.displayName} 님이 ${keyword}를 검색하였습니다.`
+    // );
 
     const returnVideos =
       await this.videosSearchRepository.getVideoSearchByKeyword(keyword);
@@ -33,6 +33,8 @@ class SearchService {
           title: e.snippet.title,
         };
       });
+
+      // ------------- DB에 저장 추가 필요 ----------
 
       res.json(resultArr);
     } catch (error) {

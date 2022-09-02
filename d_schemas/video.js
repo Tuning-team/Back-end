@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const VideoSchema = new mongoose.Schema({
+  videoId: {
+    type: String,
+    required: true,
+  },
   videoTitle: {
     type: String,
     required: true,
@@ -25,7 +29,6 @@ const VideoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
   createdAt: {
     type: Date,
     default: Date.now,
