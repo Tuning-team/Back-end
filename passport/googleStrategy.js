@@ -37,10 +37,12 @@ module.exports = () => {
           let user = await Users.findOne({ googleId: newUser.googleId });
 
           if (user) {
+            await videoDataBaseCreator.getAllSubscribedChannel(accessToken); // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
+
             return done(null, { user, accessToken });
           } else {
             user = await Users.create(newUser);
-            await videoDataBaseCreator.createAllVideosOnSubscribed(accessToken); // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
+            await videoDataBaseCreator.getAllSubscribedChannel(accessToken); // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
             return done(null, { user, accessToken });
           }
           // done의 2번째 인자 -> session.user = { user, accessToken }

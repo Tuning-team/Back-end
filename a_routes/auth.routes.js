@@ -8,9 +8,14 @@ const userRepository = new UserRepository();
 
 // 세션ID를 가진 사용자가 접속했을 때,유저 정보 받아보기
 router.get("/user", async (req, res) => {
-  console.log(
-    "여기에" + req.session.passport.user.user.displayName + "님이 접속했습니다."
-  );
+  if (req.session.passport) {
+    console.log(
+      "여기에" +
+        req.session.passport.user.user.displayName +
+        "님이 접속했습니다."
+    );
+  }
+
   res.send(req.session.passport.user);
 });
 
