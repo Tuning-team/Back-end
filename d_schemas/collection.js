@@ -25,6 +25,7 @@ const CollectionSchema = new mongoose.Schema({
   likes: {
     type: Number,
     required: true,
+    default: 0,
   },
   createdAt: {
     type: Date,
@@ -32,5 +33,7 @@ const CollectionSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+// CollectionSchema.index({ collectionTitle: 'text' , description: 'text'});
 
 module.exports = mongoose.model("Collections", CollectionSchema);
