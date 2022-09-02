@@ -9,10 +9,8 @@ class SearchService {
     const { keyword } = req.query;
 
     console.log(
-      req.session.passport.user.user.displayName + "님이 검색하셨습니다."
+      `${req.session.passport.user.user.displayName} 님이 ${keyword}를 검색하였습니다.`
     );
-
-    console.log("keyword", keyword);
 
     const returnVideos =
       await this.videosSearchRepository.getVideoSearchByKeyword(keyword);
