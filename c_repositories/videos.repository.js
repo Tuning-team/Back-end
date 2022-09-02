@@ -1,6 +1,6 @@
 const Video = require("../d_schemas/video");
 
-class VideosRepository {
+class VideoRepository {
   //비디오 조회
   getVideoById = async (_id) => {
     const thisVideo = await Video.findOne({ _id:_id });
@@ -46,4 +46,4 @@ class VideosRepository {
   };
 };
 
-module.exports = VideosRepository;
+module.exports = VideoRepository;
