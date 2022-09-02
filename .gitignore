@@ -2,6 +2,7 @@
 /ssl
 test.js
 .npm
+package-lock.json
 
 # ide
 .vscode/
