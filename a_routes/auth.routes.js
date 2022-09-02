@@ -8,9 +8,14 @@ const userRepository = new UserRepository();
 
 // 세션ID를 가진 사용자가 접속했을 때,유저 정보 받아보기
 router.get("/user", async (req, res) => {
-  console.log(
-    "여기에" + req.session.passport.user.user.displayName + "님이 접속했습니다."
-  );
+  if (req.session.passport) {
+    console.log(
+      "여기에" +
+        req.session.passport.user.user.displayName +
+        "님이 접속했습니다."
+    );
+  }
+
   res.send(req.session.passport.user);
 });
 
@@ -24,7 +29,7 @@ router.get("/logout", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect("http://localhost:3000");
+    res.redirect(process.env.REDIRECT_PATH);
   });
 });
 
@@ -37,13 +42,19 @@ router.get(
 );
 router.get(
   "/google_callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:3000" }),
+  passport.authenticate("google", {
+    failureRedirect: process.env.REDIRECT_PATH,
+  }),
   (req, res) => {
-    console.log("req.user", req.user);
-    res.redirect("http://localhost:3000");
-    // console.log("sessionID", res.req.sessionID);
-    // console.log("sessionID", res.req.session);
-    // console.log("user", res.req.user.user);
-    // console.log("accessToken", res.req.user.accessToken);
+    console.log("세션에 들어갈 user 객체:", req.user);
+
+    res
+      .cookie("user", req.user, {
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+      })
+      .redirect(process.env.REDIRECT_PATH);
   }
 );

@@ -82,19 +82,44 @@ class VideoDataBaseCreator {
     }
   };
 
-  // 가입자의 accessToken으로 구독채널 리스트 > 재생목록 > 영상을 수집
-  createAllVideosOnSubscribed = async (accessToken) => {
+  // 가입자의 accessToken으로 구독채널 확보
+  getAllSubscribedChannel = async (accessToken) => {
     try {
       const { data } = await axios.get(
         `https://www.googleapis.com/youtube/v3/subscriptions?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&mine=true&maxResults=50&access_token=${accessToken}`
       );
 
-      // 채널 아이디
       const mySubscriptions = data.items.map(
         (e) => e.snippet.resourceId.channelId
       );
 
       for (let el of mySubscriptions) {
+        console.log(el);
+      }
+
+      return mySubscriptions;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 가입자의 accessToken으로 구독채널 리스트 > 재생목록 > 영상을 수집
+  createAllVideosOnSubscribed = async (accessToken) => {
+    try {
+      // 구독한 채널 아이디 리스트 확보
+      const mySubscriptions = await this.getAllSubscribedChannel(accessToken);
+
+      // 각 채널들의 영상 수집
+      await this.createAllVideosOnChannelIds(mySubscriptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 채널Id의 Array를 넣으면, DB에 그 채널 안의 > 재생목록 > 영상을 수집
+  createAllVideosOnChannelIds = async (array) => {
+    try {
+      for (let el of array) {
         const { data: playlists } = await axios.get(
           `https://www.googleapis.com/youtube/v3/playlists?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=id,snippet&channelId=${el}&maxResults=50`
         );
@@ -128,9 +153,8 @@ class VideoDataBaseCreator {
 
 module.exports = VideoDataBaseCreator;
 
-const videoDataBaseCreator = new VideoDataBaseCreator();
-
 // 매일 1번씩만
+// const videoDataBaseCreator = new VideoDataBaseCreator();
 // videoDataBaseCreator.createAllPopularVideosToday();
 
 // 검색 기능
