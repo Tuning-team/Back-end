@@ -34,4 +34,6 @@ const CollectionSchema = new mongoose.Schema({
   },
 });
 
+// CollectionSchema.index({ collectionTitle: 'text' , description: 'text'});
+
 module.exports = mongoose.model("Collections", CollectionSchema);

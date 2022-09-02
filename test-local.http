@@ -10,41 +10,58 @@ GET	https://localhost/api/categories
 
 
 ## ---------------------- 컬렉션 관련 API (혜미 님) ------------------------
-### 컬렉션 정보 추가 
-post https://localhost/api/collections
+
+### 컬렉션 정보 추가 (완성)
+POST https://localhost/api/collections
+
 Content-Type: application/json
 
 {
-    "category_id": "101",
-    "collectionTitle": "또 듣고 싶은 신나는 음악",
-    "description": "또 듣고 싶은 신나는 음악입니다.",
-    "videos": ["630f30fa71d6081b5c178f19","630f30fa71d6081b5c178f1a"]
+    "user_id": "630db5fe5b60fec023bd6c69",
+    "category_id": "630f31258b8c916480f96ade",
+    "collectionTitle": "내가 좋아하는 영화 요약",
+    "description": "내가 좋아하는 영화 요약을 모아봤습니다.",
+    "videos": ["PFIGm2a74", "ejtEzKPIt3k", "9z4ZR68bcAQ", "coAlzdXMF"]
 }
 
 
-### 카테고리에 맞는 컬렉션 리스트 찾기 
-GET	https://localhost/api/collections?category_id=10
+### 카테고리에 맞는 컬렉션 리스트 찾기 (완성)
+GET	https://localhost/api/collections/630f31258b8c916480f96ade
 
 
 ### 검색어에 맞는 컬렉션 리스트 찾기
 GET	https://localhost/api/collections?keyword=뷰티
 
 
-### 컬렉션 ID에 맞는 컬렉션 ID 찾기 
-GET	https://localhost/api/collections/:collection_id
+### 컬렉션 ID에 맞는 컬렉션 ID 찾기 (완성)
+GET	https://localhost/api/collections/631160f187a0e93b4fa40807
 
 
-### 특정 id 컬렉션 삭제하기 
-DELETE https://localhost/api/collections/:collection_id
+### 특정 id 컬렉션 삭제하기 (완성)
+DELETE https://localhost/api/collections/631160f187a0e93b4fa40807
+Content-Type: application/json
+
+{
+    "user_id": "630db5fe5b60fec023bd6c69"
+}
 
 
-### 내가 만든 컬렉션 리스트
+### 내가 만든 컬렉션 리스트 (완성)
 GET	https://localhost/api/collections/mine
+Content-Type: application/json
+
+{
+    "user_id": "630db5fe5b60fec023bd6c69"
+}
 
 
 ### 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소)
-PUT	https://localhost/api/collections/like
+PUT	https://localhost/api/collections/like/631160f187a0e93b4fa40807
+Content-Type: application/json
 
+{
+    "user_id": "630db5fe5b60fec023bd6c69"
+}
 
 ### 특정 id의 영상을 컬렉션에 추가하기
 PUT	https://localhost/api/collections/:collection_id?video_id=
