@@ -1,4 +1,7 @@
 require("dotenv").config(); // 환경변수 적용
+const dev = process.env.NODE_ENV !== "production";
+const path = require("path");
+
 const express = require("express");
 const cors = require("cors");
 const Https = require("https");
@@ -26,6 +29,12 @@ console.log("Passport & GoogleStrategy _ 설정 완료!");
 
 // express 객체인 app은, CORS와 세션을 사용
 const app = express();
+
+if (dev) {
+  const webpackDev = require("./dev");
+  app.use(webpackDev.comp).use(webpackDev.hot);
+}
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
@@ -49,6 +58,13 @@ app.use(passport.session()); // 그 세션은 passport에서 관리
 
 // 라우터 적용
 const routes = require("./a_routes/index.js");
+
+app.use(express.static(path.join(__dirname, "client", "dist")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
+
 app.use("/api", routes); // to /a_routes/index.js
 
 console.log("-------- app 객체에 세션 설정완료 ----------------");
