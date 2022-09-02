@@ -1,10 +1,10 @@
 const Collection = require("../d_schemas/collection");
-const User = require("../d_schemas/user")
+const User = require("../d_schemas/user");
 
 class CollectionRepository {
   // user_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
-  getAllCollectionsByUserId = async (_id) => {
-    const collections = await Collection.find({ user_id: _id }).sort({
+  getAllCollectionsByUserId = async (user_id) => {
+    const collections = await Collection.find({ user_id }).sort({
       createdAt: -1,
     });
 
@@ -21,9 +21,8 @@ class CollectionRepository {
   };
 
   // 작성된 컬렉션 상세 조회
-  getCollection = async (_id) => {
-    const collection = await Collection.findOne({ _id: _id });
-
+  getCollectionById = async (_id) => {
+    const collection = await Collection.findOne({ _id });
     return collection;
   };
 
@@ -50,6 +49,19 @@ class CollectionRepository {
   };
 
   // _id에 해당하는 컬렉션 삭제. returns 삭제한 컬렉션 정보
+  addVideoOnCollection = async (_id, addedVideos) => {
+    let { videos } = await this.getCollectionById(_id);
+    videos = [...videos, ...addedVideos];
+    console.log("videos:", videos);
+
+    const updatedCollection = await Collection.findOneAndUpdate(
+      { _id },
+      { $set: { videos } }
+    );
+    return updatedCollection;
+  };
+
+  // _id에 해당하는 컬렉션 삭제. returns 삭제한 컬렉션 정보
   deleteCollection = async (_id) => {
     const deleteCollection = await Collection.deleteOne({ _id: _id });
     return deleteCollection;
@@ -57,15 +69,15 @@ class CollectionRepository {
 
   // 유저가 보유한 좋아요 리스트
   getCollectionsByLikedArray = async (likeCollectionsArr) => {
-    const allCollectionsUserLiked = await User.find({ likeCollectionsArr })
+    const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
     return allCollectionsUserLiked;
   };
 
   // _id에 해당하는 컬렉션의 좋아요를 1개 올린다. return 좋아한 컬렉션의 현재 좋아요 수
   likeCollection = async (_id) => {
     const likeCollection = await Collection.findOneAndUpdate(
-      { _id: _id },
-      { $set: { likes: +1 } }
+      { _id },
+      { $inc: { likes: +1 } }
     );
 
     return likeCollection.likes;
@@ -74,8 +86,8 @@ class CollectionRepository {
   // _id에 해당하는 컬렉션의 좋아요를 1개 내린다. returns 좋아요 취소한 컬렉션의 현재 좋아요 수
   disLikeCollection = async (_id) => {
     const disLikeCollection = await Collection.findOneAndUpdate(
-      { _id: _id },
-      { $set: { likes: -1 } }
+      { _id },
+      { $inc: { likes: -1 } }
     );
     return disLikeCollection.likes;
   };
@@ -84,16 +96,13 @@ class CollectionRepository {
   getCollectionsBySearch = async (keyword) => {
     const searchCollections = await Collection.find({
       $or: [
-        { collectionTitle: new RegExp(keyword, "i") }, // 대소문자를 구분하지 않는 일치 i수행 옵션
+        { collectionTitle: new RegExp(keyword, "i") },
         { description: new RegExp(keyword, "i") },
       ],
     });
 
     return searchCollections;
   };
-
-  // 컬렉션에 영상 추가
-  addVideoOnCollection = async () => {};
 }
 
 module.exports = CollectionRepository;

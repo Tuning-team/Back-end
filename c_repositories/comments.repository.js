@@ -2,8 +2,8 @@ const Comment = require("../d_schemas/comment");
 
 class CommentRepository {
   // 모든 댓글 조회 (기본값 날짜 내림차순)
-  getAllComments = async (_id) => {
-    const comments = await Comment.find({ collection_id: _id }).sort({
+  getAllCommentsOnCollectionId = async (collection_id) => {
+    const comments = await Comment.find({ collection_id }).sort({
       createdAt: -1,
     });
 
@@ -16,13 +16,15 @@ class CommentRepository {
       user_id,
       collection_id,
       comment,
+      // createdAt: new Date(),
     });
     return createComment;
   };
 
   // _id에 해당하는 댓글을 불러옴
-  getCommentDetail = async (_id) => {
-    const thisComment = await Comment.findOne({ _id });
+  getCommentDetail = async (comment_id) => {
+    console.log("comment_id", comment_id);
+    const thisComment = await Comment.findOne({ _id: comment_id });
 
     return thisComment;
   };

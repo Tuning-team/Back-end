@@ -16,7 +16,7 @@ router.get("/user", async (req, res) => {
     );
   }
 
-  res.send(req.session.passport.user);
+  res.json(req.session.passport.user);
 });
 
 router.get("/user/:user_id", async (req, res) => {
