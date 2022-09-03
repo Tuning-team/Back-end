@@ -13,7 +13,7 @@ const VideoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  channel_id: {
+  channelId: {
     type: String,
     required: true,
   },
