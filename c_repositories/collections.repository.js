@@ -48,7 +48,7 @@ class CollectionRepository {
     return collection;
   };
 
-  // _id에 해당하는 컬렉션 삭제. returns 삭제한 컬렉션 정보
+  // _id에 해당하는 컬렉션에 영상 추가. returns 영상 추가된 컬렉션 정보
   addVideoOnCollection = async (_id, addedVideos) => {
     let { videos } = await this.getCollectionById(_id);
     videos = [...videos, ...addedVideos];

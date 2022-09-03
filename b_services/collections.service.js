@@ -8,11 +8,16 @@ class CollectionsService {
   // 내가 모은 컬렉션 목록 조회
   getAllCollectionsByUserId = async (req, res) => {
     try {
-      // const { user_id } = req.body;
-      const user_id = "630056affde5db42c7dd4800";
+      const user_id = "6312ad8b5057863778c220ca";
 
       const userdataAll =
         await this.collectionRepository.getAllCollectionsByUserId(user_id);
+
+      if (!userdataAll) {
+        res.status(400).json({
+          message: "만들어진 컬렉션이 없습니다.",
+        });
+      }
 
       const resultData = userdataAll.map((collection) => {
         return {
@@ -77,7 +82,7 @@ class CollectionsService {
       if (!thisCollection) {
         res.json({ message: "해당 컬렉션이 없습니다." });
       }
-      const data = [
+      const returnCollection = [
         {
           _id: thisCollection._id,
           user_id: thisCollection.user_id,
@@ -88,7 +93,7 @@ class CollectionsService {
           createdAt: thisCollection.createdAt,
         },
       ];
-      res.status(200).json(data);
+      res.status(200).json(returnCollection);
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       return res.status(400).json({
@@ -100,8 +105,8 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
+      const user_id = "6312ad8b5057863778c220ca";
       const {
-        user_id,
         category_id,
         collectionTitle,
         description,
@@ -119,7 +124,7 @@ class CollectionsService {
         likes,
         createdAt
       );
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         message: "컬렉션을 생성하였습니다.",
         returnCollection,
@@ -135,7 +140,7 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      const user_id = "630dca1e5b60fec023bd6c6c"; //c
+      const user_id = "6312ad8b5057863778c220ca"; //c
       const { collection_id } = req.params;
 
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -168,7 +173,7 @@ class CollectionsService {
   likeCollection = async (req, res) => {
     const { collection_id } = req.params;
     // const { user_id } = req.body;
-    const user_id = "630f6bda3e3cc41e4f320ff1";
+    const user_id = "6312ad8b5057863778c220ca";
 
     // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
     const thisCollection = await this.collectionRepository.getCollectionById(
@@ -185,15 +190,21 @@ class CollectionsService {
     );
 
     if (!thisCollection) {
-      res.status(400).json({ message: "해당 컬렉션이 없습니다." });
+      res
+        .status(400)
+        .json({ success: false, message: "해당 컬렉션이 없습니다." });
     } else if (!likedCollectionsArr.includes(collection_id)) {
       await this.collectionRepository.likeCollection(collection_id);
       await this.userRepository.likeCollection(user_id, collection_id);
-      res.status(200).json({ message: "컬렉션에 좋아요를 등록하였습니다." });
+      res
+        .status(200)
+        .json({ success: true, message: "컬렉션에 좋아요를 등록하였습니다." });
     } else {
       await this.collectionRepository.disLikeCollection(collection_id);
       await this.userRepository.disLikeCollection(user_id, collection_id);
-      res.status(200).json({ message: "컬렉션에 좋아요를 취소하였습니다." });
+      res
+        .status(200)
+        .json({ success: true, message: "컬렉션에 좋아요를 취소하였습니다." });
     }
   };
 
@@ -213,10 +224,26 @@ class CollectionsService {
   // 컬렉션에 영상 추가
   addVideoOnCollection = async (req, res) => {
     try {
+      const user_id = "6312ad8b5057863778c220ca";
       const { collection_id } = req.params;
       const { videos } = req.body;
 
       console.log(videos);
+
+      const thisCollection = await this.collectionRepository.getCollectionById(
+        collection_id
+      );
+
+      if (!thisCollection) {
+        res
+          .status(400)
+          .json({ success: false, message: "해당 컬렉션이 없습니다." });
+      }
+      else if (user_id !== thisCollection.user_id) {
+        res
+          .status(400)
+          .json({ success: false, message: "작성자만 추가가 가능합니다." });
+      }
 
       const resultCollection =
         await this.collectionRepository.addVideoOnCollection(

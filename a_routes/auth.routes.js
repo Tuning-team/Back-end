@@ -14,9 +14,9 @@ router.get("/user", async (req, res) => {
         req.session.passport.user.user.displayName +
         "님이 접속했습니다."
     );
+    res.json(req.session.passport.user);
   }
 
-  res.json(req.session.passport.user);
 });
 
 router.get("/user/:user_id", async (req, res) => {
