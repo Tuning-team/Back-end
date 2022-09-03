@@ -9,7 +9,7 @@ class CommentService {
     try {
       // 재료
       // const { user_id } = req.session.passport.user.user; // userId
-      const user_id = "630f6bda3e3cc41e4f320ff1";
+      const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
       const { comment } = req.body;
 
@@ -77,7 +77,7 @@ class CommentService {
   //댓글 수정
   updateComment = async (req, res) => {
     try {
-      const user_id = "630f6bda3e3cc41e4f320ff1";
+      const user_id = process.env.TEMP_USER_ID;
       const { comment_id } = req.params;
       const { comment } = req.body;
 
@@ -111,7 +111,7 @@ class CommentService {
   //댓글 삭제
   deleteComment = async (req, res) => {
     try {
-      const user_id = "630f6bda3e3cc41e4f320ff1";
+      const user_id = process.env.TEMP_USER_ID;
       const { comment_id } = req.params;
 
       const commentToDelete = await this.commentRepository.getCommentDetail(

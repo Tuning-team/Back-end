@@ -15,9 +15,11 @@ router.get("/user", async (req, res) => {
         "님이 접속했습니다."
     );
     res.json(req.session.passport.user);
-  }
+  } 
 
-  
+  const user_id = process.env.TEMP_USER_ID;
+  const user = await userRepository.getUserById(user_id);
+  res.send(user);
 });
 
 router.get("/user/:user_id", async (req, res) => {
