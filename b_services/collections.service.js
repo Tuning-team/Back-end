@@ -8,7 +8,10 @@ class CollectionsService {
   // 내가 모은 컬렉션 목록 조회
   getAllCollectionsByUserId = async (req, res) => {
     try {
-      const user_id = "6312ad8b5057863778c220ca";
+
+      // const { user_id } = req.body;
+      const user_id = process.env.TEMP_USER_ID;
+
 
       const userdataAll =
         await this.collectionRepository.getAllCollectionsByUserId(user_id);
@@ -105,7 +108,8 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = "6312ad8b5057863778c220ca";
+      const user_id = process.env.TEMP_USER_ID;
+
       const {
         category_id,
         collectionTitle,
@@ -140,7 +144,8 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      const user_id = "6312ad8b5057863778c220ca"; //c
+      const user_id = process.env.TEMP_USER_ID;
+
       const { collection_id } = req.params;
 
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -173,7 +178,8 @@ class CollectionsService {
   likeCollection = async (req, res) => {
     const { collection_id } = req.params;
     // const { user_id } = req.body;
-    const user_id = "6312ad8b5057863778c220ca";
+    const user_id = process.env.TEMP_USER_ID;
+
 
     // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
     const thisCollection = await this.collectionRepository.getCollectionById(
