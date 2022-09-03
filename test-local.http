@@ -41,45 +41,46 @@ GET	https://localhost/api/videos/detail/6312c7b4d3084a7cb866bb8d
 
 ## ---------------------- 컬렉션 관련 API (혜미 님) ------------------------
 
-### 컬렉션 정보 추가 (완성)
+### 컬렉션 생성 <완료>
 POST https://localhost/api/collections
 Content-Type: application/json
 
 {
-    "category_id": "630f31258b8c916480f96ade",
-    "collectionTitle": "내가 좋아하는 영화 요약",
-    "description": "내가 좋아하는 영화 요약을 모아봤습니다.",
-    "videos": ["6311f30092124ed948276547", "6311f30092124ed948276548", "6311f30092124ed948276549", "6311f30092124ed948276545"]
+    "category_id": "630f31258b8c916480f96adf",
+    "collectionTitle": "갬성 터지는 음악",
+    "description": "갬성 터지는 음악 너무 좋아요",
+    "videos": ["n61ULEU7CO0", "cMHXFKAN6Dk", "vYLyyuQByBc", "e_e1WMNFiHc"]
 }
 
 
-### 카테고리에 맞는 컬렉션 리스트 찾기 (완성)
-GET	https://localhost/api/collections?category_id=6312c45c65fc44c5a50ee0e0
+### 카테고리에 맞는 컬렉션 리스트 찾기 <완료>
+GET	https://localhost/api/collections?category_id=630f31258b8c916480f96adf
 
 
-### 검색어에 맞는 컬렉션 리스트 찾기 (완성)
-GET	https://localhost/api/collections/search?keyword=음악입니다
+### 검색어에 맞는 컬렉션 리스트 찾기 <완료>
+GET	https://localhost/api/collections/search?keyword=음악
 
 
+### 특정 id의 컬렉션 상세정보 <완료>
+GET	https://localhost/api/collections/630f31258b8c916480f96ace
 
 
-### 컬렉션 ID에 맞는 컬렉션 상세정보  (완성)
-GET	https://localhost/api/collections/6312cd792a4f77334033a9bd
+### 특정 id 컬렉션 삭제하기 <완료>
+DELETE https://localhost/api/collections/630f30fa71d6081b5c178ed2
 
 
-### 특정 id 컬렉션 삭제하기 (완성)
-DELETE https://localhost/api/collections/6312d6e254f9971d74e65b69
-Content-Type: application/json
-
-
-### 내가 만든 컬렉션 리스트 (완성)
+### 내가 만든 컬렉션 리스트 <완료>
 GET	https://localhost/api/collections/mine
 Content-Type: application/json
 
 
-### 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소) (완성)
-PUT	https://localhost/api/collections/like/6312cd792a4f77334033a9c2
+### 특정 id의 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소) <완료>
+PUT	https://localhost/api/collections/like/630f30fa71d6081b5c178ed1
 Content-Type: application/json
+
+
+### 특정 id의 컬렉션에 영상 추가하기 <완료>
+PUT	https://localhost/api/collections/6312cd792a4f77334033a9bf
 
 
 ### 특정 id의 영상을 컬렉션에 추가하기 (완성) ---- 권한 필요 
@@ -102,7 +103,7 @@ GET	https://localhost/api/user/
 
 ## ---------------------- 영상 찾기 관련 API (보현) ------------------------
 ### (기본찾기) 운동이라는 키워드 - videoSearchDB에서 찾기
-GET https://localhost/api/search/videos/db?keyword=운동
+GET https://localhost/api/search/videos/db?keyword=노래
 
 
 ### (더찾아보기) 운동이라는 키워드 유튜브API에서 찾기
