@@ -9,7 +9,7 @@ POST https://localhost/api/comments/6312cd792a4f77334033a9bd
 Content-Type: application/json
 
 {
-   "comment" : "오 이런 컬렉션 좋은 것 같아요!!"
+   "comment" : "오 이런 컬렉션도 좋은 것 같아요!!"
 }
 
 ### collection_id 컬렉션에 달린 댓글 리스트 보기  <완료>
@@ -17,16 +17,16 @@ GET	https://localhost/api/comments/6312cd792a4f77334033a9bd
 
 
 ### 특정 id를 가진 댓글을 수정하기  <완료>
-PUT	https://localhost/api/comments/6312d012a7da0aea2f2cfdd7
+PUT	https://localhost/api/comments/63136b9625b3d37574b18bee
 Content-Type: application/json
 
 {
-   "comment" : "진짜 좋아요 짱짱짱 !"
+   "comment" : "레알 진짜 짱 좋아요 짱짱짱 !"
 }
 
 
 ### 특정 id를 가진 댓글을 삭제하기  <완료>
-DELETE https://localhost/api/comments/6312d42404cc5185b25eab11
+DELETE https://localhost/api/comments/63136b9625b3d37574b18bee
 
 
 
@@ -79,12 +79,8 @@ PUT	https://localhost/api/collections/like/630f30fa71d6081b5c178ed1
 Content-Type: application/json
 
 
-### 특정 id의 컬렉션에 영상 추가하기 <완료>
-PUT	https://localhost/api/collections/6312cd792a4f77334033a9bf
-
-
 ### 특정 id의 영상을 컬렉션에 추가하기 (완성) ---- 권한 필요 
-PUT	https://localhost/api/collections/6312cd792a4f77334033a9c2
+PUT	https://localhost/api/collections/63136cbd25b3d37574b18bfd
 Content-Type: application/json
 
 {

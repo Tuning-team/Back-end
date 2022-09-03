@@ -54,10 +54,9 @@ class CollectionRepository {
     videos = [...videos, ...addedVideos];
     console.log("videos:", videos);
 
-    const updatedCollection = await Collection.findOneAndUpdate(
-      { _id },
-      { $set: { videos } }
-    );
+    await Collection.findOneAndUpdate({ _id }, { $set: { videos } });
+    const updatedCollection = await Collection.findOne({ _id });
+
     return updatedCollection;
   };
 
