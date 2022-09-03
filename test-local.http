@@ -5,38 +5,38 @@ GET	https://localhost/api/categories
 
 ## ---------------------- 컬렉션에 달린 댓글 관련 API (승민 님) ------------------------
 ### collection_id 컬렉션에 댓글 달기  <완료 (유저 빼고)>
-POST https://localhost/api/comments/630f30fa71d6081b5c178ecf
+POST https://localhost/api/comments/6312cd792a4f77334033a9bd
 Content-Type: application/json
 
 {
-   "comment" : "나는 동의하지 않습니다!"
+   "comment" : "오 이런 컬렉션 좋은 것 같아요!!"
 }
 
 ### collection_id 컬렉션에 달린 댓글 리스트 보기  <완료>
-GET	https://localhost/api/comments/630f30fa71d6081b5c178ecf
+GET	https://localhost/api/comments/6312cd792a4f77334033a9bd
 
 
 ### 특정 id를 가진 댓글을 수정하기  <완료>
-PUT	https://localhost/api/comments/6311e1d03fc3cf644036b5f4
+PUT	https://localhost/api/comments/6312d012a7da0aea2f2cfdd7
 Content-Type: application/json
 
 {
-   "comment" : "나는 쬐끔 동의하지 않습니다!"
+   "comment" : "진짜 좋아요 짱짱짱 !"
 }
 
 
 ### 특정 id를 가진 댓글을 삭제하기  <완료>
-DELETE https://localhost/api/comments/630f31258b8c916480f96adc
+DELETE https://localhost/api/comments/6312d42404cc5185b25eab11
 
 
 
 ## ---------------------- 영상 관련 API (승민 님) ------------------------
 ### 특정 id 컬렉션의 영상들의 리스트 불러오기   <완료>
-GET	https://localhost/api/videos/630f30fa71d6081b5c178ed2
+GET	https://localhost/api/videos/6312cd792a4f77334033a9bd
 
 
 ### 특정 id 영상의 디테일한 정보를 불러오기   <완료>
-GET	https://localhost/api/videos/detail/6311f30092124ed948276547
+GET	https://localhost/api/videos/detail/6312c7b4d3084a7cb866bb8d
 
 
 ## ---------------------- 컬렉션 관련 API (혜미 님) ------------------------
@@ -46,7 +46,6 @@ POST https://localhost/api/collections
 Content-Type: application/json
 
 {
-    "user_id": "630db5fe5b60fec023bd6c69",
     "category_id": "630f31258b8c916480f96ade",
     "collectionTitle": "내가 좋아하는 영화 요약",
     "description": "내가 좋아하는 영화 요약을 모아봤습니다.",
@@ -55,7 +54,7 @@ Content-Type: application/json
 
 
 ### 카테고리에 맞는 컬렉션 리스트 찾기 (완성)
-GET	https://localhost/api/collections?category_id=630f31258b8c916480f96ade
+GET	https://localhost/api/collections?category_id=6312c45c65fc44c5a50ee0e0
 
 
 ### 검색어에 맞는 컬렉션 리스트 찾기 (완성)
@@ -65,11 +64,11 @@ GET	https://localhost/api/collections/search?keyword=음악입니다
 
 
 ### 컬렉션 ID에 맞는 컬렉션 상세정보  (완성)
-GET	https://localhost/api/collections/630f30fa71d6081b5c178ecf
+GET	https://localhost/api/collections/6312cd792a4f77334033a9bd
 
 
 ### 특정 id 컬렉션 삭제하기 (완성)
-DELETE https://localhost/api/collections/630f30fa71d6081b5c178ecf
+DELETE https://localhost/api/collections/6312d6e254f9971d74e65b69
 Content-Type: application/json
 
 
@@ -79,21 +78,21 @@ Content-Type: application/json
 
 
 ### 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소) (완성)
-PUT	https://localhost/api/collections/like/630f30fa71d6081b5c178ed2
+PUT	https://localhost/api/collections/like/6312cd792a4f77334033a9c2
 Content-Type: application/json
 
 
-### 특정 id의 영상을 컬렉션에 추가하기 (완성)
-PUT	https://localhost/api/collections/630f30fa71d6081b5c178ed2
+### 특정 id의 영상을 컬렉션에 추가하기 (완성) ---- 권한 필요 
+PUT	https://localhost/api/collections/6312cd792a4f77334033a9c2
 Content-Type: application/json
 
 {
-    "videos": ["6311f30092124ed94827654e", "6311f30092124ed94827654d"]
+    "videos": ["6312c7b4d3084a7cb866bb8f", "6312c7b4d3084a7cb866bb95"]
 }
 
 
 ### 유저 정보 찾기 
-GET https://localhost/api/user/630f6bda3e3cc41e4f320ff1
+GET https://localhost/api/user/6312ad8b5057863778c220ca
 
 ### 로그인한 유저 정보 찾기
 GET	https://localhost/api/user/
