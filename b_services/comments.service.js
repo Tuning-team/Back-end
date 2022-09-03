@@ -18,7 +18,7 @@ class CommentService {
       );
 
       if (!thisCollection) {
-        res.json({ status: 400, message: "컬렉션이 없습니다." });
+        res.status(400).json({ success: false, message: "컬렉션이 없습니다." });
         //존재하면 DB에 코멘트 create
       } else {
         await this.commentRepository.createComment(
@@ -26,10 +26,13 @@ class CommentService {
           collection_id,
           comment
         );
-        res.json({ status: 201, message: "댓글을 생성 하였습니다." });
+        res.status(201).json({ success: true, message: "댓글을 생성 하였습니다." });
       }
     } catch (error) {
-      console.log(error);
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      return res.status(400).json({
+        errorMessage: "댓글 생성에 실패하였습니다.",
+      });
     }
   };
 
@@ -63,6 +66,7 @@ class CommentService {
       });
 
       res.json({
+        success: true,
         status: 200,
         message: "댓글 목록을 불러왔습니다.",
         data: data,
@@ -90,14 +94,17 @@ class CommentService {
           comment_id,
           comment
         );
-        res.json({
-          status: 201,
+        res.status(201).json({
+          success: true,          
           message:
             updatedComment.modifiedCount + "개의 데이터가 수정되었습니다.",
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      return res.status(400).json({
+        errorMessage: "댓글 수정에 실패하였습니다.",
+      });
     }
   };
 
@@ -119,10 +126,13 @@ class CommentService {
         res.json({ status: 400, message: "삭제 권한이 없습니다." });
       } else {
         await this.commentRepository.deleteComment(comment_id);
-        res.json({ status: 200, message: "댓글을 삭제하였습니다." });
+        res.status(200).json({ success: true, message: "댓글을 삭제하였습니다." });
       }
     } catch (error) {
-      console.log(error);
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      return res.status(400).json({
+        errorMessage: "댓글 삭제에 실패하였습니다.",
+      });
     }
   };
 }

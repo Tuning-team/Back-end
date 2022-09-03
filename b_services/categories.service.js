@@ -13,8 +13,13 @@ class CategoryService {
         return e.categoryName;
       });
 
-      res.status(200).json(resCategories);
-    } catch (error) {}
+      res.status(200).json({success: true, resCategories});
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      return res.status(400).json({
+        errorMessage: "카테고리 조회에 실패하였습니다.",
+      });
+    }
   };
 }
 

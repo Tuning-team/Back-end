@@ -32,14 +32,17 @@ class VideoService {
           data.push(element);
         }
 
-        res.json({
-          status: 200,
+        res.stauts(200).json({
+          success: true,          
           message: "비디오 목록을 불러왔습니다.",
           data: data,
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      return res.status(400).json({
+        errorMessage: "목록을 불러오는데 실패하였습니다.",
+      });
     }
   };
 
@@ -61,14 +64,17 @@ class VideoService {
 
         console.log(axiosResult.data.items);
 
-        res.json({
-          status: 200,
+        res.status(200).json({
+          success: true,          
           message: "비디오 목록을 불러왔습니다.",
           data: axiosResult.data.items,
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      return res.status(400).json({
+        errorMessage: "비디오 조회를 실패하였습니다.",
+      });
     }
   };
 }
