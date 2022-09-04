@@ -23,6 +23,7 @@ class CollectionsService {
         return {
           _id: collection._id,
           user_id: collection.user_id,
+          category_id: collection.category_id,
           collectionTitle: collection.collectionTitle,
           description: collection.description,
           videos: collection.videos,
@@ -52,6 +53,7 @@ class CollectionsService {
       const resultData = categorydataAll.map((collection) => {
         return {
           _id: collection._id,
+          user_id: collection.user_id,
           category_id: collection.category_id,
           collectionTitle: collection.collectionTitle,
           description: collection.description,
@@ -74,21 +76,20 @@ class CollectionsService {
     try {
       const { _id } = req.params;
 
-      const thisCollection = await this.collectionRepository.getCollectionById(
-        _id
-      );
-      if (!thisCollection) {
+      const collection = await this.collectionRepository.getCollectionById(_id);
+      if (!collection) {
         res.json({ message: "해당 컬렉션이 없습니다." });
       }
       const returnCollection = [
         {
-          _id: thisCollection._id,
-          user_id: thisCollection.user_id,
-          collectionTitle: thisCollection.collectionTitle,
-          description: thisCollection.description,
-          videos: thisCollection.videos,
-          likes: thisCollection.likes,
-          createdAt: thisCollection.createdAt,
+          _id: collection._id,
+          user_id: collection.user_id,
+          category_id: collection.category_id,
+          collectionTitle: collection.collectionTitle,
+          description: collection.description,
+          videos: collection.videos,
+          likes: collection.likes,
+          createdAt: collection.createdAt,
         },
       ];
       res.status(200).json({ success: true, data: returnCollection });
