@@ -73,7 +73,9 @@ class VideoDataBaseCreator {
 
             VideoSearch.insertMany(array)
               .then((e) => console.log("hey!", e))
-              .catch((err) => {});
+              .catch((err) => {
+                console.log(err);
+              });
           }
         }
       }
@@ -154,8 +156,8 @@ class VideoDataBaseCreator {
 module.exports = VideoDataBaseCreator;
 
 // 매일 1번씩만
-// const videoDataBaseCreator = new VideoDataBaseCreator();
-// videoDataBaseCreator.createAllPopularVideosToday();
+const videoDataBaseCreator = new VideoDataBaseCreator();
+videoDataBaseCreator.createAllPopularVideosToday();
 
 // 검색 기능
 // VideoSearch.find({ title: /아이폰/i }).then((e) => console.log("검색완료!", e));
