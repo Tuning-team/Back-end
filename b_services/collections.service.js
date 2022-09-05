@@ -1,6 +1,7 @@
 const CollectionRepository = require("../c_repositories/collections.repository");
 const UserRepository = require("../c_repositories/users.repository");
 const CommentRepository = require("../c_repositories/comments.repository");
+const { collection } = require("../d_schemas/user");
 
 class CollectionsService {
   collectionRepository = new CollectionRepository();
@@ -10,8 +11,10 @@ class CollectionsService {
   // 내가 모은 컬렉션 목록 조회
   getAllCollectionsByUserId = async (req, res) => {
     try {
+
       // const { user_id } = req.body;
       const user_id = process.env.TEMP_USER_ID;
+
       const userdataAll =
         await this.collectionRepository.getAllCollectionsByUserId(user_id);
 
@@ -21,18 +24,27 @@ class CollectionsService {
           .json({ success: false, message: "만들어진 컬렉션이 없습니다." });
       }
 
-      const resultData = userdataAll.map((collection) => {
-        return {
-          _id: collection._id,
-          user_id: collection.user_id,
-          category_id: collection.category_id,
-          collectionTitle: collection.collectionTitle,
-          description: collection.description,
-          videos: collection.videos,
-          likes: collection.likes,
-          createdAt: collection.createdAt,
-        };
-      });
+      const resultData = [];
+
+      for (let i = 0; i < userdataAll.length; i++) {
+        let collectionComments =
+          await this.commentRepository.getAllCommentsOnCollectionId(
+            userdataAll[i]._id
+          );
+        let commentNum = collectionComments.length;
+
+        resultData.push({
+          _id: userdataAll[i]._id,
+          user_id: userdataAll[i].user_id,
+          collectionTitle: userdataAll[i].collectionTitle,
+          description: userdataAll[i].description,
+          videos: userdataAll[i].videos,
+          commentNum: commentNum,
+          likes: userdataAll[i].likes,
+          createdAt: userdataAll[i].createdAt,
+        });
+      }
+
 
       res.status(200).json({ success: true, data: resultData });
     } catch (error) {
@@ -52,19 +64,29 @@ class CollectionsService {
           category_id
         );
 
-      const resultData = categorydataAll.map((collection) => {
-        return {
-          _id: collection._id,
-          user_id: collection.user_id,
-          category_id: collection.category_id,
-          collectionTitle: collection.collectionTitle,
-          description: collection.description,
-          videos: collection.videos,
-          likes: collection.likes,
-          createdAt: collection.createdAt,
-        };
-      });
-      res.status(200).json({ success: true, data: resultData });
+      const resultData = [];
+
+      for (let i = 0; i < categorydataAll.length; i++) {
+        let collectionComments =
+          await this.commentRepository.getAllCommentsOnCollectionId(
+            categorydataAll[i]._id
+          );
+        let commentNum = collectionComments.length;
+
+        resultData.push({
+          _id: categorydataAll[i]._id,
+          category_id: categorydataAll[i].category_id,
+          collectionTitle: categorydataAll[i].collectionTitle,
+          description: categorydataAll[i].description,
+          videos: categorydataAll[i].videos,
+          commentNum: commentNum,
+          likes: categorydataAll[i].likes,
+          createdAt: categorydataAll[i].createdAt,
+        });
+      }
+      res.status(200).json(resultData);
+      return;
+
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res
@@ -82,16 +104,26 @@ class CollectionsService {
       if (!collection) {
         res.json({ message: "해당 컬렉션이 없습니다." });
       }
+
+      let collectionComments =
+        await this.commentRepository.getAllCommentsOnCollectionId(
+          thisCollection._id
+        );
+      let commentNum = collectionComments.length;
+
       const returnCollection = [
         {
-          _id: collection._id,
-          user_id: collection.user_id,
-          category_id: collection.category_id,
-          collectionTitle: collection.collectionTitle,
-          description: collection.description,
-          videos: collection.videos,
-          likes: collection.likes,
-          createdAt: collection.createdAt,
+
+          _id: thisCollection._id,
+          user_id: thisCollection.user_id,
+          category_id: thisCollection.category_id,
+          collectionTitle: thisCollection.collectionTitle,
+          description: thisCollection.description,
+          videos: thisCollection.videos,
+          commentNum: commentNum,
+          likes: thisCollection.likes,
+          createdAt: thisCollection.createdAt,
+
         },
       ];
       res.status(200).json({ success: true, data: returnCollection });
@@ -175,6 +207,7 @@ class CollectionsService {
 
   // 컬렉션 좋아요 누르기
   likeCollection = async (req, res) => {
+  
     try {
       const { collection_id } = req.params;
       // const { user_id } = req.body;
