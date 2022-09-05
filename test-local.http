@@ -44,16 +44,16 @@ Content-Type: application/json
 
 
 ### 7. 내가 생성한 컬렉션 리스트 : GET /api/collections/mine
-GET	https://localhost/api/collections/mine?offset=3&limit=3
+GET	https://localhost/api/collections/mine?offset=6&limit=3
 Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	https://localhost/api/collections?category_id=630f31258b8c916480f96adf
+GET	https://localhost/api/collections?category_id=630f31258b8c916480f96adf&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
-GET	https://localhost/api/collections/search?keyword=음악
+GET	https://localhost/api/collections/search?keyword=음악&offset=0&limit=3
 
 
 
