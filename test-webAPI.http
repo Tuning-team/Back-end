@@ -22,7 +22,7 @@ Content-Type: application/json
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	https://www.myspaceti.me/api/collections/630f31258b8c916480f96ace
+GET	https://www.myspaceti.me/api/collections/630f30fa71d6081b5c178ed2
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id

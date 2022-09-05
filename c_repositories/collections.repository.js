@@ -22,7 +22,10 @@ class CollectionRepository {
 
   // 작성된 컬렉션 상세 조회
   getCollectionById = async (_id) => {
+    console.log("_id", _id);
+
     const collection = await Collection.findOne({ _id });
+    console.log("collection", collection);
     return collection;
   };
 
@@ -74,7 +77,7 @@ class CollectionRepository {
 
   // 해당 컬렉션이 보유한 좋아요 리스트
   getAllLikeOnCollectionId = async (collection_id) => {
-    const likes = await Collection.find({ collection_id })
+    const likes = await Collection.find({ collection_id });
 
     return likes;
   };

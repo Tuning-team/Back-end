@@ -95,9 +95,12 @@ class CollectionsService {
   // 컬렉션 상세 조회
   getCollection = async (req, res) => {
     try {
-      const { _id } = req.params;
+      const { collection_id } = req.params;
 
-      const collection = await this.collectionRepository.getCollectionById(_id);
+      const collection = await this.collectionRepository.getCollectionById(
+        collection_id
+      );
+
       if (!collection) {
         res.json({ message: "해당 컬렉션이 없습니다." });
       }
