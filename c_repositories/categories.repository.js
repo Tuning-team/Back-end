@@ -9,7 +9,7 @@ class CategoryRepository {
 
   // 활성화된(isVisible = True) 카테고리 전체 조회
   // 관리자가 분류해야 하는 “인기있는“, “이번 프로모션을 위한” 등등의 카테고리 숨김
-  getAllCategoriesVisible = async (isVisible) => {
+  getAllCategoriesVisible = async () => {
     const CategoriesVisible = await Category.find({ isVisible: true });
     return CategoriesVisible;
   };

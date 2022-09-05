@@ -1,20 +1,13 @@
 const mongoose = require("mongoose");
 
 const CollectionSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   user_id: {
     type: String,
     required: true,
-    unique: true,
   },
   category_id: {
     type: String,
     required: true,
-    unique: true,
   },
   collectionTitle: {
     type: String,
@@ -32,6 +25,7 @@ const CollectionSchema = new mongoose.Schema({
   likes: {
     type: Number,
     required: true,
+    default: 0,
   },
   createdAt: {
     type: Date,
@@ -39,5 +33,7 @@ const CollectionSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+// CollectionSchema.index({ collectionTitle: 'text' , description: 'text'});
 
 module.exports = mongoose.model("Collections", CollectionSchema);

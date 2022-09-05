@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
-const CommentSchema = new mongoose.Schema({
-  user_id: {
+const VideoSearchSchema = new mongoose.Schema({
+  videoId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  title: {
     type: String,
     required: true,
   },
-  collection_id: {
+  description: {
     type: String,
-    required: true,
-  },
-  comment: {
-    type: String,
-    required: true,
   },
   createdAt: {
     type: Date,
@@ -20,4 +20,4 @@ const CommentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Comments", CommentSchema);
+module.exports = mongoose.model("VideoSearchs", VideoSearchSchema);

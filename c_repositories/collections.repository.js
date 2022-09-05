@@ -1,38 +1,101 @@
 const Collection = require("../d_schemas/collection");
+const User = require("../d_schemas/user");
 
 class CollectionRepository {
   // user_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
-  getAllCollectionsByUserId = async (_id) => {
-    const collections = await Collection.find({ user_id: _id }).sort({
+  getAllCollectionsByUserId = async (user_id) => {
+    const collections = await Collection.find({ user_id }).sort({
       createdAt: -1,
     });
 
     return collections;
+  };
+
+  // user_id를 받아 작성된 모든 컬렉션 조회 (페이지네이션 필요한 경우)
+  getAllCollectionsByUserIdWithPaging = async (user_id, offset, limit) => {
+    const callForCount = await Collection.find({ user_id }).sort({
+      createdAt: -1,
+    });
+
+    const totalContents = callForCount.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    console.log("totalContents:", totalContents);
+    console.log("hasNext:", hasNext);
+
+    // offset : "0",1,2 / "3",4,5 /
+    const userDataAll = await Collection.find({ user_id })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
+      .limit(limit);
+
+    return { userDataAll, totalContents, hasNext };
   };
 
   // category_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
-  getAllCollectionsByCategoryId = async (_id) => {
-    const collections = await Collection.find({ category_id: _id }).sort({
+  getAllCollectionsByCategoryId = async (category_id) => {
+    const collections = await Collection.find({ category_id }).sort({
       createdAt: -1,
     });
 
     return collections;
   };
 
-  // 작성된 컬렉션 상세 조회
-  getCollection = async (_id) => {
-    const collection = await Collection.findOne({ _id });
+  // category_id를 받아 작성된 모든 컬렉션 조회 (페이지네이션 필요한 경우)
+  getAllCollectionsByCategoryIdWithPaging = async (
+    category_id,
+    offset,
+    limit
+  ) => {
+    const callForCount = await Collection.find({ category_id }).sort({
+      createdAt: -1,
+    });
 
+    const totalContents = callForCount.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    const categoryDataAll = await Collection.find({ category_id })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
+      .limit(limit);
+
+    return { categoryDataAll, totalContents, hasNext };
+  };
+
+  // 작성된 컬렉션 상세 조회
+  getCollectionById = async (_id) => {
+    console.log("_id", _id);
+
+    const collection = await Collection.findOne({ _id });
+    console.log("collection", collection);
     return collection;
   };
 
-  // 전달된 내용으로 새로운 컬렉션 작성. returns 작성한 컬렉션 정보
+  // 작성된 컬렉션 상세 조회, 페이지네이션 사용
+  getCollectionByIdWithPaging = async (_id, offset, limit) => {
+    const { videos } = await Collection.findOne({ _id });
+
+    const totalVideosView = videos.length;
+    const hasNext = totalVideosView - offset - limit > 0 ? true : false;
+
+    const videosIdToShow = videos.slice(offset, offset + limit);
+
+    return { videosIdToShow, totalVideosView, hasNext };
+  };
+
+  // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
   createCollection = async (
     user_id,
     category_id,
     collectionTitle,
     description,
-    videos
+    videos,
+    likes,
+    createdAt
   ) => {
     const collection = await Collection.create({
       user_id,
@@ -40,31 +103,50 @@ class CollectionRepository {
       collectionTitle,
       description,
       videos,
+      likes,
+      createdAt,
     });
     return collection;
   };
 
-  // _id에 해당하는 컬렉션 수정하여 저장. return 수정한 게시글정보
-  updateCollection = async (collectionTitle, description, videos) => {
-    const updateCollection = await Collection.updateOne(
-      { _id },
-      { $set: { collectionTitle, description, videos } }
-    );
-    return updateCollection;
+  // _id에 해당하는 컬렉션에 영상 추가. returns 영상 추가된 컬렉션 정보
+  addVideoOnCollection = async (_id, addedVideos) => {
+    let { videos } = await this.getCollectionById(_id);
+    videos = [...videos, ...addedVideos];
+    console.log("videos:", videos);
+
+    await Collection.findOneAndUpdate({ _id }, { $set: { videos } });
+    const updatedCollection = await Collection.findOne({ _id });
+
+    return updatedCollection;
   };
 
   // _id에 해당하는 컬렉션 삭제. returns 삭제한 컬렉션 정보
   deleteCollection = async (_id) => {
-    const deleteCollection = await Collection.deleteOne({ _id });
+    const deleteCollection = await Collection.deleteOne({ _id: _id });
     return deleteCollection;
+  };
+
+  // 유저가 보유한 좋아요 리스트
+  getCollectionsByLikedArray = async (likeCollectionsArr) => {
+    const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
+    return allCollectionsUserLiked;
+  };
+
+  // 해당 컬렉션이 보유한 좋아요 리스트
+  getAllLikeOnCollectionId = async (collection_id) => {
+    const likes = await Collection.find({ collection_id });
+
+    return likes;
   };
 
   // _id에 해당하는 컬렉션의 좋아요를 1개 올린다. return 좋아한 컬렉션의 현재 좋아요 수
   likeCollection = async (_id) => {
     const likeCollection = await Collection.findOneAndUpdate(
       { _id },
-      { $set: { likes: +1 } }
+      { $inc: { likes: +1 } }
     );
+
     return likeCollection.likes;
   };
 
@@ -72,9 +154,42 @@ class CollectionRepository {
   disLikeCollection = async (_id) => {
     const disLikeCollection = await Collection.findOneAndUpdate(
       { _id },
-      { $set: { likes: -1 } }
+      { $inc: { likes: -1 } }
     );
     return disLikeCollection.likes;
+  };
+
+  // 검색어에 맞는 컬렉션 리스트
+  getCollectionsBySearch = async (keyword) => {
+    const searchCollections = await Collection.find({
+      $or: [
+        { collectionTitle: new RegExp(keyword, "i") },
+        { description: new RegExp(keyword, "i") },
+      ],
+    });
+
+    console.log(searchCollections);
+    return searchCollections;
+  };
+
+  // 검색어에 맞는 컬렉션 리스트 (페이지네이션 필요한 경우)
+  getCollectionsBySearchWithPaging = async (keyword, offset, limit) => {
+    const resultBySearch = await Collection.find({
+      $or: [
+        { collectionTitle: new RegExp(keyword, "i") },
+        { description: new RegExp(keyword, "i") },
+      ],
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
+      .limit(limit);
+
+    const totalContents = resultBySearch.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    return { resultBySearch, totalContents, hasNext };
   };
 }
 
