@@ -24,23 +24,46 @@ class CollectionRepository {
     console.log("hasNext:", hasNext);
 
     // offset : "0",1,2 / "3",4,5 /
-    const userdataAll = await Collection.find({ user_id })
+    const userDataAll = await Collection.find({ user_id })
       .sort({
         createdAt: -1,
       })
-      .skip(offset) // 아래 설명 보기
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
       .limit(limit);
 
-    return { userdataAll, totalContents, hasNext };
+    return { userDataAll, totalContents, hasNext };
   };
 
   // category_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
-  getAllCollectionsByCategoryId = async (_id) => {
-    const collections = await Collection.find({ category_id: _id }).sort({
+  getAllCollectionsByCategoryId = async (category_id) => {
+    const collections = await Collection.find({ category_id }).sort({
       createdAt: -1,
     });
 
     return collections;
+  };
+
+  // category_id를 받아 작성된 모든 컬렉션 조회 (페이지네이션 필요한 경우)
+  getAllCollectionsByCategoryIdWithPaging = async (
+    category_id,
+    offset,
+    limit
+  ) => {
+    const callForCount = await Collection.find({ category_id }).sort({
+      createdAt: -1,
+    });
+
+    const totalContents = callForCount.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    const categoryDataAll = await Collection.find({ category_id })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
+      .limit(limit);
+
+    return { categoryDataAll, totalContents, hasNext };
   };
 
   // 작성된 컬렉션 상세 조회
@@ -133,7 +156,28 @@ class CollectionRepository {
       ],
     });
 
+    console.log(searchCollections);
     return searchCollections;
+  };
+
+  // 검색어에 맞는 컬렉션 리스트 (페이지네이션 필요한 경우)
+  getCollectionsBySearchWithPaging = async (keyword, offset, limit) => {
+    const resultBySearch = await Collection.find({
+      $or: [
+        { collectionTitle: new RegExp(keyword, "i") },
+        { description: new RegExp(keyword, "i") },
+      ],
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
+      .limit(limit);
+
+    const totalContents = resultBySearch.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    return { resultBySearch, totalContents, hasNext };
   };
 
   // 페이지네이션
