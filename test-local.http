@@ -9,7 +9,7 @@ POST https://localhost/api/comments/631379b35d4d531007077cf2
 Content-Type: application/json
 
 {
-   "comment" : "나는 동의하지 않습니다!"
+   "comment" : "오 이런 컬렉션도 좋은 것 같아요!!"
 }
 
 ### collection_id 컬렉션에 달린 댓글 리스트 보기  <완료>
@@ -17,16 +17,19 @@ GET	https://localhost/api/comments/630f30fa71d6081b5c178ecf
 
 
 ### 특정 id를 가진 댓글을 수정하기  <완료>
-PUT	https://localhost/api/comments/6311e1d03fc3cf644036b5f4
+
+PUT	https://localhost/api/comments/63136b9625b3d37574b18bee
 Content-Type: application/json
 
 {
-   "comment" : "나는 쬐끔 동의하지 않습니다!"
+   "comment" : "레알 진짜 짱 좋아요 짱짱짱 !"
 }
 
 
 ### 특정 id를 가진 댓글을 삭제하기  <완료>
-DELETE https://localhost/api/comments/630f31258b8c916480f96adc
+
+DELETE https://localhost/api/comments/63136b9625b3d37574b18bee
+
 
 
 
@@ -80,6 +83,7 @@ PUT	https://localhost/api/collections/like/6312f820273948ffb061a425
 Content-Type: application/json
 
 
+
 ### 특정 id의 컬렉션에 영상 추가하기 <완료>
 PUT	https://localhost/api/collections/6312f820273948ffb061a425
 Content-Type: application/json
@@ -100,7 +104,7 @@ GET	https://localhost/api/user/
 
 ## ---------------------- 영상 찾기 관련 API (보현) ------------------------
 ### (기본찾기) 운동이라는 키워드 - videoSearchDB에서 찾기
-GET https://localhost/api/search/videos/db?keyword=노래
+GET https://localhost/api/search/videos/db?keyword=운동
 
 
 ### (더찾아보기) 운동이라는 키워드 유튜브API에서 찾기

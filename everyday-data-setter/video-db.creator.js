@@ -73,7 +73,9 @@ class VideoDataBaseCreator {
 
             VideoSearch.insertMany(array)
               .then((e) => console.log("hey!", e))
-              .catch((err) => {});
+              .catch((err) => {
+                console.log(err);
+              });
           }
         }
       }

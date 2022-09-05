@@ -17,15 +17,16 @@ router.get("/user", async (req, res) => {
   //   );
   //   res.json(req.session.passport.user);
   // }
-  
+
   const user_id = process.env.TEMP_USER_ID;
   const user = await userRepository.getUserById(user_id);
-  res.send(user);
+
+  res.status(200).json({ success: true, user });
 });
 
 router.get("/user/:user_id", async (req, res) => {
   const user = await userRepository.getUserById(req.params.user_id);
-  res.send(user);
+  res.status(200).json({ success: true, user });
 });
 
 router.get("/logout", function (req, res, next) {
@@ -33,7 +34,7 @@ router.get("/logout", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect(process.env.REDIRECT_PATH);
+    res.status(200).redirect(process.env.REDIRECT_PATH);
   });
 });
 
@@ -53,6 +54,7 @@ router.get(
     console.log("세션에 들어갈 user 객체:", req.user);
 
     res
+      .status(200)
       .cookie("user", req.user, {
         sameSite: "none",
         secure: true,
