@@ -115,8 +115,8 @@ GET https://localhost/api/user/6312ad8b5057863778c220ca
 
 
 ## ---------------------- 영상 관련 API  ------------------------
-### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id
-GET	https://localhost/api/videos/6312cd792a4f77334033a9bd
+### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id/?offset&limit
+GET	https://localhost/api/videos/6312cd792a4f77334033a9c0/?offset=0&limit=3
 
 
 ### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id
@@ -126,7 +126,6 @@ GET	https://localhost/api/videos/detail/630f1dbfe3771dcdaf005a21
 ### 21. 유튜브영상의 고유 videoId(우리 DB의 영상_id 아님)로 유튜브 썸네일 등 상세정보 찾기
 ### 유튜브API 직접 접근 (맨 뒤에 PZIPsKgWJiw만 유튜브 고유 번호로 변경) 
 GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&maxResults=50&regionCode=kr&id=PZIPsKgWJiw
-
 
 
 

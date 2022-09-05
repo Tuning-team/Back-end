@@ -19,8 +19,8 @@ class CategoryService {
       res
         .status(400)
         .json({ success: false, message: "카테고리 조회에 실패하였습니다." });
-    }
+
   };
 }
-
+}
 module.exports = CategoryService;
