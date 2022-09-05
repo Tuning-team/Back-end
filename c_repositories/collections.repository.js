@@ -11,6 +11,29 @@ class CollectionRepository {
     return collections;
   };
 
+  // user_id를 받아 작성된 모든 컬렉션 조회 (페이지네이션 필요한 경우)
+  getAllCollectionsByUserIdWithPaging = async (user_id, offset, limit) => {
+    const callForCount = await Collection.find({ user_id }).sort({
+      createdAt: -1,
+    });
+
+    const totalContents = callForCount.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    console.log("totalContents:", totalContents);
+    console.log("hasNext:", hasNext);
+
+    // offset : "0",1,2 / "3",4,5 /
+    const userdataAll = await Collection.find({ user_id })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(offset) // 아래 설명 보기
+      .limit(limit);
+
+    return { userdataAll, totalContents, hasNext };
+  };
+
   // category_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollectionsByCategoryId = async (_id) => {
     const collections = await Collection.find({ category_id: _id }).sort({
@@ -114,16 +137,16 @@ class CollectionRepository {
   };
 
   // 페이지네이션
-  getPagination = async () => {
-    const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
-    const perPage = Number(req.query.perPage || 10);
+  // getPagination = async () => {
+  //   const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
+  //   const perPage = Number(req.query.perPage || 3);
 
-    const allCollections = await Collection.find({})
-      .sort({ createdAt: -1 }) // createdAt는 timestamps로 생성한 시간을 역순으로 정렬 === 데이터를 최근 순으로 정렬
-      .skip(perPage * (page - 1)) // 아래 설명 보기
-      .limit(perPage);
-    const totalPage = Math.ceil(total / perPage); // 만약 전체 게시글 99개고 perPage가 10개면 값은 9.9 그래서 총 페이지수는 10개가 되어야 한다. 그래서 올림을 해준다.
-  };
+  //   const allCollections = await Collection.find({})
+  //     .sort({ createdAt: -1 }) // createdAt는 timestamps로 생성한 시간을 역순으로 정렬 === 데이터를 최근 순으로 정렬
+  //     .skip(perPage * (page - 1)) // 아래 설명 보기
+  //     .limit(perPage);
+  //   const totalPage = Math.ceil(total / perPage); // 만약 전체 게시글 99개고 perPage가 10개면 값은 9.9 그래서 총 페이지수는 10개가 되어야 한다. 그래서 올림을 해준다.
+  // };
 }
 
 module.exports = CollectionRepository;
