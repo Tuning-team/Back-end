@@ -3,11 +3,6 @@
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
 GET	https://localhost/api/categories
 
-<<<<<<< HEAD
-## ---------------------- 컬렉션에 달린 댓글 관련 API (승민 님) ------------------------
-### collection_id 컬렉션에 댓글 달기  <완료 (유저 빼고)>
-POST https://localhost/api/comments/6312cd792a4f77334033a9bf
-=======
 
 
 
@@ -73,111 +68,21 @@ GET	https://localhost/api/comments/6312cd792a4f77334033a9bd
 
 ### 11. collection_id 컬렉션에 댓글 달기  : POST /api/comments/:collection_id
 POST https://localhost/api/comments/6312cd792a4f77334033a9bd
->>>>>>> origin/feature
 Content-Type: application/json
 
 {
-   "comment" : "나는 동의하지 않습니다!"
+   "comment" : "오 이런 컬렉션도 좋은 것 같아요!!"
 }
 
-<<<<<<< HEAD
-### collection_id 컬렉션에 달린 댓글 리스트 보기  <완료>
-GET	https://localhost/api/comments/6312cd792a4f77334033a9bf
-
-
-### 특정 id를 가진 댓글을 수정하기  <완료>
-PUT	https://localhost/api/comments/6312f7b69d0962de00a1a5ab
-=======
 ### 12. 특정 id를 가진 댓글을 수정하기  : PUT /api/comments/:collection_id
 PUT	https://localhost/api/comments/63136b9625b3d37574b18bee
->>>>>>> origin/feature
 Content-Type: application/json
 
 {
-   "comment" : "나는 쬐끔 동의하지 않습니다!"
+   "comment" : "레알 진짜 짱 좋아요 짱짱짱 !"
 }
 
 
-<<<<<<< HEAD
-### 특정 id를 가진 댓글을 삭제하기  <완료>
-DELETE https://localhost/api/comments/6312f6919d0962de00a1a5a2
-
-
-
-## ---------------------- 영상 관련 API (승민 님) ------------------------
-### 특정 id 컬렉션의 영상들의 리스트 불러오기   <완료>
-GET	https://localhost/api/videos/6312cd792a4f77334033a9c0
-
-
-### 특정 id 영상의 디테일한 정보를 불러오기   <완료>
-GET	https://localhost/api/videos/detail/6312c7b4d3084a7cb866bb8f
-
-
-## ---------------------- 컬렉션 관련 API (혜미 님) ------------------------
-
-### 컬렉션 정보 추가 (완성)
-POST https://localhost/api/collections
-Content-Type: application/json
-
-{
-    "user_id": "630db5fe5b60fec023bd6c69",
-    "category_id": "630f31258b8c916480f96ade",
-    "collectionTitle": "내가 좋아하는 영화 요약",
-    "description": "내가 좋아하는 영화 요약을 모아봤습니다.",
-    "videos": ["6311f30092124ed948276547", "6311f30092124ed948276548", "6311f30092124ed948276549", "6311f30092124ed948276545"]
-}
-
-
-### 카테고리에 맞는 컬렉션 리스트 찾기 (완성)
-GET	https://localhost/api/collections?category_id=630f31258b8c916480f96ade
-
-
-### 검색어에 맞는 컬렉션 리스트 찾기 (완성)
-GET	https://localhost/api/collections/search?keyword=음악입니다
-
-
-
-
-### 컬렉션 ID에 맞는 컬렉션 상세정보  (완성)
-GET	https://localhost/api/collections/630f30fa71d6081b5c178ecf
-
-
-### 특정 id 컬렉션 삭제하기 (완성)
-DELETE https://localhost/api/collections/630f30fa71d6081b5c178ecf
-Content-Type: application/json
-
-
-### 내가 만든 컬렉션 리스트 (완성)
-GET	https://localhost/api/collections/mine
-Content-Type: application/json
-
-
-### 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소) (완성)
-PUT	https://localhost/api/collections/like/630f30fa71d6081b5c178ed2
-Content-Type: application/json
-
-
-### 특정 id의 영상을 컬렉션에 추가하기 (완성)
-PUT	https://localhost/api/collections/630f30fa71d6081b5c178ed2
-Content-Type: application/json
-
-{
-    "videos": ["6311f30092124ed94827654e", "6311f30092124ed94827654d"]
-}
-
-
-### 유저 정보 찾기 
-GET https://localhost/api/user/630f6bda3e3cc41e4f320ff1
-
-### 로그인한 유저 정보 찾기
-GET	https://localhost/api/user/
-
-
-
-
-## ---------------------- 영상 찾기 관련 API (보현) ------------------------
-### (기본찾기) 운동이라는 키워드 - videoSearchDB에서 찾기
-=======
 ### 13. 특정 id를 가진 댓글을 삭제하기  : DELETE /api/comments/:collection_id
 DELETE https://localhost/api/comments/63136b9625b3d37574b18bee
 
@@ -187,7 +92,6 @@ DELETE https://localhost/api/comments/63136b9625b3d37574b18bee
 
 ## ---------------------- 영상 찾기 관련 API ------------------------
 ### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
->>>>>>> origin/feature
 GET https://localhost/api/search/videos/db?keyword=운동
 
 
@@ -222,7 +126,6 @@ GET	https://localhost/api/videos/detail/630f1dbfe3771dcdaf005a21
 ### 21. 유튜브영상의 고유 videoId(우리 DB의 영상_id 아님)로 유튜브 썸네일 등 상세정보 찾기
 ### 유튜브API 직접 접근 (맨 뒤에 PZIPsKgWJiw만 유튜브 고유 번호로 변경) 
 GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&maxResults=50&regionCode=kr&id=PZIPsKgWJiw
-
 
 
 
