@@ -18,6 +18,7 @@ router.get("/user", async (req, res) => {
   //   res.json(req.session.passport.user);
   // }
 
+
   const user_id = process.env.TEMP_USER_ID;
   const user = await userRepository.getUserById(user_id);
 

@@ -12,21 +12,30 @@ class VideoService {
     try {
       // 재료
       const { collection_id } = req.params;
-      const thisCollection = await this.collectionRepository.getCollectionById(
-        collection_id
-      );
+      const { offset, limit } = req.query;
 
-      if (!thisCollection) {
+      const { videosIdToShow, totalVideosView, hasNext } = 
+        await this.collectionRepository.getCollectionByIdWithPaging(
+          collection_id,
+          offset,
+          limit
+        );
+
+      // const thisCollection = await this.collectionRepository.getCollectionById(
+      //   collection_id
+      // );
+
+      if (!videosIdToShow) {
         res
           .status(400)
-          .json({ success: false, message: "해당 컬렉션이 없습니다." });
+          .json({ success: false, message: "해당하는 영상이 없습니다." });
       } else {
-        const videosArray = thisCollection.videos; // ["p9HjZshdjt4", .... ]
+        // const videosArray = thisCollection.videos; // ["p9HjZshdjt4", .... ]
 
         let element;
         let data = [];
-        for (let i = 0; i < videosArray.length; i++) {
-          element = await this.videoRepository.getVideoById(videosArray[i]);
+        for (let i = 0; i < videosIdToShow.length; i++) {
+          element = await this.videoRepository.getVideoById(videosIdToShow[i]);
           data.push(element);
         }
 
@@ -34,6 +43,7 @@ class VideoService {
           success: true,
           message: "비디오 목록을 불러왔습니다.",
           data: data,
+          pageInfo: { totalVideosView, hasNext },
         });
       }
     } catch (error) {
