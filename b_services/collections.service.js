@@ -1,12 +1,14 @@
 const CollectionRepository = require("../c_repositories/collections.repository");
 const UserRepository = require("../c_repositories/users.repository");
 const CommentRepository = require("../c_repositories/comments.repository");
+const VideoRepository = require("../c_repositories/videos.repository");
 const { collection } = require("../d_schemas/user");
 
 class CollectionsService {
   collectionRepository = new CollectionRepository();
   userRepository = new UserRepository();
   commentRepository = new CommentRepository();
+  videoRepository = new VideoRepository();
 
   // 내가 모은 컬렉션 목록 조회
   getAllCollectionsByUserId = async (req, res) => {
@@ -32,12 +34,33 @@ class CollectionsService {
           );
         let commentNum = collectionComments.length;
 
+        let thumbnailsArr = [];
+        for (let j = 0; j < userdataAll[i].videos.length; j++) {
+          try {
+            var { thumbnails } = await this.videoRepository.getVideoById(
+              userdataAll[i].videos[j]
+            );
+          } catch (error) {
+            var thumbnails = undefined;
+            console.log(error);
+          }
+
+          if (!thumbnails) {
+            thumbnailsArr.push(
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
+            );
+          } else {
+            thumbnailsArr.push(thumbnails);
+          }
+        }
+
         resultData.push({
           _id: userdataAll[i]._id,
           user_id: userdataAll[i].user_id,
           collectionTitle: userdataAll[i].collectionTitle,
           description: userdataAll[i].description,
           videos: userdataAll[i].videos,
+          thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: userdataAll[i].likes,
           createdAt: userdataAll[i].createdAt,
@@ -95,9 +118,12 @@ class CollectionsService {
   // 컬렉션 상세 조회
   getCollection = async (req, res) => {
     try {
-      const { _id } = req.params;
+      const { collection_id } = req.params;
 
-      const collection = await this.collectionRepository.getCollectionById(_id);
+      const collection = await this.collectionRepository.getCollectionById(
+        collection_id
+      );
+
       if (!collection) {
         res.json({ message: "해당 컬렉션이 없습니다." });
       }
