@@ -1,23 +1,96 @@
 
-## ---------------------- 카테고리 관련 API (승민 님) ------------------------
-### 카테고리 요소의 리스트 찾아오기 <완료>
+## ---------------------- 카테고리 관련 API ------------------------
+### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
 GET	https://localhost/api/categories
 
+<<<<<<< HEAD
 ## ---------------------- 컬렉션에 달린 댓글 관련 API (승민 님) ------------------------
 ### collection_id 컬렉션에 댓글 달기  <완료 (유저 빼고)>
 POST https://localhost/api/comments/6312cd792a4f77334033a9bf
+=======
+
+
+
+
+## ---------------------- 컬렉션 관련 API ------------------------
+
+### 2. 컬렉션 생성 : POST /api/collections
+POST https://localhost/api/collections
+Content-Type: application/json
+
+{
+    "category_id": "630f31258b8c916480f96adf",
+    "collectionTitle": "갬성 터지는 음악",
+    "description": "갬성 터지는 음악 너무 좋아요",
+    "videos": ["n61ULEU7CO0", "cMHXFKAN6Dk", "vYLyyuQByBc", "e_e1WMNFiHc"]
+}
+
+
+### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
+GET	https://localhost/api/collections/6312cd792a4f77334033a9c0
+
+
+### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
+DELETE https://localhost/api/collections/630f30fa71d6081b5c178ed2
+
+
+### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
+PUT	https://localhost/api/collections/63136cbd25b3d37574b18bfd
+Content-Type: application/json
+
+{
+    "videos": ["6312c7b4d3084a7cb866bb8f", "6312c7b4d3084a7cb866bb95"]
+}
+
+
+### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
+PUT	https://localhost/api/collections/like/630f30fa71d6081b5c178ed1
+Content-Type: application/json
+
+
+### 7. 내가 생성한 컬렉션 리스트 : GET /api/collections/mine
+GET	https://localhost/api/collections/mine
+Content-Type: application/json
+
+
+### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
+GET	https://localhost/api/collections?category_id=630f31258b8c916480f96adf
+
+
+### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
+GET	https://localhost/api/collections/search?keyword=음악
+
+
+
+
+
+
+## ---------------------- 컬렉션에 달린 댓글 관련 API ------------------------
+
+### 10. collection_id 컬렉션에 달린 댓글 리스트 보기 : GET /api/comments/:collection_id
+GET	https://localhost/api/comments/6312cd792a4f77334033a9bd
+
+
+### 11. collection_id 컬렉션에 댓글 달기  : POST /api/comments/:collection_id
+POST https://localhost/api/comments/6312cd792a4f77334033a9bd
+>>>>>>> origin/feature
 Content-Type: application/json
 
 {
    "comment" : "나는 동의하지 않습니다!"
 }
 
+<<<<<<< HEAD
 ### collection_id 컬렉션에 달린 댓글 리스트 보기  <완료>
 GET	https://localhost/api/comments/6312cd792a4f77334033a9bf
 
 
 ### 특정 id를 가진 댓글을 수정하기  <완료>
 PUT	https://localhost/api/comments/6312f7b69d0962de00a1a5ab
+=======
+### 12. 특정 id를 가진 댓글을 수정하기  : PUT /api/comments/:collection_id
+PUT	https://localhost/api/comments/63136b9625b3d37574b18bee
+>>>>>>> origin/feature
 Content-Type: application/json
 
 {
@@ -25,6 +98,7 @@ Content-Type: application/json
 }
 
 
+<<<<<<< HEAD
 ### 특정 id를 가진 댓글을 삭제하기  <완료>
 DELETE https://localhost/api/comments/6312f6919d0962de00a1a5a2
 
@@ -103,9 +177,55 @@ GET	https://localhost/api/user/
 
 ## ---------------------- 영상 찾기 관련 API (보현) ------------------------
 ### (기본찾기) 운동이라는 키워드 - videoSearchDB에서 찾기
+=======
+### 13. 특정 id를 가진 댓글을 삭제하기  : DELETE /api/comments/:collection_id
+DELETE https://localhost/api/comments/63136b9625b3d37574b18bee
+
+
+
+
+
+## ---------------------- 영상 찾기 관련 API ------------------------
+### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
+>>>>>>> origin/feature
 GET https://localhost/api/search/videos/db?keyword=운동
 
 
-### (더찾아보기) 운동이라는 키워드 유튜브API에서 찾기
+### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
 GET https://localhost/api/search/videos/youtube?keyword=운동
+
+
+
+
+
+## ---------------------- 유저 정보 찾기 관련 API ------------------------
+### 16. 로그인한 유저의 정보 가져오기 : GET /api/user
+GET	https://localhost/api/user/
+
+
+### 17. 고유 id로 유저 정보 찾기 : GET /api/user/:user_id
+GET https://localhost/api/user/6312ad8b5057863778c220ca
+
+
+
+
+
+## ---------------------- 영상 관련 API  ------------------------
+### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id
+GET	https://localhost/api/videos/6312cd792a4f77334033a9bd
+
+
+### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id
+GET	https://localhost/api/videos/detail/630f1dbfe3771dcdaf005a21
+
+
+### 21. 유튜브영상의 고유 videoId(우리 DB의 영상_id 아님)로 유튜브 썸네일 등 상세정보 찾기
+### 유튜브API 직접 접근 (맨 뒤에 PZIPsKgWJiw만 유튜브 고유 번호로 변경) 
+GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&maxResults=50&regionCode=kr&id=PZIPsKgWJiw
+
+
+
+
+
+
 
