@@ -17,32 +17,32 @@ class CollectionsService {
       const user_id = process.env.TEMP_USER_ID;
       const { offset, limit } = req.query;
 
-      const { userdataAll, totalContents, hasNext } =
+      const { userDataAll, totalContents, hasNext } =
         await this.collectionRepository.getAllCollectionsByUserIdWithPaging(
           user_id,
           offset,
           limit
         );
 
-      if (!userdataAll) {
+      if (!userDataAll) {
         res
           .status(400)
           .json({ success: false, message: "만들어진 컬렉션이 없습니다." });
       }
 
       const resultData = [];
-      for (let i = 0; i < userdataAll.length; i++) {
+      for (let i = 0; i < userDataAll.length; i++) {
         let collectionComments =
           await this.commentRepository.getAllCommentsOnCollectionId(
-            userdataAll[i]._id
+            userDataAll[i]._id
           );
         let commentNum = collectionComments.length;
 
         let thumbnailsArr = [];
-        for (let j = 0; j < userdataAll[i].videos.length; j++) {
+        for (let j = 0; j < userDataAll[i].videos.length; j++) {
           try {
             var { thumbnails } = await this.videoRepository.getVideoById(
-              userdataAll[i].videos[j]
+              userDataAll[i].videos[j]
             );
           } catch (error) {
             var thumbnails = undefined;
@@ -59,15 +59,15 @@ class CollectionsService {
         }
 
         resultData.push({
-          _id: userdataAll[i]._id,
-          user_id: userdataAll[i].user_id,
-          collectionTitle: userdataAll[i].collectionTitle,
-          description: userdataAll[i].description,
-          videos: userdataAll[i].videos,
+          _id: userDataAll[i]._id,
+          user_id: userDataAll[i].user_id,
+          collectionTitle: userDataAll[i].collectionTitle,
+          description: userDataAll[i].description,
+          videos: userDataAll[i].videos,
           thumbnails: thumbnailsArr,
           commentNum: commentNum,
-          likes: userdataAll[i].likes,
-          createdAt: userdataAll[i].createdAt,
+          likes: userDataAll[i].likes,
+          createdAt: userDataAll[i].createdAt,
         });
       }
 
@@ -87,33 +87,45 @@ class CollectionsService {
   // 카테고리에 포함된 컬렉션 목록 조회 ↔
   getAllCollectionsByCategoryId = async (req, res) => {
     try {
-      const { category_id } = req.query;
-      const categorydataAll =
-        await this.collectionRepository.getAllCollectionsByCategoryId(
-          category_id
+      const { category_id, offset, limit } = req.query;
+      const { categoryDataAll, totalContents, hasNext } =
+        await this.collectionRepository.getAllCollectionsByCategoryIdWithPaging(
+          category_id,
+          offset,
+          limit
         );
+
+      if (!categoryDataAll) {
+        res
+          .status(400)
+          .json({ success: false, message: "만들어진 컬렉션이 없습니다." });
+      }
 
       const resultData = [];
 
-      for (let i = 0; i < categorydataAll.length; i++) {
+      for (let i = 0; i < categoryDataAll.length; i++) {
         let collectionComments =
           await this.commentRepository.getAllCommentsOnCollectionId(
-            categorydataAll[i]._id
+            categoryDataAll[i]._id
           );
         let commentNum = collectionComments.length;
 
         resultData.push({
-          _id: categorydataAll[i]._id,
-          category_id: categorydataAll[i].category_id,
-          collectionTitle: categorydataAll[i].collectionTitle,
-          description: categorydataAll[i].description,
-          videos: categorydataAll[i].videos,
+          _id: categoryDataAll[i]._id,
+          category_id: categoryDataAll[i].category_id,
+          collectionTitle: categoryDataAll[i].collectionTitle,
+          description: categoryDataAll[i].description,
+          videos: categoryDataAll[i].videos,
           commentNum: commentNum,
-          likes: categorydataAll[i].likes,
-          createdAt: categorydataAll[i].createdAt,
+          likes: categoryDataAll[i].likes,
+          createdAt: categoryDataAll[i].createdAt,
         });
       }
-      res.status(200).json(resultData);
+      res.status(200).json({
+        success: true,
+        data: resultData,
+        pageInfo: { totalContents, hasNext },
+      });
       return;
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
@@ -197,7 +209,7 @@ class CollectionsService {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res
         .status(400)
-        .json({ success: false, message: "컬렉션 조회에 실패하였습니다." });
+        .json({ success: false, message: "컬렉션 생성에 실패하였습니다." });
     }
   };
 
@@ -219,7 +231,7 @@ class CollectionsService {
       } else if (user_id !== thisCollection.user_id) {
         res
           .status(400)
-          .json({ success: false, message: "삭제 권한이 없습니다." });
+          .json({ success: false, message: "작성자만 삭제가 가능합니다." });
       } else {
         await this.collectionRepository.deleteCollection(collection_id);
         res
@@ -230,7 +242,7 @@ class CollectionsService {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res
         .status(400)
-        .json({ success: false, message: "컬렉션 조회에 실패하였습니다." });
+        .json({ success: false, message: "컬렉션 삭제에 실패하였습니다." });
     }
   };
 
@@ -286,11 +298,16 @@ class CollectionsService {
   // 검색어와 내용, 제목 일부 일치하는 컬렉션 찾기 ↔
   getCollectionsBySearch = async (req, res) => {
     try {
-      const { keyword } = req.query;
-      const resultBySearch =
-        await this.collectionRepository.getCollectionsBySearch(keyword);
+      const { keyword, offset, limit } = req.query;
 
-      const result = [];
+      const { resultBySearch, totalContents, hasNext } =
+        await this.collectionRepository.getCollectionsBySearchWithPaging(
+          keyword,
+          offset,
+          limit
+        );
+        
+      const resultData = [];
 
       for (let i = 0; i < resultBySearch.length; i++) {
         let collectionComments =
@@ -300,7 +317,7 @@ class CollectionsService {
 
         let commentNum = collectionComments.length;
 
-        result.push({
+        resultData.push({
           _id: resultBySearch[i]._id,
           user_id: resultBySearch[i].user_id,
           category_id: resultBySearch[i].category_id,
@@ -313,9 +330,18 @@ class CollectionsService {
         });
       }
 
-      res.status(200).json({ success: true, data: result });
+      res.status(200).json({
+        success: true,
+        data: resultData,
+        pageInfo: { totalContents, hasNext },
+      });
+      return;
     } catch (error) {
-      console.log(error);
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res.status(400).json({
+        success: false,
+        message: "검색에 실패하였습니다.",
+      });
     }
   };
 
@@ -355,7 +381,7 @@ class CollectionsService {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res.status(400).json({
         success: false,
-        message: "컬렉션 영상 추가에 실패하였습니다.",
+        message: "영상 추가에 실패하였습니다.",
       });
     }
   };
