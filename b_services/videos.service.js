@@ -14,18 +14,16 @@ class VideoService {
       const { collection_id } = req.params;
       const { offset, limit } = req.query;
 
-      const { videosIdToShow, totalVideosView, hasNext } = 
+      const { videosIdToShow, totalVideosView, hasNext } =
         await this.collectionRepository.getCollectionByIdWithPaging(
           collection_id,
           offset,
           limit
         );
 
-      // const thisCollection = await this.collectionRepository.getCollectionById(
-      //   collection_id
-      // );
+      // [] unde
 
-      if (!videosIdToShow) {
+      if (!videosIdToShow[0]) {
         res
           .status(400)
           .json({ success: false, message: "해당하는 영상이 없습니다." });
