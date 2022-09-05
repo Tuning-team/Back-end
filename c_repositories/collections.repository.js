@@ -73,6 +73,13 @@ class CollectionRepository {
     return allCollectionsUserLiked;
   };
 
+  // 해당 컬렉션이 보유한 좋아요 리스트
+  getAllLikeOnCollectionId = async (collection_id) => {
+    const likes = await Collection.find({ collection_id })
+
+    return likes;
+  };
+
   // _id에 해당하는 컬렉션의 좋아요를 1개 올린다. return 좋아한 컬렉션의 현재 좋아요 수
   likeCollection = async (_id) => {
     const likeCollection = await Collection.findOneAndUpdate(
@@ -102,6 +109,18 @@ class CollectionRepository {
     });
 
     return searchCollections;
+  };
+
+  // 페이지네이션
+  getPagination = async () => {
+    const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
+    const perPage = Number(req.query.perPage || 10);
+
+    const allCollections = await Collection.find({})
+      .sort({ createdAt: -1 }) // createdAt는 timestamps로 생성한 시간을 역순으로 정렬 === 데이터를 최근 순으로 정렬
+      .skip(perPage * (page - 1)) // 아래 설명 보기
+      .limit(perPage);
+    const totalPage = Math.ceil(total / perPage); // 만약 전체 게시글 99개고 perPage가 10개면 값은 9.9 그래서 총 페이지수는 10개가 되어야 한다. 그래서 올림을 해준다.
   };
 }
 
