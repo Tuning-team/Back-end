@@ -11,7 +11,6 @@ class CollectionsService {
   // 내가 모은 컬렉션 목록 조회
   getAllCollectionsByUserId = async (req, res) => {
     try {
-
       // const { user_id } = req.body;
       const user_id = process.env.TEMP_USER_ID;
 
@@ -44,7 +43,6 @@ class CollectionsService {
           createdAt: userdataAll[i].createdAt,
         });
       }
-
 
       res.status(200).json({ success: true, data: resultData });
     } catch (error) {
@@ -86,7 +84,6 @@ class CollectionsService {
       }
       res.status(200).json(resultData);
       return;
-
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res
@@ -107,23 +104,21 @@ class CollectionsService {
 
       let collectionComments =
         await this.commentRepository.getAllCommentsOnCollectionId(
-          thisCollection._id
+          collection._id
         );
       let commentNum = collectionComments.length;
 
       const returnCollection = [
         {
-
-          _id: thisCollection._id,
-          user_id: thisCollection.user_id,
-          category_id: thisCollection.category_id,
-          collectionTitle: thisCollection.collectionTitle,
-          description: thisCollection.description,
-          videos: thisCollection.videos,
+          _id: collection._id,
+          user_id: collection.user_id,
+          category_id: collection.category_id,
+          collectionTitle: collection.collectionTitle,
+          description: collection.description,
+          videos: collection.videos,
           commentNum: commentNum,
-          likes: thisCollection.likes,
-          createdAt: thisCollection.createdAt,
-
+          likes: collection.likes,
+          createdAt: collection.createdAt,
         },
       ];
       res.status(200).json({ success: true, data: returnCollection });
@@ -207,7 +202,6 @@ class CollectionsService {
 
   // 컬렉션 좋아요 누르기
   likeCollection = async (req, res) => {
-  
     try {
       const { collection_id } = req.params;
       // const { user_id } = req.body;
