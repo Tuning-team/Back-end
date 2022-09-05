@@ -1,9 +1,11 @@
 const CollectionRepository = require("../c_repositories/collections.repository");
 const UserRepository = require("../c_repositories/users.repository");
+const CommentRepository = require("../c_repositories/comments.repository");
 
 class CollectionsService {
   collectionRepository = new CollectionRepository();
   userRepository = new UserRepository();
+  commentRepository = new CommentRepository();
 
   // 내가 모은 컬렉션 목록 조회
   getAllCollectionsByUserId = async (req, res) => {
@@ -224,9 +226,32 @@ class CollectionsService {
   getCollectionsBySearch = async (req, res) => {
     try {
       const { keyword } = req.query;
-      const result = await this.collectionRepository.getCollectionsBySearch(
-        keyword
-      );
+      const resultBySearch =
+        await this.collectionRepository.getCollectionsBySearch(keyword);
+
+      const result = [];
+
+      for (let i = 0; i < resultBySearch.length; i++) {
+        let collectionComments =
+          await this.commentRepository.getAllCommentsOnCollectionId(
+            resultBySearch[i]._id
+          );
+
+        let commentNum = collectionComments.length;
+
+        result.push({
+          _id: resultBySearch[i]._id,
+          user_id: resultBySearch[i].user_id,
+          category_id: resultBySearch[i].category_id,
+          collectionTitle: resultBySearch[i].collectionTitle,
+          description: resultBySearch[i].description,
+          videos: resultBySearch[i].videos,
+          commentNum: commentNum,
+          likes: resultBySearch[i].likes,
+          createdAt: resultBySearch[i].createdAt,
+        });
+      }
+
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       console.log(error);
