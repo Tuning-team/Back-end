@@ -11,7 +11,14 @@ class SearchService {
       const returnVideos =
         await this.videosSearchRepository.getVideoSearchByKeyword(keyword);
 
-      res.status(200).json({ success: true, data: returnVideos });
+      const sortedResult = returnVideos.map((e) => {
+        return {
+          videoId: e.videoId,
+          title: e.title,
+        };
+      });
+
+      res.status(200).json({ success: true, data: sortedResult });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res

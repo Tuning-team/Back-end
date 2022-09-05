@@ -99,7 +99,7 @@ GET	https://localhost/api/user/
 
 ## ---------------------- 영상 찾기 관련 API (보현) ------------------------
 ### (기본찾기) 운동이라는 키워드 - videoSearchDB에서 찾기
-GET https://localhost/api/search/videos/db?keyword=노래
+GET https://localhost/api/search/videos/db?keyword=운동
 
 
 ### (더찾아보기) 운동이라는 키워드 유튜브API에서 찾기
