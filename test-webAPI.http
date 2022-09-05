@@ -17,7 +17,10 @@ Content-Type: application/json
     "category_id": "630f31258b8c916480f96adf",
     "collectionTitle": "갬성 터지는 음악",
     "description": "갬성 터지는 음악 너무 좋아요",
-    "videos": ["n61ULEU7CO0", "cMHXFKAN6Dk", "vYLyyuQByBc", "e_e1WMNFiHc"]
+    "videos": ["6312c7b4d3084a7cb866bb97",
+        "6312c7b4d3084a7cb866bb98",
+        "6312c7b4d3084a7cb866bb9b",
+        "6312c7b4d3084a7cb866bb8f"]
 }
 
 
@@ -26,8 +29,7 @@ GET	https://www.myspaceti.me/api/collections/630f30fa71d6081b5c178ed2
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
-DELETE https://www.myspaceti.me/api/collections/630f30fa71d6081b5c178ed2
-
+DELETE https://www.myspaceti.me/api/collections/631594404d6491e5475fa1db
 
 ### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
 PUT	https://www.myspaceti.me/api/collections/63136cbd25b3d37574b18bfd
@@ -120,7 +122,7 @@ GET	https://www.myspaceti.me/api/videos/6312cd792a4f77334033a9bd
 
 
 ### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id
-GET	https://www.myspaceti.me/api/videos/detail/630f1dbfe3771dcdaf005a21
+GET	https://www.myspaceti.me/api/videos/detail/6312c7b4d3084a7cb866bb8d
 
 
 ### 21. 유튜브영상의 고유 videoId(우리 DB의 영상_id 아님)로 유튜브 썸네일 등 상세정보 찾기

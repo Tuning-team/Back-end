@@ -10,14 +10,19 @@ class CollectionsService {
   commentRepository = new CommentRepository();
   videoRepository = new VideoRepository();
 
-  // 내가 모은 컬렉션 목록 조회
+  // 내가 모은 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsByUserId = async (req, res) => {
     try {
       // const { user_id } = req.body;
       const user_id = process.env.TEMP_USER_ID;
+      const { offset, limit } = req.query;
 
-      const userdataAll =
-        await this.collectionRepository.getAllCollectionsByUserId(user_id);
+      const { userdataAll, totalContents, hasNext } =
+        await this.collectionRepository.getAllCollectionsByUserIdWithPaging(
+          user_id,
+          offset,
+          limit
+        );
 
       if (!userdataAll) {
         res
@@ -26,7 +31,6 @@ class CollectionsService {
       }
 
       const resultData = [];
-
       for (let i = 0; i < userdataAll.length; i++) {
         let collectionComments =
           await this.commentRepository.getAllCommentsOnCollectionId(
@@ -67,7 +71,11 @@ class CollectionsService {
         });
       }
 
-      res.status(200).json({ success: true, data: resultData });
+      res.status(200).json({
+        success: true,
+        data: resultData,
+        pageInfo: { totalContents, hasNext },
+      });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res
@@ -76,7 +84,7 @@ class CollectionsService {
     }
   };
 
-  // 카테고리에 포함된 컬렉션 목록 조회
+  // 카테고리에 포함된 컬렉션 목록 조회 ↔
   getAllCollectionsByCategoryId = async (req, res) => {
     try {
       const { category_id } = req.query;
@@ -275,7 +283,7 @@ class CollectionsService {
     }
   };
 
-  // --------- 검색어와 내용, 제목 일부 일치하는 컬렉션 찾기
+  // 검색어와 내용, 제목 일부 일치하는 컬렉션 찾기 ↔
   getCollectionsBySearch = async (req, res) => {
     try {
       const { keyword } = req.query;
