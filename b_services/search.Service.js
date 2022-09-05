@@ -6,18 +6,26 @@ class SearchService {
   videosSearchRepository = new VideosSearchRepository();
   // id로 유저 정보 조회
   videoSearchViaDB = async (req, res) => {
-    const { keyword } = req.query;
+    try {
+      const { keyword } = req.query;
+      const returnVideos =
+        await this.videosSearchRepository.getVideoSearchByKeyword(keyword);
 
-    // console.log(
-    //   `${req.session.passport.user.user.displayName} 님이 ${keyword}를 검색하였습니다.`
-    // );
+      const sortedResult = returnVideos.map((e) => {
+        return {
+          videoId: e.videoId,
+          title: e.title,
+        };
+      });
 
-    const returnVideos =
-      await this.videosSearchRepository.getVideoSearchByKeyword(keyword);
-
-    res.send(returnVideos);
+      res.status(200).json({ success: true, data: sortedResult });
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res
+        .status(400)
+        .json({ success: false, message: "검색에 실패하였습니다." });
+    }
   };
-
   videoSearchViaYoutube = async (req, res) => {
     try {
       const { keyword } = req.query;
@@ -36,9 +44,12 @@ class SearchService {
 
       // ------------- DB에 저장 추가 필요 ----------
 
-      res.json(resultArr);
+      res.status(200).json({ success: true, data: resultArr });
     } catch (error) {
-      console.log(error);
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res
+        .status(400)
+        .json({ success: false, message: "검색에 실패하였습니다." });
     }
   };
 }
