@@ -52,6 +52,26 @@ class CollectionRepository {
     return collection;
   };
 
+  // 작성된 컬렉션 상세 조회, 페이지네이션 사용
+  getCollectionByIdWithPaging = async (_id, offset, limit) => {
+    const { videos } = await Collection.findOne({_id});    
+
+    const totalVideosView = videos.length;
+    const hasNext = totalVideosView - offset - limit > 0 ? true : false;
+
+    const videosIdToShow = videos.slice(offset,offset+limit);
+
+    return { videosIdToShow, totalVideosView, hasNext };
+    
+
+    // const collection = await Collection.findOne({ _id })
+
+    //   .skip(offset) // 아래 설명 보기
+    //   .limit(limit);      
+    
+    // return { collection, totalVideosView, hasNext };
+  };
+
   // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
   createCollection = async (
     user_id,

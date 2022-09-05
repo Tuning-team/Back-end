@@ -5,7 +5,7 @@ class VideoRepository {
   getVideoById = async (_id) => {
     const thisVideo = await Video.findOne({ _id });
     return thisVideo;
-  };
+  };  
 
   //작성된 비디오들 조회
   getAllVideos = async (orderBy = "DESC") => {
@@ -14,7 +14,7 @@ class VideoRepository {
     });
 
     return allVideos;
-  };
+  };  
 
   //생성
   createVideo = async (
