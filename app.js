@@ -32,17 +32,7 @@ console.log("Passport & GoogleStrategy _ 설정 완료!");
 // express 객체인 app은, CORS와 세션을 사용
 const app = express();
 
-// if (dev) {
-//   const webpackDev = require("./dev");
-//   app.use(webpackDev.comp).use(webpackDev.hot);
-// }
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-
 app.use(logger("dev"));
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
@@ -63,17 +53,10 @@ app.use(passport.session()); // 그 세션은 passport에서 관리
 
 // 라우터 적용
 const routes = require("./a_routes/index.js");
-// app.use(express.static(path.join(__dirname, "client", "dist")));
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-// });
 
-app.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
-});
 app.use("/api", routes); // to /a_routes/index.js
 
-// catch 404 and forward to error handler
+// catch 404 에러핸들러
 app.use(function (req, res, next) {
   next(createError(404));
 });
@@ -90,3 +73,23 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+// 레거시 코드---
+
+// if (dev) {
+//   const webpackDev = require("./dev");
+//   app.use(webpackDev.comp).use(webpackDev.hot);
+// }
+
+// view engine setup
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "ejs");
+
+// app.use(express.static(path.join(__dirname, "client", "dist")));
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+// });
+
+// app.get("/", function (req, res, next) {
+//   res.render("index", { title: "Express" });
+// });

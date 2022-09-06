@@ -3,20 +3,20 @@
 require("dotenv").config(); // 환경변수 적용
 const app = require("../app");
 const debug = require("debug")("backend:server");
-// const http = require("http");
-const Https = require("https");
+const Http = require("http");
+// const Https = require("https");
 
-const port = normalizePort(process.env.HTTPS_PORT || "3000");
+const port = normalizePort(process.env.HTTP_PORT || "4000");
 app.set("port", port);
 
 // https 옵션 적용해서 서버 개설
-const fs = require("fs");
-const server = Https.createServer(
-  {
-    key: fs.readFileSync(process.env.SSL_KEY_PATH),
-    cert: fs.readFileSync(process.env.SSL_CERT_PATH),
-    ca: fs.readFileSync(process.env.SSL_CA_PATH),
-  },
+// const fs = require("fs");
+const server = Http.createServer(
+  // {
+  //   key: fs.readFileSync(process.env.SSL_KEY_PATH),
+  //   cert: fs.readFileSync(process.env.SSL_CERT_PATH),
+  //   ca: fs.readFileSync(process.env.SSL_CA_PATH),
+  // },
   app
 );
 
