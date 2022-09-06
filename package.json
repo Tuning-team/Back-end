@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon ./bin/www",
     "test": "run jest",
     "build": "cross-env NODE_ENV=\"production\" webpack --config client/webpack.config.js -p",
     "dev": "cross-env NODE_ENV=\"development\" nodemon --ignore ./client/ index.js"
@@ -12,6 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
     "axios": "^0.27.2",
     "connect-mongo": "^4.6.0",
     "connect-mongodb-session": "^3.1.1",
