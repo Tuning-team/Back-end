@@ -1,6 +1,7 @@
 const CommentRepository = require("../c_repositories/comments.repository");
 const CollectionRepository = require("../c_repositories/collections.repository");
 const UserRepository = require("../c_repositories/users.repository");
+const { insertMany } = require("../d_schemas/videoSearch");
 
 class CommentService {
   commentRepository = new CommentRepository();

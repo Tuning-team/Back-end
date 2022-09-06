@@ -64,15 +64,15 @@ GET	https://www.myspaceti.me/api/collections/search?keyword=음악&offset=0&limi
 ## ---------------------- 컬렉션에 달린 댓글 관련 API ------------------------
 
 ### 10. collection_id 컬렉션에 달린 댓글 리스트 보기 : GET /api/comments/:collection_id
-GET	https://www.myspaceti.me/api/comments/6312cd792a4f77334033a9bd
+GET	https://www.myspaceti.me/api/comments/6316eed7b34698b92f0224ea
 
 
 ### 11. collection_id 컬렉션에 댓글 달기  : POST /api/comments/:collection_id
-POST https://www.myspaceti.me/api/comments/6312cd792a4f77334033a9bd
+POST https://www.myspaceti.me/api/comments/6316eed7b34698b92f0224ea
 Content-Type: application/json
 
 {
-   "comment" : "오 이런 컬렉션도 좋은 것 같아요!!"
+   "comment" : "오 짱!!"
 }
 
 ### 12. 특정 id를 가진 댓글을 수정하기  : PUT /api/comments/:collection_id
@@ -93,7 +93,7 @@ DELETE https://www.myspaceti.me/api/comments/63136b9625b3d37574b18bee
 
 ## ---------------------- 영상 찾기 관련 API ------------------------
 ### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
-GET https://www.myspaceti.me/api/search/videos/db?keyword=저스디스X소유
+GET https://www.myspaceti.me/api/search/videos/db?keyword=디자인
 
 
 ### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
