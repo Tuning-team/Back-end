@@ -185,19 +185,20 @@ class CollectionsService {
         category_id,
         collectionTitle,
         description,
-        videos,
-        likes,
-        createdAt,
+        videos, // videoId (유튜브)
       } = req.body;
 
+      const createdVideos = await this.videoRepository.createVideosByIds(
+        videos
+      );
+
+      const video_ids = createdVideos.map((e) => e._id.toString());
       const returnCollection = await this.collectionRepository.createCollection(
         user_id,
         category_id,
         collectionTitle,
         description,
-        videos,
-        likes,
-        createdAt
+        video_ids
       );
 
       res.status(201).json({
@@ -306,7 +307,7 @@ class CollectionsService {
           offset,
           limit
         );
-        
+
       const resultData = [];
 
       for (let i = 0; i < resultBySearch.length; i++) {
@@ -350,7 +351,7 @@ class CollectionsService {
     try {
       const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-      const { videos } = req.body;
+      const { videos } = req.body; //
 
       const thisCollection = await this.collectionRepository.getCollectionById(
         collection_id
@@ -368,7 +369,7 @@ class CollectionsService {
         const resultCollection =
           await this.collectionRepository.addVideoOnCollection(
             collection_id,
-            videos
+            videos //
           );
 
         res.status(201).json({

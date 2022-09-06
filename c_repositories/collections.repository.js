@@ -93,9 +93,7 @@ class CollectionRepository {
     category_id,
     collectionTitle,
     description,
-    videos,
-    likes,
-    createdAt
+    videos
   ) => {
     const collection = await Collection.create({
       user_id,
@@ -103,8 +101,6 @@ class CollectionRepository {
       collectionTitle,
       description,
       videos,
-      likes,
-      createdAt,
     });
     return collection;
   };
