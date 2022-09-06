@@ -1,10 +1,12 @@
 require("dotenv").config(); // 환경변수 적용
 const dev = process.env.NODE_ENV !== "production";
 const path = require("path");
+const createError = require("http-errors");
+const logger = require("morgan");
 
 const express = require("express");
 const cors = require("cors");
-const Https = require("https");
+
 const cookieParser = require("cookie-parser");
 
 const mongoose = require("mongoose");
@@ -30,20 +32,22 @@ console.log("Passport & GoogleStrategy _ 설정 완료!");
 // express 객체인 app은, CORS와 세션을 사용
 const app = express();
 
-if (dev) {
-  const webpackDev = require("./dev");
-  app.use(webpackDev.comp).use(webpackDev.hot);
-}
+// if (dev) {
+//   const webpackDev = require("./dev");
+//   app.use(webpackDev.comp).use(webpackDev.hot);
+// }
+
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.use(logger("dev"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    credentials: true,
-  })
-);
+app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
 
 app.use(
   session({
@@ -53,36 +57,36 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session()); // 그 세션은 passport에서 관리
 
 // 라우터 적용
 const routes = require("./a_routes/index.js");
+// app.use(express.static(path.join(__dirname, "client", "dist")));
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+// });
 
-app.use(express.static(path.join(__dirname, "client", "dist")));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+app.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
-
 app.use("/api", routes); // to /a_routes/index.js
 
-console.log("-------- app 객체에 세션 설정완료 ----------------");
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
-// https 옵션 적용해서 서버 개설
-const fs = require("fs");
-const https = Https.createServer(
-  {
-    key: fs.readFileSync(process.env.SSL_KEY_PATH),
-    cert: fs.readFileSync(process.env.SSL_CERT_PATH),
-    ca: fs.readFileSync(process.env.SSL_CA_PATH),
-  },
-  app
-);
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-// 서버 Open
-https.listen(process.env.HTTPS_PORT, () => {
-  console.log(`Start listen Server: ${process.env.HTTPS_PORT}`);
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
 });
 
 module.exports = app;
