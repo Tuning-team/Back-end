@@ -68,10 +68,7 @@ class CollectionRepository {
 
   // 작성된 컬렉션 상세 조회
   getCollectionById = async (_id) => {
-    console.log("_id", _id);
-
     const collection = await Collection.findOne({ _id });
-    console.log("collection", collection);
     return collection;
   };
 

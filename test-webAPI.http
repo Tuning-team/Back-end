@@ -14,11 +14,11 @@ POST https://localhost/api/collections
 Content-Type: application/json
 
 {
-    "category_id": "630f31258b8c916480f96adf",
-    "collectionTitle": "갬성 터지는 음악2",
-    "description": "갬성 터지는 음악 너무 좋아요",
-    "videos": ["KefKOFGy5I0",
-        "Lux8xJMQH-k"]
+    "category_id": "6312c45c65fc44c5a50ee0e3",
+    "collectionTitle": "내 게임 영상",
+    "description": "롤 좋아요",
+    "videos": ["cEwe79YQSqU",
+        "GftRMtJ0"]
 }
 
 
@@ -49,7 +49,7 @@ Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	https://www.myspaceti.me/api/collections?category_id=630f31258b8c916480f96adf&offset=0&limit=3
+GET	https://www.myspaceti.me/api/collections?category_id=6312c45c65fc44c5a50ee0e3&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
@@ -93,7 +93,7 @@ DELETE https://www.myspaceti.me/api/comments/63136b9625b3d37574b18bee
 
 ## ---------------------- 영상 찾기 관련 API ------------------------
 ### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
-GET https://www.myspaceti.me/api/search/videos/db?keyword=운동
+GET https://www.myspaceti.me/api/search/videos/db?keyword=저스디스X소유
 
 
 ### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
@@ -130,7 +130,7 @@ GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpW
 
 
 ### 22. 영상 아이디를 하나 넣으면 그 채널 전체의 재생목록 영상을 검색가능하게 함
-POST https://localhost/api/videos/add/bq2JtMb1a4w,g-39OF50pUw
+POST https://www.myspaceti.me/api/videos/add/FPkrJjDO7Fc
 
 
 ### axios test
