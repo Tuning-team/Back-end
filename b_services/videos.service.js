@@ -2,12 +2,14 @@ const VideoRepository = require("../c_repositories/videos.repository");
 3;
 const CollectionRepository = require("../c_repositories/collections.repository");
 const axios = require("axios");
+const VideoDataBaseCreator = require("../everyday-data-setter/video-db.creator");
 
 class VideoService {
   videoRepository = new VideoRepository();
   collectionRepository = new CollectionRepository();
+  videoDataBaseCreator = new VideoDataBaseCreator();
 
-  //비디오 리스트 보기
+  // 비디오 리스트 보기
   getVideosOn = async (req, res) => {
     try {
       // 재료
@@ -52,7 +54,7 @@ class VideoService {
     }
   };
 
-  //비디오 상세 조회
+  // 비디오 상세 조회
   getVideosDetail = async (req, res) => {
     try {
       // 비디오 DB 아이디 -> DB 찾아보고
@@ -76,6 +78,36 @@ class VideoService {
           data: axiosResult.data.items,
         });
       }
+    } catch (error) {
+      console.log(error);
+      res
+        .status(400)
+        .json({ success: false, message: "검색에 실패하였습니다." });
+    }
+  };
+
+  // 특정 채널 안의 재생목록 안의 영상을 검색목록에 추가하기
+  addPLVideosOfChannelToSearch = async (req, res) => {
+    try {
+      const { videoId } = req.params;
+
+      const axiosResult = await axios.get(
+        `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=${videoId}`
+      );
+
+      const channelId = axiosResult.data.items.map((e) => e.snippet.channelId);
+      console.log("channelId:", channelId);
+
+      let channelsArr = [];
+      channelsArr = [...channelsArr, ...channelId];
+      console.log("channelsArr:", channelsArr);
+
+      await this.videoDataBaseCreator.createAllVideosOnChannelIds(channelsArr);
+
+      res.status(200).json({
+        success: true,
+        message: "해당 채널의 비디오 목록을 저장했습니다.",
+      });
     } catch (error) {
       console.log(error);
       res

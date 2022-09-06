@@ -1,11 +1,12 @@
 const Video = require("../d_schemas/video");
+const axios = require("axios");
 
 class VideoRepository {
   //비디오 조회
   getVideoById = async (_id) => {
     const thisVideo = await Video.findOne({ _id });
     return thisVideo;
-  };  
+  };
 
   //작성된 비디오들 조회
   getAllVideos = async (orderBy = "DESC") => {
@@ -14,7 +15,7 @@ class VideoRepository {
     });
 
     return allVideos;
-  };  
+  };
 
   //생성
   createVideo = async (
@@ -35,6 +36,32 @@ class VideoRepository {
     });
 
     return createdVideo;
+  };
+
+  createVideosByIds = async (videos) => {
+    try {
+      const axiosResult = await axios.get(
+        `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=${videos}`
+      );
+
+      const array = axiosResult.data.items.map((e) => {
+        return {
+          videoId: e.id,
+          videoTitle: e.snippet.title,
+          category_id: e.snippet.categoryId,
+          channelTitle: e.snippet.channelTitle,
+          channelId: e.snippet.channelId,
+          thumbnails: e.snippet.thumbnails.medium.url,
+          description: e.snippet.description,
+        };
+      });
+
+      let returnArr = await Video.insertMany(array);
+
+      return returnArr;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   //수정
