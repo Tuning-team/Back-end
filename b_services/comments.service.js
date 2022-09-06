@@ -1,9 +1,11 @@
 const CommentRepository = require("../c_repositories/comments.repository");
 const CollectionRepository = require("../c_repositories/collections.repository");
+const UserRepository = require("../c_repositories/users.repository");
 
 class CommentService {
   commentRepository = new CommentRepository();
   collectionRepository = new CollectionRepository();
+  userRepository = new UserRepository();
   //댓글 작성
   leaveCommentOn = async (req, res) => {
     try {
@@ -57,15 +59,14 @@ class CommentService {
           await this.commentRepository.getAllCommentsOnCollectionId(
             collection_id
           );
-
-        const data = allCommentsInfo.map((el) => {
-          // const writerName = await this.userRepository.getUserNameById(el.user_id)
-
+        
+        const data = allCommentsInfo.map((el) => {       
+          
           return {
             comment_id: el._id,
             user_id: el.user_id,
             comment: el.comment,
-            createdAt: el.createdAt,
+            createdAt: el.createdAt,            
           };
         });
 

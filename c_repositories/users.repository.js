@@ -5,7 +5,7 @@ class UsersRepository {
   getUserById = async (user_id) => {
     const returnUserInfo = await User.findOne({ _id: user_id });
     return returnUserInfo;
-  };
+  };  
 
   // 유저 정보 수정
   updateVideo = async (_id, profilePicUrl, displayName) => {

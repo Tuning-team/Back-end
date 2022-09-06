@@ -127,6 +127,8 @@ GET	https://localhost/api/videos/detail/630f1dbfe3771dcdaf005a21
 ### 유튜브API 직접 접근 (맨 뒤에 PZIPsKgWJiw만 유튜브 고유 번호로 변경) 
 GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&maxResults=50&regionCode=kr&id=PZIPsKgWJiw
 
+### 22. 유튜브 영상 업로드
+POST https://www.myspaceti.me/api/videos/add/oNylVChJwVU
 
 
 
