@@ -141,10 +141,12 @@ class VideoDataBaseCreator {
               // description: e.snippet.description,
             };
           });
-
+          // console.log("주입된 array - ", array);
           VideoSearch.insertMany(array)
-            .then((e) => console.log("저장완료!", e))
-            .catch((err) => {});
+            .then((e) => console.log("🟢 저장완료!---", e))
+            .catch((err) => {
+              console.log("❌ 저장실패!---");
+            });
         }
       }
     } catch (error) {

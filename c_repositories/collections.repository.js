@@ -77,22 +77,14 @@ class CollectionRepository {
 
   // 작성된 컬렉션 상세 조회, 페이지네이션 사용
   getCollectionByIdWithPaging = async (_id, offset, limit) => {
-    const { videos } = await Collection.findOne({_id});    
+    const { videos } = await Collection.findOne({ _id });
 
     const totalVideosView = videos.length;
     const hasNext = totalVideosView - offset - limit > 0 ? true : false;
 
-    const videosIdToShow = videos.slice(offset,offset+limit);
+    const videosIdToShow = videos.slice(offset, offset + limit);
 
     return { videosIdToShow, totalVideosView, hasNext };
-    
-
-    // const collection = await Collection.findOne({ _id })
-
-    //   .skip(offset) // 아래 설명 보기
-    //   .limit(limit);      
-    
-    // return { collection, totalVideosView, hasNext };
   };
 
   // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
@@ -101,9 +93,7 @@ class CollectionRepository {
     category_id,
     collectionTitle,
     description,
-    videos,
-    likes,
-    createdAt
+    videos
   ) => {
     const collection = await Collection.create({
       user_id,
@@ -111,8 +101,6 @@ class CollectionRepository {
       collectionTitle,
       description,
       videos,
-      likes,
-      createdAt,
     });
     return collection;
   };
@@ -199,18 +187,6 @@ class CollectionRepository {
 
     return { resultBySearch, totalContents, hasNext };
   };
-
-  // 페이지네이션
-  // getPagination = async () => {
-  //   const page = Number(req.query.page || 1); // 값이 없다면 기본값으로 1 사용
-  //   const perPage = Number(req.query.perPage || 3);
-
-  //   const allCollections = await Collection.find({})
-  //     .sort({ createdAt: -1 }) // createdAt는 timestamps로 생성한 시간을 역순으로 정렬 === 데이터를 최근 순으로 정렬
-  //     .skip(perPage * (page - 1)) // 아래 설명 보기
-  //     .limit(perPage);
-  //   const totalPage = Math.ceil(total / perPage); // 만약 전체 게시글 99개고 perPage가 10개면 값은 9.9 그래서 총 페이지수는 10개가 되어야 한다. 그래서 올림을 해준다.
-  // };
 }
 
 module.exports = CollectionRepository;
