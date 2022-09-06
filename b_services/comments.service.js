@@ -59,16 +59,40 @@ class CommentService {
           await this.commentRepository.getAllCommentsOnCollectionId(
             collection_id
           );
-        
-        const data = allCommentsInfo.map((el) => {       
-          
-          return {
-            comment_id: el._id,
-            user_id: el.user_id,
-            comment: el.comment,
-            createdAt: el.createdAt,            
-          };
-        });
+
+        // let data = [];
+        // for (let i = 0; i < allCommentsInfo.length; i++) {
+        //   const writerInfo = await this.userRepository.getUserById(
+        //     allCommentsInfo[i].user_id
+        //   );
+
+        //   console.log(writerInfo);
+        //   data.push({
+        //     comment_id: allCommentsInfo[i]._id,
+        //     user_id: allCommentsInfo[i].user_id,
+        //     writerName: writerInfo.displayName,
+        //     writerProfilePic: writerInfo.profilePicUrl,
+        //     comment: allCommentsInfo[i].comment,
+        //     createdAt: allCommentsInfo[i].createdAt,
+        //   });
+        // }
+
+        const data = await Promise.all(
+          allCommentsInfo.map(async (el) => {
+            const writerInfo = await this.userRepository.getUserById(
+              el.user_id
+            );
+
+            return {
+              comment_id: el._id,
+              user_id: el.user_id,
+              writerName: writerInfo.displayName,
+              writerProfilePic: writerInfo.profilePicUrl,
+              comment: el.comment,
+              createdAt: el.createdAt,
+            };
+          })
+        );
 
         res.status(200).json({
           status: true,
