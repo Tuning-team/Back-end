@@ -31,6 +31,7 @@ class CollectionsService {
       }
 
       const resultData = [];
+
       for (let i = 0; i < userDataAll.length; i++) {
         let collectionComments =
           await this.commentRepository.getAllCommentsOnCollectionId(
@@ -110,12 +111,33 @@ class CollectionsService {
           );
         let commentNum = collectionComments.length;
 
+        let thumbnailsArr = [];
+        for (let j = 0; j < categoryDataAll[i].videos.length; j++) {
+          try {
+            var { thumbnails } = await this.videoRepository.getVideoById(
+              categoryDataAll[i].videos[j]
+            );
+          } catch (error) {
+            var thumbnails = undefined;
+            console.log(error);
+          }
+
+          if (!thumbnails) {
+            thumbnailsArr.push(
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
+            );
+          } else {
+            thumbnailsArr.push(thumbnails);
+          }
+        }
+
         resultData.push({
           _id: categoryDataAll[i]._id,
           category_id: categoryDataAll[i].category_id,
           collectionTitle: categoryDataAll[i].collectionTitle,
           description: categoryDataAll[i].description,
           videos: categoryDataAll[i].videos,
+          thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: categoryDataAll[i].likes,
           createdAt: categoryDataAll[i].createdAt,
@@ -145,14 +167,27 @@ class CollectionsService {
       );
 
       if (!collection) {
-        res.json({ message: "해당 컬렉션이 없습니다." });
+        res
+          .status(400)
+          .json({ success: false, message: "컬렉션을 찾을 수 없습니다." });
       }
 
       let collectionComments =
         await this.commentRepository.getAllCommentsOnCollectionId(
           collection._id
         );
+
       let commentNum = collectionComments.length;
+      let thumbnailsArr = await Promise.all(
+        collection.videos.map(async (id) => {
+          var { thumbnails } = await this.videoRepository.getVideoById(id);
+          if (!thumbnails) {
+            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU";
+          } else {
+            return thumbnails; // "http:~~~ img"
+          }
+        })
+      );
 
       const returnCollection = [
         {
@@ -162,6 +197,7 @@ class CollectionsService {
           collectionTitle: collection.collectionTitle,
           description: collection.description,
           videos: collection.videos,
+          thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: collection.likes,
           createdAt: collection.createdAt,
@@ -317,6 +353,16 @@ class CollectionsService {
           );
 
         let commentNum = collectionComments.length;
+        let thumbnailsArr = await Promise.all(
+          resultBySearch[i].videos.map(async (e) => {
+            var { thumbnails } = await this.videoRepository.getVideoById(e);
+            if (!thumbnails) {
+              return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU";
+            } else {
+              return thumbnails; // "http:~~~ img"
+            }
+          })
+        );
 
         resultData.push({
           _id: resultBySearch[i]._id,
@@ -325,6 +371,7 @@ class CollectionsService {
           collectionTitle: resultBySearch[i].collectionTitle,
           description: resultBySearch[i].description,
           videos: resultBySearch[i].videos,
+          thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: resultBySearch[i].likes,
           createdAt: resultBySearch[i].createdAt,
