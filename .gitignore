@@ -1,5 +1,6 @@
 /node_modules
 /ssl
+/public
 test.js
 .npm
 package-lock.json

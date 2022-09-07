@@ -57,7 +57,6 @@ app.use(passport.session()); // 그 세션은 passport에서 관리
 
 // 라우터 적용
 const routes = require("./a_routes/index.js");
-
 app.use("/api", routes); // to /a_routes/index.js
 
 // catch 404 에러핸들러
