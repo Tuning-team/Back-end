@@ -14,7 +14,9 @@ class CollectionsService {
   getAllCollectionsByUserId = async (req, res) => {
     try {
       // const { user_id } = req.body;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
       const { offset, limit } = req.query;
 
       const { userDataAll, totalContents, hasNext } =

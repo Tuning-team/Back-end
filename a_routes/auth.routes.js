@@ -1,3 +1,5 @@
+require("dotenv").config(); // 환경변수 적용
+
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
