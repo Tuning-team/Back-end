@@ -1,4 +1,4 @@
-@host = https://tube-tuning.com
+@host = http://localhost:4000
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
@@ -24,7 +24,8 @@ Content-Type: application/json
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/630f30fa71d6081b5c178ed2
+GET	{{host}}/api/collections/6316eed7b34698b92f0224ea
+
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
