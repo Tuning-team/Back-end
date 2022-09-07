@@ -40,10 +40,8 @@ router.get("/logout", function (req, res, next) {
 });
 
 // 구글 로그인 관련
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+router.get("/google", passport.authenticate("google"));
+
 router.get(
   "/google_callback",
   passport.authenticate("google", {
@@ -55,8 +53,6 @@ router.get(
     res
       .status(200)
       .cookie("user", req.user, {
-        sameSite: "none",
-        secure: true,
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24, // 1 day
       })
