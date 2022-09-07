@@ -36,12 +36,7 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
 
 app.use(
   session({
@@ -58,6 +53,15 @@ app.use(passport.session()); // 그 세션은 passport에서 관리
 // 라우터 적용
 const routes = require("./a_routes/index.js");
 app.use("/api", routes); // to /a_routes/index.js
+
+// view engine setup
+app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
+});
 
 // catch 404 에러핸들러
 app.use(function (req, res, next) {
@@ -87,8 +91,4 @@ module.exports = app;
 // app.use(express.static(path.join(__dirname, "client", "dist")));
 // app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-// });
-
-// app.get("/", function (req, res, next) {
-//   res.render("index", { title: "Express" });
 // });
