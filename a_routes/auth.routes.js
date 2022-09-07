@@ -37,8 +37,6 @@ router.get("/logout", function (req, res, next) {
   });
 });
 
-module.exports = router;
-
 // 구글 로그인 관련
 router.get(
   "/google",
@@ -63,3 +61,5 @@ router.get(
       .redirect(process.env.REDIRECT_PATH);
   }
 );
+
+module.exports = router;
