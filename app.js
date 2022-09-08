@@ -2,7 +2,7 @@ require("dotenv").config(); // 환경변수 적용
 const dev = process.env.NODE_ENV !== "production";
 const path = require("path");
 const createError = require("http-errors");
-// const logger = require("morgan");
+const logger = require("morgan");
 
 const express = require("express");
 const cors = require("cors");
@@ -32,7 +32,7 @@ console.log("Passport & GoogleStrategy _ 설정 완료!");
 // express 객체인 app은, CORS와 세션을 사용
 const app = express();
 
-// app.use(logger("dev"));
+app.use(logger("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
