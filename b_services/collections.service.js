@@ -25,7 +25,6 @@ class CollectionsService {
           offset,
           limit
         );
-
       if (!userDataAll) {
         res
           .status(400)
@@ -74,7 +73,6 @@ class CollectionsService {
           createdAt: userDataAll[i].createdAt,
         });
       }
-
       res.status(200).json({
         success: true,
         data: resultData,
@@ -219,7 +217,9 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
       let {
         category_id, //
@@ -260,7 +260,9 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
       const { collection_id } = req.params;
 
@@ -295,7 +297,9 @@ class CollectionsService {
     try {
       const { collection_id } = req.params;
       // const { user_id } = req.body;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(
