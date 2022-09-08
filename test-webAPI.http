@@ -1,4 +1,4 @@
-@host = http://localhost:4000
+@host = https://tube-tuning.com
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
