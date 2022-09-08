@@ -12,7 +12,9 @@ class CommentService {
     try {
       // 재료
       // const { user_id } = req.session.passport.user.user; // userId
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
       const { comment } = req.body;
 
@@ -112,7 +114,9 @@ class CommentService {
   //댓글 수정
   updateComment = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
       const { comment_id } = req.params;
       const { comment } = req.body;
 

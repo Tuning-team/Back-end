@@ -60,7 +60,7 @@ class VideoRepository {
         array.map(async (e) => {
           const foundVideo = await Video.findOne({ videoId: e.videoId });
           console.log("foundVideo", foundVideo);
-          if (foundVideo.videoId) {
+          if (foundVideo) {
             return foundVideo;
           } else {
             const createdVideo = await Video.create(e);
@@ -91,6 +91,7 @@ class VideoRepository {
     );
     return updatedVideo;
   };
+
   //삭제
   deleteVideo = async (_id) => {
     const deletedVideo = await Video.deleteOne({ _id: _id });
