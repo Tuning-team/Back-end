@@ -1,4 +1,4 @@
-@host = https://tube-tuning.com
+@host = http://localhost:4000
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
@@ -15,21 +15,20 @@ POST {{host}}/api/collections
 Content-Type: application/json
 
 {
-    "category_id": "6312c45c65fc44c5a50ee0e3",
-    "collectionTitle": "내 게임 영상",
-    "description": "롤 좋아요",
-    "videos": ["cEwe79YQSqU",
-        "GftRMtJ0"]
+    "category_id": "6319aeebd1e330e86bbade8f",
+    "collectionTitle": "컬렉션 생성 테스트",
+    "description": "컬렉션을 생성합니다.",
+    "videos": ["AXUIt99p5dM", "BOTXQPVVI3o"]
 }
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/6316eed7b34698b92f0224ea
+GET	{{host}}/api/collections/6319e2bb9dbc9f0427279e97
 
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
-DELETE {{host}}/api/collections/631594404d6491e5475fa1db
+DELETE {{host}}/api/collections/6319bcddd199775ba30540d4
 
 ### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
 PUT	{{host}}/api/collections/63136cbd25b3d37574b18bfd
@@ -41,7 +40,7 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/630f30fa71d6081b5c178ed1
+PUT	{{host}}/api/collections/like/6319bcddd199775ba30540d4
 Content-Type: application/json
 
 
@@ -51,7 +50,7 @@ Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	{{host}}/api/collections?category_id=6312c45c65fc44c5a50ee0e3&offset=0&limit=3
+GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade9f&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
@@ -119,11 +118,11 @@ GET {{host}}/api/user/6312ad8b5057863778c220ca
 
 ## ---------------------- 영상 관련 API  ------------------------
 ### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id
-GET	{{host}}/api/videos/6312cd792a4f77334033a9be?offset=3&limit=3
+GET	{{host}}/api/videos/6319639a38a0caa8264013e2?offset=5&limit=10
 
 
 ### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id
-GET	{{host}}/api/videos/detail/6316ed250e31df6d8ef56c37
+GET	{{host}}/api/videos/detail/63181e7111e3af2a13d12024
 
 
 ### 21. 유튜브영상의 고유 videoId(우리 DB의 영상_id 아님)로 유튜브 썸네일 등 상세정보 찾기
