@@ -45,11 +45,13 @@ class CollectionRepository {
 
   // category_id를 받아 작성된 모든 컬렉션 조회 (페이지네이션 필요한 경우)
   getAllCollectionsByCategoryIdWithPaging = async (
-    category_id,
+    category_id, //
     offset,
     limit
   ) => {
-    const callForCount = await Collection.find({ category_id }).sort({
+    const callForCount = await Collection.find({
+      category_id: category_id,
+    }).sort({
       createdAt: -1,
     });
 
@@ -68,8 +70,6 @@ class CollectionRepository {
 
   // 작성된 컬렉션 상세 조회
   getCollectionById = async (_id) => {
-    console.log("_id", _id);
-
     const collection = await Collection.findOne({ _id });
     console.log("collection", collection);
     return collection;
@@ -93,9 +93,7 @@ class CollectionRepository {
     category_id,
     collectionTitle,
     description,
-    videos,
-    likes,
-    createdAt
+    videos
   ) => {
     const collection = await Collection.create({
       user_id,
@@ -103,8 +101,6 @@ class CollectionRepository {
       collectionTitle,
       description,
       videos,
-      likes,
-      createdAt,
     });
     return collection;
   };

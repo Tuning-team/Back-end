@@ -18,7 +18,6 @@ const Users = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    required: true,
   },
   profilePicUrl: {
     type: String,

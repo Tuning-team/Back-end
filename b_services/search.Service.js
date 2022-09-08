@@ -30,9 +30,9 @@ class SearchService {
     try {
       const { keyword } = req.query;
 
-      const url = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=id,snippet&maxResults=50&regionCode=kr&q=${encodeURI(
-        keyword
-      )}`;
+      const url = `https://www.googleapis.com/youtube/v3/search?key=${
+        process.env.YOUTUBE_API_KEY
+      }&part=id,snippet&maxResults=50&regionCode=kr&q=${encodeURI(keyword)}`;
 
       const returnVideos = await axios(url);
       const resultArr = returnVideos.data.items.map((e) => {

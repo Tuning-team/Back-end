@@ -14,7 +14,9 @@ class CollectionsService {
   getAllCollectionsByUserId = async (req, res) => {
     try {
       // const { user_id } = req.body;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
       const { offset, limit } = req.query;
 
       const { userDataAll, totalContents, hasNext } =
@@ -23,7 +25,6 @@ class CollectionsService {
           offset,
           limit
         );
-
       if (!userDataAll) {
         res
           .status(400)
@@ -31,6 +32,7 @@ class CollectionsService {
       }
 
       const resultData = [];
+
       for (let i = 0; i < userDataAll.length; i++) {
         let collectionComments =
           await this.commentRepository.getAllCommentsOnCollectionId(
@@ -61,6 +63,7 @@ class CollectionsService {
         resultData.push({
           _id: userDataAll[i]._id,
           user_id: userDataAll[i].user_id,
+          category_id: userDataAll[i].category_id[0],
           collectionTitle: userDataAll[i].collectionTitle,
           description: userDataAll[i].description,
           videos: userDataAll[i].videos,
@@ -70,7 +73,6 @@ class CollectionsService {
           createdAt: userDataAll[i].createdAt,
         });
       }
-
       res.status(200).json({
         success: true,
         data: resultData,
@@ -110,12 +112,33 @@ class CollectionsService {
           );
         let commentNum = collectionComments.length;
 
+        let thumbnailsArr = [];
+        for (let j = 0; j < categoryDataAll[i].videos.length; j++) {
+          try {
+            var { thumbnails } = await this.videoRepository.getVideoById(
+              categoryDataAll[i].videos[j]
+            );
+          } catch (error) {
+            var thumbnails = undefined;
+            console.log(error);
+          }
+
+          if (!thumbnails) {
+            thumbnailsArr.push(
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
+            );
+          } else {
+            thumbnailsArr.push(thumbnails);
+          }
+        }
+
         resultData.push({
           _id: categoryDataAll[i]._id,
-          category_id: categoryDataAll[i].category_id,
+          category_id: categoryDataAll[i].category_id[0],
           collectionTitle: categoryDataAll[i].collectionTitle,
           description: categoryDataAll[i].description,
           videos: categoryDataAll[i].videos,
+          thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: categoryDataAll[i].likes,
           createdAt: categoryDataAll[i].createdAt,
@@ -145,23 +168,38 @@ class CollectionsService {
       );
 
       if (!collection) {
-        res.json({ message: "해당 컬렉션이 없습니다." });
+        res
+          .status(400)
+          .json({ success: false, message: "컬렉션을 찾을 수 없습니다." });
       }
 
       let collectionComments =
         await this.commentRepository.getAllCommentsOnCollectionId(
-          collection._id
+          collection_id
         );
+
       let commentNum = collectionComments.length;
+      let thumbnailsArr = await Promise.all(
+        collection.videos.map(async (id) => {
+          var { thumbnails } = await this.videoRepository.getVideoById(id);
+          console.log(thumbnails);
+          if (!thumbnails) {
+            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU";
+          } else {
+            return thumbnails; // "http:~~~ img"
+          }
+        })
+      );
 
       const returnCollection = [
         {
           _id: collection._id,
           user_id: collection.user_id,
-          category_id: collection.category_id,
+          category_id: collection.category_id[0],
           collectionTitle: collection.collectionTitle,
           description: collection.description,
           videos: collection.videos,
+          thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: collection.likes,
           createdAt: collection.createdAt,
@@ -179,25 +217,31 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
-      const {
-        category_id,
+      let {
+        category_id, //
         collectionTitle,
         description,
-        videos,
-        likes,
-        createdAt,
+        videos, // videoId (유튜브)
       } = req.body;
 
+      const createdVideos = await this.videoRepository.createVideosByIds(
+        videos
+      );
+      category_id = [category_id];
+      console.log("videos", videos);
+      console.log("createdVideos", createdVideos);
+
+      const video_ids = createdVideos.map((e) => e._id.toString());
       const returnCollection = await this.collectionRepository.createCollection(
         user_id,
         category_id,
         collectionTitle,
         description,
-        videos,
-        likes,
-        createdAt
+        video_ids
       );
 
       res.status(201).json({
@@ -216,7 +260,9 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
       const { collection_id } = req.params;
 
@@ -251,7 +297,9 @@ class CollectionsService {
     try {
       const { collection_id } = req.params;
       // const { user_id } = req.body;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -306,7 +354,7 @@ class CollectionsService {
           offset,
           limit
         );
-        
+
       const resultData = [];
 
       for (let i = 0; i < resultBySearch.length; i++) {
@@ -316,14 +364,25 @@ class CollectionsService {
           );
 
         let commentNum = collectionComments.length;
+        let thumbnailsArr = await Promise.all(
+          resultBySearch[i].videos.map(async (e) => {
+            var { thumbnails } = await this.videoRepository.getVideoById(e);
+            if (!thumbnails) {
+              return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU";
+            } else {
+              return thumbnails; // "http:~~~ img"
+            }
+          })
+        );
 
         resultData.push({
           _id: resultBySearch[i]._id,
           user_id: resultBySearch[i].user_id,
-          category_id: resultBySearch[i].category_id,
+          category_id: resultBySearch[i].category_id[0],
           collectionTitle: resultBySearch[i].collectionTitle,
           description: resultBySearch[i].description,
           videos: resultBySearch[i].videos,
+          thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: resultBySearch[i].likes,
           createdAt: resultBySearch[i].createdAt,
@@ -350,7 +409,7 @@ class CollectionsService {
     try {
       const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-      const { videos } = req.body;
+      const { videos } = req.body; //
 
       const thisCollection = await this.collectionRepository.getCollectionById(
         collection_id
@@ -368,7 +427,7 @@ class CollectionsService {
         const resultCollection =
           await this.collectionRepository.addVideoOnCollection(
             collection_id,
-            videos
+            videos //
           );
 
         res.status(201).json({

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const VideoSchema = new mongoose.Schema({
   videoId: {
     type: String,
+    unique: true,
     required: true,
   },
   videoTitle: {

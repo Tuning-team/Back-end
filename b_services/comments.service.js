@@ -1,15 +1,20 @@
 const CommentRepository = require("../c_repositories/comments.repository");
 const CollectionRepository = require("../c_repositories/collections.repository");
+const UserRepository = require("../c_repositories/users.repository");
+const { insertMany } = require("../d_schemas/videoSearch");
 
 class CommentService {
   commentRepository = new CommentRepository();
   collectionRepository = new CollectionRepository();
+  userRepository = new UserRepository();
   //댓글 작성
   leaveCommentOn = async (req, res) => {
     try {
       // 재료
       // const { user_id } = req.session.passport.user.user; // userId
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
       const { comment } = req.body;
 
@@ -58,16 +63,39 @@ class CommentService {
             collection_id
           );
 
-        const data = allCommentsInfo.map((el) => {
-          // const writerName = await this.userRepository.getUserNameById(el.user_id)
+        // let data = [];
+        // for (let i = 0; i < allCommentsInfo.length; i++) {
+        //   const writerInfo = await this.userRepository.getUserById(
+        //     allCommentsInfo[i].user_id
+        //   );
 
-          return {
-            comment_id: el._id,
-            user_id: el.user_id,
-            comment: el.comment,
-            createdAt: el.createdAt,
-          };
-        });
+        //   console.log(writerInfo);
+        //   data.push({
+        //     comment_id: allCommentsInfo[i]._id,
+        //     user_id: allCommentsInfo[i].user_id,
+        //     writerName: writerInfo.displayName,
+        //     writerProfilePic: writerInfo.profilePicUrl,
+        //     comment: allCommentsInfo[i].comment,
+        //     createdAt: allCommentsInfo[i].createdAt,
+        //   });
+        // }
+
+        const data = await Promise.all(
+          allCommentsInfo.map(async (el) => {
+            const writerInfo = await this.userRepository.getUserById(
+              el.user_id
+            );
+
+            return {
+              comment_id: el._id,
+              user_id: el.user_id,
+              writerName: writerInfo.displayName,
+              writerProfilePic: writerInfo.profilePicUrl,
+              comment: el.comment,
+              createdAt: el.createdAt,
+            };
+          })
+        );
 
         res.status(200).json({
           status: true,
@@ -86,7 +114,9 @@ class CommentService {
   //댓글 수정
   updateComment = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
       const { comment_id } = req.params;
       const { comment } = req.body;
 
