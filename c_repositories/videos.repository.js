@@ -41,7 +41,7 @@ class VideoRepository {
   createVideosByIds = async (videos) => {
     try {
       const axiosResult = await axios.get(
-        `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=${videos}`
+        `https://www.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_KEY}&part=snippet&regionCode=kr&id=${videos}`
       );
 
       const array = axiosResult.data.items.map((e) => {

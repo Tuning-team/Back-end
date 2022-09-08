@@ -69,7 +69,7 @@ class VideoService {
         // 찾으면 그 비디오의 유튜브 아이디로 영상 디테일을 확보
       } else {
         const axiosResult = await axios.get(
-          `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=${thisVideo.videoId}`
+          `https://www.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_KEY}&part=snippet&regionCode=kr&id=${thisVideo.videoId}`
         );
 
         res.status(200).json({
@@ -92,7 +92,7 @@ class VideoService {
       const { videoId } = req.params;
 
       const axiosResult = await axios.get(
-        `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=${videoId}`
+        `https://www.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_KEY}&part=snippet&regionCode=kr&id=${videoId}`
       );
 
       const channelId = axiosResult.data.items.map((e) => e.snippet.channelId);
