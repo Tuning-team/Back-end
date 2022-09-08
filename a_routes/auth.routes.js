@@ -1,3 +1,5 @@
+require("dotenv").config(); // 환경변수 적용
+
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
@@ -37,17 +39,14 @@ router.get("/logout", function (req, res, next) {
   });
 });
 
-module.exports = router;
-
 // 구글 로그인 관련
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+router.get("/google", passport.authenticate("google"));
+
 router.get(
   "/google_callback",
   passport.authenticate("google", {
-    failureRedirect: process.env.REDIRECT_PATH,
+    failureRedirect: "/",
+    failureMessage: true,
   }),
   (req, res) => {
     console.log("세션에 들어갈 user 객체:", req.user);
@@ -55,11 +54,11 @@ router.get(
     res
       .status(200)
       .cookie("user", req.user, {
-        sameSite: "none",
-        secure: true,
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24, // 1 day
       })
-      .redirect(process.env.REDIRECT_PATH);
+      .redirect("/");
   }
 );
+
+module.exports = router;
