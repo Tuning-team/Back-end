@@ -16,7 +16,8 @@ module.exports = () => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/api/google_callback",
+        callbackURL: "https://tube-tuning.com/api/google_callback",
+        scope: ["https://www.googleapis.com/auth/youtube", "profile", "email"],
       },
       // 누군가 로그인을 했을 때 실행되는 콜백 함수
       async (accessToken, refreshToken, profile, done) => {
@@ -37,12 +38,14 @@ module.exports = () => {
           let user = await Users.findOne({ googleId: newUser.googleId });
 
           if (user) {
-            await videoDataBaseCreator.getAllSubscribedChannel(accessToken); // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
+            // await videoDataBaseCreator.getAllSubscribedChannel(accessToken);
+            // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
 
             return done(null, { user, accessToken });
           } else {
             user = await Users.create(newUser);
-            await videoDataBaseCreator.getAllSubscribedChannel(accessToken); // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
+            // await videoDataBaseCreator.getAllSubscribedChannel(accessToken);
+            // 새로 가입한 유저 -> 구독채널의 주요 영상 추가 (엑세스 토큰 활용)
             return done(null, { user, accessToken });
           }
           // done의 2번째 인자 -> session.user = { user, accessToken }
