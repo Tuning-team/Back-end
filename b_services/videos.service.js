@@ -33,6 +33,8 @@ class VideoService {
         // const videosArray = thisCollection.videos; // ["p9HjZshdjt4", .... ]
 
         let element;
+
+        // console.log("videosIdToShow", videosIdToShow);
         let data = [];
         for (let i = 0; i < videosIdToShow.length; i++) {
           element = await this.videoRepository.getVideoById(videosIdToShow[i]);
