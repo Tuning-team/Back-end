@@ -56,8 +56,20 @@ class VideoRepository {
         };
       });
 
-      let returnArr = await Video.insertMany(array);
+      let returnArr = await Promise.all(
+        array.map(async (e) => {
+          const foundVideo = await Video.findOne({ videoId: e.videoId });
+          console.log("foundVideo", foundVideo);
+          if (foundVideo) {
+            return foundVideo;
+          } else {
+            const createdVideo = await Video.create(e);
+            return createdVideo;
+          }
+        })
+      );
 
+      console.log("returnArr", returnArr);
       return returnArr;
     } catch (err) {
       console.log(err);
@@ -79,6 +91,7 @@ class VideoRepository {
     );
     return updatedVideo;
   };
+
   //삭제
   deleteVideo = async (_id) => {
     const deletedVideo = await Video.deleteOne({ _id: _id });

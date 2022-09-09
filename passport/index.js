@@ -18,7 +18,6 @@ module.exports = () => {
     console.log("data.user.googleId", data.user.googleId);
     Users.findOne({ googleId: data.user.googleId })
       .then((user) => {
-        console.log("done, user", user);
         done(null, user);
       })
       .catch((err) => done(err));

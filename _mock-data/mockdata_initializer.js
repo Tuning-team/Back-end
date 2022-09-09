@@ -33,7 +33,7 @@ try {
 }
 
 // const dataInitializer = () => {
-//   const createdCollections = Collections.create(collections);
+// const createdCollections = Collections.create(collections);
 //   const createdComments = Comments.create(comments);
 //   const createdCategories = Categories.create(categories);
 //   const createdVideos = Videos.create(videos);
