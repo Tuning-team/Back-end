@@ -1,9 +1,8 @@
-@host = http://localhost:4000
+@host = https://tube-tuning.com
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
 GET	{{host}}/api/categories
-
 
 
 
@@ -15,24 +14,23 @@ POST {{host}}/api/collections
 Content-Type: application/json
 
 {
-    "category_id": "6312c45c65fc44c5a50ee0e3",
-    "collectionTitle": "내 게임 영상",
-    "description": "롤 좋아요",
-    "videos": ["cEwe79YQSqU",
-        "GftRMtJ0"]
+    "category_id": "6319aeebd1e330e86bbade88",
+    "collectionTitle": "방탄소년단 모음",
+    "description": "BTS 짱!",
+    "videos": ["nWJB1U7cQVs", "22Gguht_plk"]
 }
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/6316eed7b34698b92f0224ea
+GET	{{host}}/api/collections/6312cd792a4f77334033a9c0
 
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
-DELETE {{host}}/api/collections/631594404d6491e5475fa1db
+DELETE {{host}}/api/collections/6319e2bb9dbc9f0427279e97
 
 ### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
-PUT	{{host}}/api/collections/63136cbd25b3d37574b18bfd
+PUT	{{host}}/api/collections/6319e4b3ec6de8cd33569795
 Content-Type: application/json
 
 {
@@ -41,21 +39,21 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/630f30fa71d6081b5c178ed1
+PUT	{{host}}/api/collections/like/6319e4b3ec6de8cd33569795
 Content-Type: application/json
 
 
 ### 7. 내가 생성한 컬렉션 리스트 : GET /api/collections/mine
-GET	{{host}}/api/collections/mine?offset=4&limit=4
+GET	{{host}}/api/collections/mine?offset=0&limit=3
 Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	{{host}}/api/collections?category_id=6312c45c65fc44c5a50ee0e3&offset=0&limit=3
+GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7b&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
-GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=3
+GET	{{host}}/api/collections/search?keyword=게임&offset=0&limit=3
 
 
 
@@ -66,11 +64,11 @@ GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=3
 ## ---------------------- 컬렉션에 달린 댓글 관련 API ------------------------
 
 ### 10. collection_id 컬렉션에 달린 댓글 리스트 보기 : GET /api/comments/:collection_id
-GET	{{host}}/api/comments/6316eed7b34698b92f0224ea
+GET	{{host}}/api/comments/6319e2bb9dbc9f0427279e9f
 
 
 ### 11. collection_id 컬렉션에 댓글 달기  : POST /api/comments/:collection_id
-POST {{host}}/api/comments/6316eed7b34698b92f0224ea
+POST {{host}}/api/comments/6319e2bb9dbc9f0427279e9f
 Content-Type: application/json
 
 {
@@ -78,7 +76,7 @@ Content-Type: application/json
 }
 
 ### 12. 특정 id를 가진 댓글을 수정하기  : PUT /api/comments/:collection_id
-PUT	{{host}}/api/comments/63136b9625b3d37574b18bee
+PUT	{{host}}/api/comments/6319e5f9ec6de8cd335697dc
 Content-Type: application/json
 
 {
@@ -87,7 +85,7 @@ Content-Type: application/json
 
 
 ### 13. 특정 id를 가진 댓글을 삭제하기  : DELETE /api/comments/:collection_id
-DELETE {{host}}/api/comments/63136b9625b3d37574b18bee
+DELETE {{host}}/api/comments/6319e5f9ec6de8cd335697dc
 
 
 
@@ -95,7 +93,7 @@ DELETE {{host}}/api/comments/63136b9625b3d37574b18bee
 
 ## ---------------------- 영상 찾기 관련 API ------------------------
 ### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
-GET {{host}}/api/search/videos/db?keyword=디자인
+GET {{host}}/api/search/videos/db?keyword=방탄소년단
 
 
 ### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
@@ -119,11 +117,11 @@ GET {{host}}/api/user/6312ad8b5057863778c220ca
 
 ## ---------------------- 영상 관련 API  ------------------------
 ### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id
-GET	{{host}}/api/videos/6312cd792a4f77334033a9be?offset=3&limit=3
+GET	{{host}}/api/videos/6319e2bb9dbc9f0427279e97?offset=0&limit=5
 
 
 ### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id
-GET	{{host}}/api/videos/detail/6316ed250e31df6d8ef56c37
+GET	{{host}}/api/videos/detail/6319b24635968c5b0de7f0ec
 
 
 ### 21. 유튜브영상의 고유 videoId(우리 DB의 영상_id 아님)로 유튜브 썸네일 등 상세정보 찾기
@@ -132,4 +130,4 @@ GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpW
 
 
 ### 22. 영상 아이디를 하나 넣으면 그 채널 전체의 재생목록 영상을 검색가능하게 함
-POST {{host}}/api/videos/add/FPkrJjDO7Fc
+POST {{host}}/api/videos/add/XQGE6C8btv4

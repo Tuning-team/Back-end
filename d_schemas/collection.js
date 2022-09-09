@@ -6,8 +6,9 @@ const CollectionSchema = new mongoose.Schema({
     required: true,
   },
   category_id: {
-    type: String,
+    type: Array,
     required: true,
+    default: [],
   },
   collectionTitle: {
     type: String,

@@ -25,7 +25,6 @@ class CollectionsService {
           offset,
           limit
         );
-
       if (!userDataAll) {
         res
           .status(400)
@@ -64,6 +63,7 @@ class CollectionsService {
         resultData.push({
           _id: userDataAll[i]._id,
           user_id: userDataAll[i].user_id,
+          category_id: userDataAll[i].category_id[0],
           collectionTitle: userDataAll[i].collectionTitle,
           description: userDataAll[i].description,
           videos: userDataAll[i].videos,
@@ -73,7 +73,6 @@ class CollectionsService {
           createdAt: userDataAll[i].createdAt,
         });
       }
-
       res.status(200).json({
         success: true,
         data: resultData,
@@ -135,7 +134,7 @@ class CollectionsService {
 
         resultData.push({
           _id: categoryDataAll[i]._id,
-          category_id: categoryDataAll[i].category_id,
+          category_id: categoryDataAll[i].category_id[0],
           collectionTitle: categoryDataAll[i].collectionTitle,
           description: categoryDataAll[i].description,
           videos: categoryDataAll[i].videos,
@@ -176,13 +175,14 @@ class CollectionsService {
 
       let collectionComments =
         await this.commentRepository.getAllCommentsOnCollectionId(
-          collection._id
+          collection_id
         );
 
       let commentNum = collectionComments.length;
       let thumbnailsArr = await Promise.all(
         collection.videos.map(async (id) => {
           var { thumbnails } = await this.videoRepository.getVideoById(id);
+          console.log(thumbnails);
           if (!thumbnails) {
             return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU";
           } else {
@@ -195,7 +195,7 @@ class CollectionsService {
         {
           _id: collection._id,
           user_id: collection.user_id,
-          category_id: collection.category_id,
+          category_id: collection.category_id[0],
           collectionTitle: collection.collectionTitle,
           description: collection.description,
           videos: collection.videos,
@@ -217,10 +217,12 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
-      const {
-        category_id,
+      let {
+        category_id, //
         collectionTitle,
         description,
         videos, // videoId (유튜브)
@@ -229,6 +231,9 @@ class CollectionsService {
       const createdVideos = await this.videoRepository.createVideosByIds(
         videos
       );
+      category_id = [category_id];
+      console.log("videos", videos);
+      console.log("createdVideos", createdVideos);
 
       const video_ids = createdVideos.map((e) => e._id.toString());
       const returnCollection = await this.collectionRepository.createCollection(
@@ -255,7 +260,9 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
       const { collection_id } = req.params;
 
@@ -290,7 +297,9 @@ class CollectionsService {
     try {
       const { collection_id } = req.params;
       // const { user_id } = req.body;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = req.session.passport
+        ? req.session.passport.user.user._id
+        : process.env.TEMP_USER_ID;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -369,7 +378,7 @@ class CollectionsService {
         resultData.push({
           _id: resultBySearch[i]._id,
           user_id: resultBySearch[i].user_id,
-          category_id: resultBySearch[i].category_id,
+          category_id: resultBySearch[i].category_id[0],
           collectionTitle: resultBySearch[i].collectionTitle,
           description: resultBySearch[i].description,
           videos: resultBySearch[i].videos,
