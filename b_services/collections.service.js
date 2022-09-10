@@ -232,10 +232,10 @@ class CollectionsService {
         videos
       );
       category_id = [category_id];
-      console.log("videos", videos);
-      console.log("createdVideos", createdVideos);
 
-      const video_ids = createdVideos.map((e) => e._id.toString());
+      const video_ids = Array.from(
+        new Set(createdVideos.map((e) => e._id.toString()))
+      );
       const returnCollection = await this.collectionRepository.createCollection(
         user_id,
         category_id,
