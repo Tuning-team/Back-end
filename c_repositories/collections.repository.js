@@ -82,7 +82,10 @@ class CollectionRepository {
     const totalVideosView = videos.length;
     const hasNext = totalVideosView - offset - limit > 0 ? true : false;
 
-    const videosIdToShow = videos.slice(offset, offset + limit);
+    const videosIdToShow = videos.slice(
+      Number(offset),
+      Number(offset) + Number(limit)
+    );
 
     return { videosIdToShow, totalVideosView, hasNext };
   };
