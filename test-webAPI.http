@@ -1,4 +1,6 @@
-@host = https://tube-tuning.com
+# @host = https://tube-tuning.com
+@host = http://localhost:4000
+
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
@@ -17,7 +19,7 @@ Content-Type: application/json
     "category_id": "6319aeebd1e330e86bbade88",
     "collectionTitle": "방탄소년단 모음",
     "description": "BTS 짱!",
-    "videos": ["nWJB1U7cQVs", "22Gguht_plk"]
+    "videos": ["nWJB1U7cQVs","nWJB1U7cQVs", "22Gguht_plk"]
 }
 
 
