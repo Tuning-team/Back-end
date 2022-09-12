@@ -15,6 +15,7 @@ router.get("/user", async (req, res) => {
   const user_id = req.session.passport
     ? req.session.passport.user.user._id
     : process.env.TEMP_USER_ID;
+
   const user = await userRepository.getUserById(user_id);
 
   res.status(200).json({ success: true, user });
@@ -34,13 +35,14 @@ router.get("/logout", function (req, res, next) {
   });
 });
 
-// 구글 로그인 관련
+// 구글에 사용자의 인증을 요청하는 API
 router.get("/google", passport.authenticate("google"));
 
+// 요청이 성공하거나 실패했을 때 받는 콜백
 router.get(
   "/google_callback",
   passport.authenticate("google", {
-    failureRedirect: "/",
+    failureRedirect: "/login",
     failureMessage: true,
   }),
   (req, res) => {

@@ -26,6 +26,7 @@ class SearchService {
         .json({ success: false, message: "검색에 실패하였습니다." });
     }
   };
+
   videoSearchViaYoutube = async (req, res) => {
     try {
       const { keyword } = req.query;
