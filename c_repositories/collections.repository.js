@@ -2,6 +2,15 @@ const Collection = require("../d_schemas/collection");
 const User = require("../d_schemas/user");
 
 class CollectionRepository {
+  // 모든 컬렉션 조회 (기본값 날짜 내림차순)
+  getAllCollections = async () => {
+    const collections = await Collection.find({}).sort({
+      createdAt: -1,
+    });
+
+    return collections;
+  };
+
   // user_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollectionsByUserId = async (user_id) => {
     const collections = await Collection.find({ user_id }).sort({
