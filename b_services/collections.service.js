@@ -444,6 +444,115 @@ class CollectionsService {
       });
     }
   };
+
+  // 컬렉션 좋아요 내림차순 10개까지 조회 ("인기 있는" 카테고리)
+  getLikeTop10 = async () => {
+    try {
+      // 기존에 6319aeebd1e330e86bbade9f 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
+      await this.collectionRepository.getLidOfCategory(
+        "6319aeebd1e330e86bbade9f"
+      );
+
+      // 새로 "인기있는" 컬렉션들을 추려서, 6319aeebd1e330e86bbade9f 카테고리를 부여 (push)
+
+      const newPopularCollections =
+        await this.collectionRepository.giveCategoryIdOnLikeTop10();
+
+      return {
+        success: true,
+        message: `${newPopularCollections.length}개의 컬렉션이 인기있는 카테고리가 되었습니다.`,
+        data: newPopularCollections,
+      };
+    } catch (error) {
+      console.log(error);
+      return { success: false, message: "컬렉션 조회에 실패하였습니다." };
+    }
+  };
+
+  // 가장 최근에 만들어진 컬렉션 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a964)
+  getLatestTop10 = async () => {
+    try {
+      // 기존에 631e7d7a4ae4c133c405a964 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
+      await this.collectionRepository.getLidOfCategory(
+        "631e7d7a4ae4c133c405a964"
+      );
+
+      // 새로 "최신" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a964 카테고리를 부여 (push)
+
+      const newLatestCollections =
+        await this.collectionRepository.giveCategoryIdOnLatestTop10();
+
+      return {
+        success: true,
+        message: `${newLatestCollections.length}개의 컬렉션이 최신 카테고리가 되었습니다.`,
+        data: newLatestCollections,
+      };
+    } catch (error) {
+      console.log(error);
+      return { success: false, message: "컬렉션 조회에 실패하였습니다." };
+    }
+  };
+
+  // "시간대별 추천" 컬렉션들 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a966)
+  getTimeRecommend10 = async () => {
+    try {
+      // 기존에 631e7d7a4ae4c133c405a966 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
+      await this.collectionRepository.getLidOfCategory(
+        "631e7d7a4ae4c133c405a966"
+      );
+
+      // 새로 "시간대별 추천" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a966 카테고리를 부여 (push)
+
+      const recommendCollections =
+        await this.collectionRepository.giveCategoryIdOnTimeRecommendation();
+
+      return {
+        success: true,
+        message: `${recommendCollections.length}개의 컬렉션이 지금 추천할 카테고리가 되었습니다.`,
+        data: recommendCollections,
+      };
+    } catch (error) {
+      console.log(error);
+      return { success: false, message: "컬렉션 조회에 실패하였습니다." };
+    }
+  };
+
+  // 가장 최근에 만들어진 컬렉션 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a964)
+  // getWeatherRecommend10 = async (weather) => {
+  //   try {
+  //     // 기존에 631e7d7a4ae4c133c405a964 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
+  //     await this.collectionRepository.getLidOfCategory(
+  //       "631e7d7a4ae4c133c405a964"
+  //     );
+
+  //     // 새로 "최신" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a964 카테고리를 부여 (push)
+
+  //     const newLatestCollections =
+  //       await this.collectionRepository.giveCategoryIdOnLatestTop10();
+
+  //     return {
+  //       success: true,
+  //       message: `${newLatestCollections.length}개의 컬렉션이 최신 카테고리가 되었습니다.`,
+  //       data: newLatestCollections,
+  //     };
+  //   } catch (error) {
+  //     console.log(error);
+  //     return { success: false, message: "컬렉션 조회에 실패하였습니다." };
+  //   }
+  // };
+
+  giveTodaysPopularCategories = async (req, res) => {
+    // const { weather } = req.query;
+    // ?weather=흐린
+
+    const result_1 = await this.getLikeTop10();
+    const result_2 = await this.getLatestTop10();
+    const result_3 = await this.getTimeRecommend10();
+    // const result_4 = await this.getWeatherRecommend10(weather);
+    res
+      .status(200)
+      .json({ top10: result_1, latest10: result_2, timeRecommend: result_3 });
+  };
 }
 
 module.exports = CollectionsService;

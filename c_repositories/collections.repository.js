@@ -2,6 +2,15 @@ const Collection = require("../d_schemas/collection");
 const User = require("../d_schemas/user");
 
 class CollectionRepository {
+  // 모든 컬렉션 조회 (기본값 날짜 내림차순)
+  getAllCollections = async () => {
+    const collections = await Collection.find({}).sort({
+      createdAt: -1,
+    });
+
+    return collections;
+  };
+
   // user_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollectionsByUserId = async (user_id) => {
     const collections = await Collection.find({ user_id }).sort({
@@ -189,6 +198,138 @@ class CollectionRepository {
     const hasNext = totalContents - offset - limit > 0 ? true : false;
 
     return { resultBySearch, totalContents, hasNext };
+  };
+
+  // 컬렉션 좋아요 Top 10개에 카테고리 6319aeebd1e330e86bbade9f 부여
+  giveCategoryIdOnLikeTop10 = async () => {
+    const likeTopCollections = await Collection.find({})
+      .sort({
+        likes: -1,
+      }) // 검색 시 포함하지 않을 데이터 수
+      .limit(10);
+
+    const resultData = [];
+    for (let i = 0; i < likeTopCollections.length; i++) {
+      const pushedCollections = [
+        ...likeTopCollections[i].category_id,
+        "6319aeebd1e330e86bbade9f",
+      ];
+
+      const result = await Collection.findOneAndUpdate(
+        { _id: likeTopCollections[i]._id },
+        { $set: { category_id: pushedCollections } }
+      );
+
+      resultData.push(likeTopCollections[i]._id);
+    }
+
+    return resultData;
+  };
+
+  // 가장 최근 만들어진 10개에 카테고리 631e7d7a4ae4c133c405a964 부여
+  giveCategoryIdOnLatestTop10 = async () => {
+    const latestTopCollections = await Collection.find({})
+      .sort({
+        createdAt: -1,
+      }) // 검색 시 포함하지 않을 데이터 수
+      .limit(10);
+
+    const resultData = [];
+    for (let i = 0; i < latestTopCollections.length; i++) {
+      const pushedCollections = [
+        ...latestTopCollections[i].category_id,
+        "631e7d7a4ae4c133c405a964",
+      ];
+
+      const result = await Collection.findOneAndUpdate(
+        { _id: latestTopCollections[i]._id },
+        { $set: { category_id: pushedCollections } }
+      );
+
+      resultData.push(latestTopCollections[i]._id);
+    }
+
+    return resultData;
+  };
+
+  // 지금 시간대에 추천할만한 컬렉션 10개에 631e7d7a4ae4c133c405a966 부여
+  giveCategoryIdOnTimeRecommendation = async () => {
+    const date = new Date();
+    let hour = date.getHours();
+
+    let categoriesToRecommmend = [];
+
+    if (hour <= 18) {
+      categoriesToRecommmend = [
+        "6319aeebd1e330e86bbade7a",
+        "6319aeebd1e330e86bbade7d",
+        "6319aeebd1e330e86bbade80",
+        "6319aeebd1e330e86bbade83",
+        "6319aeebd1e330e86bbade86",
+        "6319aeebd1e330e86bbade95",
+        "6319aeebd1e330e86bbade9e",
+        "6319aeebd1e330e86bbadea4",
+      ];
+      //신나는음악, 자기계발, 뉴스,동물
+    } else {
+      categoriesToRecommmend = [
+        "6319aeebd1e330e86bbade7b",
+        "6319aeebd1e330e86bbade88",
+        "6319aeebd1e330e86bbade96",
+        "6319aeebd1e330e86bbade9d",
+        "6319aeebd1e330e86bbadea1",
+        "6319aeebd1e330e86bbadea3",
+      ];
+      //요리, 게임,자연 ,일상여행,운동
+    }
+
+    console.log("categoriesToRecommmend", categoriesToRecommmend);
+
+    const collectionsToRecommend = await Collection.find({
+      category_id: { $elemMatch: { $in: categoriesToRecommmend } },
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .limit(10);
+
+    console.log("collectionsToRecommend", collectionsToRecommend);
+
+    const resultData = [];
+    for (let i = 0; i < collectionsToRecommend.length; i++) {
+      const pushedCollections = [
+        ...collectionsToRecommend[i].category_id,
+        "631e7d7a4ae4c133c405a966",
+      ];
+
+      await Collection.findOneAndUpdate(
+        { _id: collectionsToRecommend[i]._id },
+        { $set: { category_id: pushedCollections } }
+      );
+
+      resultData.push(collectionsToRecommend[i]._id);
+    }
+
+    return resultData;
+  };
+
+  // 재사용 가능한 코드
+  getLidOfCategory = async (category_id) => {
+    const collections = await Collection.find({ category_id });
+    // collections = [ {},{},{},{},{} .. ]
+
+    for (let i = 0; i < collections.length; i++) {
+      const filteredCategories = collections[i].category_id.filter(
+        (e) => e !== category_id
+      );
+
+      const result = await Collection.findOneAndUpdate(
+        { _id: collections[i]._id },
+        { $set: { category_id: filteredCategories } }
+      );
+
+      console.log(result);
+    }
   };
 }
 
