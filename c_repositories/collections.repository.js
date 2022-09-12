@@ -2,6 +2,25 @@ const Collection = require("../d_schemas/collection");
 const User = require("../d_schemas/user");
 
 class CollectionRepository {
+  // 컬렉션 좋아요 내림차순 10개까지 조회 (페이지네이션)
+  getLikeTop10 = async (_id, offset, limit) => {
+    const callForCount = await Collection.find({ _id }).sort({
+      likes: -1,
+    });
+    const totalContents = callForCount.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    const likeCollections = await Collection.find({ _id })
+      .sort({
+        likes: -1,
+      })
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
+      .limit(10)
+      console.log(likeCollections);
+    return { likeCollections, totalContents, hasNext };
+  };
+
+
   // user_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollectionsByUserId = async (user_id) => {
     const collections = await Collection.find({ user_id }).sort({
