@@ -48,8 +48,6 @@ class UsersRepository {
     // 새로 좋아한 컬렉션 하나 넣어서
     const filteredArr = likedCollectionsArr.filter((e) => e !== collection_id);
 
-    console.log("filteredArr:", filteredArr);
-
     // 업데이트
     const updatedDetail = await User.updateOne(
       { _id: user_id },

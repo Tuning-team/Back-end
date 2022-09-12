@@ -84,6 +84,7 @@ class VideoDataBaseCreator {
       console.log(error);
     }
   };
+
   // 모든 카테고리의 인기동영상을 수집
   createAllPopularVideoChannelPlayLists = async () => {
     // 카테고리 리스트를 확보

@@ -17,27 +17,23 @@ class VideoService {
       const { offset, limit } = req.query;
 
       const { videosIdToShow, totalVideosView, hasNext } =
-        await this.collectionRepository.getCollectionByIdWithPaging(
+        await this.collectionRepository.getVideosByCollectionIdWithPaging(
           collection_id,
           offset,
           limit
         );
-
-      // [] unde
 
       if (!videosIdToShow[0]) {
         res
           .status(400)
           .json({ success: false, message: "해당하는 영상이 없습니다." });
       } else {
-        // const videosArray = thisCollection.videos; // ["p9HjZshdjt4", .... ]
-
-        let element;
-
-        // console.log("videosIdToShow", videosIdToShow);
+        // let element;
         let data = [];
         for (let i = 0; i < videosIdToShow.length; i++) {
-          element = await this.videoRepository.getVideoById(videosIdToShow[i]);
+          let element = await this.videoRepository.getVideoById(
+            videosIdToShow[i]
+          );
           data.push(element);
         }
 
@@ -66,7 +62,7 @@ class VideoService {
       if (!thisVideo) {
         res
           .status(400)
-          .json({ success: false, message: "해당 컬렉션이 없습니다." });
+          .json({ success: false, message: "해당 영상이 없습니다." });
 
         // 찾으면 그 비디오의 유튜브 아이디로 영상 디테일을 확보
       } else {
@@ -96,13 +92,12 @@ class VideoService {
       const axiosResult = await axios.get(
         `https://www.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_KEY}&part=snippet&regionCode=kr&id=${videoId}`
       );
+      // items = [{},{}]
 
       const channelId = axiosResult.data.items.map((e) => e.snippet.channelId);
-      console.log("channelId:", channelId);
 
       let channelsArr = [];
       channelsArr = [...channelsArr, ...channelId];
-      console.log("channelsArr:", channelsArr);
 
       await this.videoDataBaseCreator.createAllVideosOnChannelIds(channelsArr);
 
