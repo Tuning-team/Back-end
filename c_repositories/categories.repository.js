@@ -31,7 +31,7 @@ class CategoryRepository {
   };
 
   // 카테고리 이름 수정. return 수정된 카테고리 이름
-  updateCategory = async (categoryName) => {
+  updateCategory = async (_id, categoryName) => {
     const updateCategory = await Category.updateOne(
       { _id },
       { $set: { categoryName } }
