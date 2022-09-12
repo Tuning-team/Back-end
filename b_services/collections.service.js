@@ -2,9 +2,12 @@ const CollectionRepository = require("../c_repositories/collections.repository")
 const UserRepository = require("../c_repositories/users.repository");
 const CommentRepository = require("../c_repositories/comments.repository");
 const VideoRepository = require("../c_repositories/videos.repository");
+const CategoryRepository = require("../c_repositories/categories.repository");
+
 const { collection } = require("../d_schemas/user");
 
 class CollectionsService {
+  categoryRepository = new CategoryRepository();
   collectionRepository = new CollectionRepository();
   userRepository = new UserRepository();
   commentRepository = new CommentRepository();
@@ -517,41 +520,52 @@ class CollectionsService {
     }
   };
 
-  // 가장 최근에 만들어진 컬렉션 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a964)
-  // getWeatherRecommend10 = async (weather) => {
-  //   try {
-  //     // 기존에 631e7d7a4ae4c133c405a964 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
-  //     await this.collectionRepository.getLidOfCategory(
-  //       "631e7d7a4ae4c133c405a964"
-  //     );
+  // "날씨별 추천" 컬렉션들 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a965)
+  // "흐린", "맑은", "비오는"
+  getWeatherRecommend10 = async (weather) => {
+    try {
+      // 기존에 631e7d7a4ae4c133c405a965 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
+      await this.collectionRepository.getLidOfCategory(
+        "631e7d7a4ae4c133c405a965"
+      );
 
-  //     // 새로 "최신" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a964 카테고리를 부여 (push)
+      // 새로 "날씨별 추천" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a965 카테고리를 부여 (push)
 
-  //     const newLatestCollections =
-  //       await this.collectionRepository.giveCategoryIdOnLatestTop10();
+      const recommendCollections =
+        await this.collectionRepository.giveCategoryIdOnWeatherRecommendation(
+          weather
+        );
 
-  //     return {
-  //       success: true,
-  //       message: `${newLatestCollections.length}개의 컬렉션이 최신 카테고리가 되었습니다.`,
-  //       data: newLatestCollections,
-  //     };
-  //   } catch (error) {
-  //     console.log(error);
-  //     return { success: false, message: "컬렉션 조회에 실패하였습니다." };
-  //   }
-  // };
+      await this.categoryRepository.updateCategory(
+        "631e7d7a4ae4c133c405a965",
+        `오늘처럼 ${weather} 날 보기 좋은`
+      );
+
+      return {
+        success: true,
+        message: `${recommendCollections.length}개의 컬렉션이 ${weather} 날씨에 추천할 카테고리가 되었습니다.`,
+        data: recommendCollections,
+      };
+    } catch (error) {
+      console.log(error);
+      return { success: false, message: "컬렉션 조회에 실패하였습니다." };
+    }
+  };
 
   giveTodaysPopularCategories = async (req, res) => {
-    // const { weather } = req.query;
+    const { weather } = req.query;
     // ?weather=흐린
 
     const result_1 = await this.getLikeTop10();
     const result_2 = await this.getLatestTop10();
     const result_3 = await this.getTimeRecommend10();
-    // const result_4 = await this.getWeatherRecommend10(weather);
-    res
-      .status(200)
-      .json({ top10: result_1, latest10: result_2, timeRecommend: result_3 });
+    const result_4 = await this.getWeatherRecommend10(weather);
+    res.status(200).json({
+      top10: result_1,
+      latest10: result_2,
+      timeRecommend: result_3,
+      weatherRecommend: result_4,
+    });
   };
 }
 

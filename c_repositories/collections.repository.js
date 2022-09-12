@@ -313,6 +313,83 @@ class CollectionRepository {
     return resultData;
   };
 
+  // 지금 시간대에 추천할만한 컬렉션 10개에 631e7d7a4ae4c133c405a966 부여
+  giveCategoryIdOnWeatherRecommendation = async (weather) => {
+    let categoriesToRecommmend = [];
+
+    if (weather === "맑은") {
+      categoriesToRecommmend = [
+        "6319aeebd1e330e86bbade8b",
+        "6319aeebd1e330e86bbade93",
+        "6319aeebd1e330e86bbade95",
+        "6319aeebd1e330e86bbade96",
+        "6319aeebd1e330e86bbadea5",
+      ];
+      //
+    } else if (weather === "흐린") {
+      categoriesToRecommmend = [
+        "6319aeebd1e330e86bbade7d",
+        "6319aeebd1e330e86bbade8a",
+        "6319aeebd1e330e86bbade8e",
+        "6319aeebd1e330e86bbade97",
+        "6319aeebd1e330e86bbade98",
+        "6319aeebd1e330e86bbade9d",
+      ];
+      //
+    } else if (weather === "비오는") {
+      categoriesToRecommmend = [
+        "6319aeebd1e330e86bbade7b",
+        "6319aeebd1e330e86bbade80",
+        "6319aeebd1e330e86bbade83",
+        "6319aeebd1e330e86bbade88",
+        "6319aeebd1e330e86bbade9e",
+      ];
+      //
+    } else {
+      categoriesToRecommmend = [
+        "6319aeebd1e330e86bbade7a",
+        "6319aeebd1e330e86bbade7c",
+        "6319aeebd1e330e86bbade83",
+        "6319aeebd1e330e86bbade84",
+        "6319aeebd1e330e86bbadea3",
+      ];
+      //
+    }
+
+    console.log("categoriesToRecommmend", categoriesToRecommmend);
+
+    const collectionsToRecommend = await Collection.find({
+      category_id: { $elemMatch: { $in: categoriesToRecommmend } },
+    })
+      .sort({
+        likes: -1,
+      })
+      .limit(10);
+
+    console.log("collectionsToRecommend", collectionsToRecommend);
+
+    const resultData = [];
+    for (let i = 0; i < collectionsToRecommend.length; i++) {
+      const pushedCollections = [
+        ...collectionsToRecommend[i].category_id,
+        "631e7d7a4ae4c133c405a965",
+      ];
+
+      await Collection.findOneAndUpdate(
+        { _id: collectionsToRecommend[i]._id },
+        {
+          $set: {
+            category_id: pushedCollections,
+          },
+        }
+      );
+
+      resultData.push(collectionsToRecommend[i]._id);
+    }
+
+    return resultData;
+  };
+
   // 재사용 가능한 코드
   getLidOfCategory = async (category_id) => {
     const collections = await Collection.find({ category_id });
