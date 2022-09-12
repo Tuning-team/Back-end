@@ -2,6 +2,17 @@ const Collection = require("../d_schemas/collection");
 const User = require("../d_schemas/user");
 
 class CollectionRepository {
+
+  // 모든 컬렉션 조회 (기본값 날짜 내림차순)
+  getAllCollections = async () => {
+    const collections = await Collection.find({}).sort({
+      createdAt: -1,
+    });
+
+    return collections;
+  };
+
+
   // 컬렉션 좋아요 내림차순 10개까지 조회 (페이지네이션)
   getLikeTop10 = async (_id, offset, limit) => {
     const callForCount = await Collection.find({ _id }).sort({
