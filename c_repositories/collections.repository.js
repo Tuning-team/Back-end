@@ -259,7 +259,7 @@ class CollectionRepository {
 
     let categoriesToRecommmend = [];
 
-    if (hour <= 18) {
+    if (hour < 18) {
       categoriesToRecommmend = [
         "6319aeebd1e330e86bbade7a",
         "6319aeebd1e330e86bbade7d",
@@ -356,8 +356,6 @@ class CollectionRepository {
       //
     }
 
-    console.log("categoriesToRecommmend", categoriesToRecommmend);
-
     const collectionsToRecommend = await Collection.find({
       category_id: { $elemMatch: { $in: categoriesToRecommmend } },
     })
@@ -365,8 +363,6 @@ class CollectionRepository {
         likes: -1,
       })
       .limit(10);
-
-    console.log("collectionsToRecommend", collectionsToRecommend);
 
     const resultData = [];
     for (let i = 0; i < collectionsToRecommend.length; i++) {
@@ -404,8 +400,6 @@ class CollectionRepository {
         { _id: collections[i]._id },
         { $set: { category_id: filteredCategories } }
       );
-
-      console.log(result);
     }
   };
 }
