@@ -9,7 +9,6 @@ GET	{{host}}/api/categories
 ### 컬렉션 좋아요 내림차순 10개까지 조회
 GET	{{host}}/api/collections/popular
 
-
 ## ---------------------- 컬렉션 관련 API ------------------------
 
 ### 2. 컬렉션 생성 : POST /api/collections
@@ -51,7 +50,7 @@ Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7b&offset=0&limit=3
+GET	{{host}}/api/collections?category_id=631e7d7a4ae4c133c405a966&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
