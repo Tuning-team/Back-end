@@ -29,9 +29,6 @@ class CollectionRepository {
     const totalContents = callForCount.length;
     const hasNext = totalContents - offset - limit > 0 ? true : false;
 
-    console.log("totalContents:", totalContents);
-    console.log("hasNext:", hasNext);
-
     // offset : "0",1,2 / "3",4,5 /
     const userDataAll = await Collection.find({ user_id })
       .sort({
@@ -85,15 +82,15 @@ class CollectionRepository {
   };
 
   // 작성된 컬렉션 상세 조회, 페이지네이션 사용
-  getCollectionByIdWithPaging = async (_id, offset, limit) => {
+  getVideosByCollectionIdWithPaging = async (_id, offset, limit) => {
     const { videos } = await Collection.findOne({ _id });
 
     const totalVideosView = videos.length;
     const hasNext = totalVideosView - offset - limit > 0 ? true : false;
 
     const videosIdToShow = videos.slice(
-      Number(offset),
-      Number(offset) + Number(limit)
+      Number(offset), // 4
+      Number(offset) + Number(limit) // 4 + 4 = 8
     );
 
     return { videosIdToShow, totalVideosView, hasNext };
@@ -121,7 +118,6 @@ class CollectionRepository {
   addVideoOnCollection = async (_id, addedVideos) => {
     let { videos } = await this.getCollectionById(_id);
     videos = [...videos, ...addedVideos];
-    console.log("videos:", videos);
 
     await Collection.findOneAndUpdate({ _id }, { $set: { videos } });
     const updatedCollection = await Collection.findOne({ _id });
@@ -182,6 +178,13 @@ class CollectionRepository {
 
   // 검색어에 맞는 컬렉션 리스트 (페이지네이션 필요한 경우)
   getCollectionsBySearchWithPaging = async (keyword, offset, limit) => {
+    const resultForCount = await Collection.find({
+      $or: [
+        { collectionTitle: new RegExp(keyword, "i") },
+        { description: new RegExp(keyword, "i") },
+      ],
+    });
+
     const resultBySearch = await Collection.find({
       $or: [
         { collectionTitle: new RegExp(keyword, "i") },
@@ -194,7 +197,7 @@ class CollectionRepository {
       .skip(offset) // 검색 시 포함하지 않을 데이터 수
       .limit(limit);
 
-    const totalContents = resultBySearch.length;
+    const totalContents = resultForCount.length;
     const hasNext = totalContents - offset - limit > 0 ? true : false;
 
     return { resultBySearch, totalContents, hasNext };
@@ -283,8 +286,6 @@ class CollectionRepository {
       //요리, 게임,자연 ,일상여행,운동
     }
 
-    console.log("categoriesToRecommmend", categoriesToRecommmend);
-
     const collectionsToRecommend = await Collection.find({
       category_id: { $elemMatch: { $in: categoriesToRecommmend } },
     })
@@ -292,8 +293,6 @@ class CollectionRepository {
         createdAt: -1,
       })
       .limit(10);
-
-    console.log("collectionsToRecommend", collectionsToRecommend);
 
     const resultData = [];
     for (let i = 0; i < collectionsToRecommend.length; i++) {
