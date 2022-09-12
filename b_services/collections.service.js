@@ -10,6 +10,71 @@ class CollectionsService {
   commentRepository = new CommentRepository();
   videoRepository = new VideoRepository();
 
+  // 컬렉션 좋아요 내림차순 10개까지 조회
+  getLikeTop10 = async (req, res) => {
+    try {
+      const { offset, limit } = req.query;
+      const { likeCollections, totalContents, hasNext } =
+        await this.collectionRepository.getLikeTop10(
+          offset,
+          limit
+        );
+
+      const resultData = [];
+
+      for (let i = 0; i < likeCollections.length; i++) {
+        let collectionComments =
+          await this.commentRepository.getAllCommentsOnCollectionId(
+            likeCollections[i]._id
+          );
+        let commentNum = collectionComments.length;
+
+        let thumbnailsArr = [];
+        for (let j = 0; j < likeCollections[i].videos.length; j++) {
+          try {
+            var { thumbnails } = await this.videoRepository.getVideoById(
+              likeCollections[i].videos[j]
+            );
+          } catch (error) {
+            var thumbnails = undefined;
+            console.log(error);
+          }
+
+          if (!thumbnails) {
+            thumbnailsArr.push(
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
+            );
+          } else {
+            thumbnailsArr.push(thumbnails);
+          }
+        }
+
+        resultData.push({
+          _id: likeCollections[i]._id,
+          category_id: likeCollections[i].category_id[0],
+          collectionTitle: likeCollections[i].collectionTitle,
+          description: likeCollections[i].description,
+          videos: likeCollections[i].videos,
+          thumbnails: thumbnailsArr,
+          commentNum: commentNum,
+          likes: likeCollections[i].likes,
+          createdAt: likeCollections[i].createdAt,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        data: resultData,
+        pageInfo: { totalContents, hasNext },
+      });
+      return;
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res
+        .status(400)
+        .json({ success: false, message: "컬렉션 조회에 실패하였습니다." });
+    }
+  };
+
   // 내가 모은 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsByUserId = async (req, res) => {
     try {

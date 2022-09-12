@@ -6,7 +6,8 @@
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
 GET	{{host}}/api/categories
 
-
+### 컬렉션 좋아요 내림차순 10개까지 조회
+GET	{{host}}/api/collections/popular
 
 
 ## ---------------------- 컬렉션 관련 API ------------------------
@@ -25,7 +26,6 @@ Content-Type: application/json
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
 GET	{{host}}/api/collections/6312cd792a4f77334033a9c0
-
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
