@@ -6,11 +6,11 @@ const axios = require("axios");
 const passport = require("passport");
 const UserRepository = require("../c_repositories/users.repository");
 const userRepository = new UserRepository();
+
 const Auth = require("./middleware/auth");
 const { authMiddleware } = new Auth();
-const jwt = require("jsonwebtoken");
 
-// const session = require("express-session");
+const jwt = require("jsonwebtoken");
 
 // 세션ID를 가진 사용자가 접속했을 때,유저 정보 받아보기
 router.get("/user", authMiddleware, async (req, res) => {
@@ -37,38 +37,56 @@ router.get("/logout", function (req, res, next) {
 // 구글에 사용자의 인증을 요청하는 API
 router.get("/google", passport.authenticate("google"));
 
-// 요청이 성공하거나 실패했을 때 받는 콜백
-router.get(
-  "/google_callback",
-  passport.authenticate("google", {
-    failureRedirect: "https://localhost:3000/login",
-    failureMessage: true,
-  }),
-  (req, res) => {
-    console.log("세션에 들어갈 user 객체:", req.user);
+const googleCallback_jwt = (req, res, next) => {
+  try {
+    passport.authenticate(
+      "google",
+      {
+        failureRedirect: "https://localhost:3000/login",
+        failureMessage: true,
+      },
+      (err, user, info) => {
+        if (err) return next(err);
 
-    // res
-    //   .status(200)
-    //   .cookie("user", req.user, {
-    //     httpOnly: true,
-    //     maxAge: 1000 * 60 * 60 * 24, // 1 day
-    //   })
-    //   .send({ data: "sampleData" })
-    //   .redirect("/");
+        console.log(user);
+        const { _id, displayName, profilePicUrl, email } = user.user;
+        const { accessToken } = user;
 
-    // return;
+        const token = jwt.sign({ user_id: _id }, process.env.MY_SECRET_KEY, {
+          expiresIn: "24h",
+        });
 
-    const { displayname, profilePicUrl, email } = req.user.user;
-    const token = jwt.sign({ user: req.user.user }, process.env.MY_SECRET_KEY);
+        result = { displayName, profilePicUrl, email, token };
 
-    res.status(200).json({
-      success: true,
-      token,
-      displayname,
-      profilePicUrl,
-      email,
-    });
+        res
+          .status(201)
+          .json({ user: result, msg: "구글 로그인에 성공하였습니다." });
+      }
+    )(req, res, next);
+  } catch (error) {
+    next(error);
   }
-);
+};
+
+const googleCallback_original = (req, res, next) => {
+  try {
+    passport.authenticate(
+      "google",
+      {
+        failureRedirect: "https://localhost:3000/login",
+        failureMessage: true,
+      },
+      (err, user, info) => {
+        if (err) return next(err);
+        res.status(200).redirect("https://localhost:3000/");
+        return;
+      }
+    )(req, res, next);
+  } catch (error) {
+    next(error);
+  }
+};
+
+router.get("/google_callback", googleCallback_jwt);
 
 module.exports = router;
