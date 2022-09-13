@@ -6,16 +6,15 @@ const axios = require("axios");
 const passport = require("passport");
 const UserRepository = require("../c_repositories/users.repository");
 const userRepository = new UserRepository();
+const Auth = require("./middleware/auth");
+const { authMiddleware } = new Auth();
+const jwt = require("jsonwebtoken");
+
 // const session = require("express-session");
 
 // 세션ID를 가진 사용자가 접속했을 때,유저 정보 받아보기
-router.get("/user", async (req, res) => {
-  res.json(req.session.passport.user);
-
-  const user_id = req.session.passport
-    ? req.session.passport.user.user._id
-    : process.env.TEMP_USER_ID;
-
+router.get("/user", authMiddleware, async (req, res) => {
+  const user_id = res.locals.user_id;
   const user = await userRepository.getUserById(user_id);
 
   res.status(200).json({ success: true, user });
@@ -42,19 +41,33 @@ router.get("/google", passport.authenticate("google"));
 router.get(
   "/google_callback",
   passport.authenticate("google", {
-    failureRedirect: "/login",
+    failureRedirect: "https://localhost:3000/login",
     failureMessage: true,
   }),
   (req, res) => {
     console.log("세션에 들어갈 user 객체:", req.user);
 
-    res
-      .status(200)
-      .cookie("user", req.user, {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
-      })
-      .redirect("/");
+    // res
+    //   .status(200)
+    //   .cookie("user", req.user, {
+    //     httpOnly: true,
+    //     maxAge: 1000 * 60 * 60 * 24, // 1 day
+    //   })
+    //   .send({ data: "sampleData" })
+    //   .redirect("/");
+
+    // return;
+
+    const { displayname, profilePicUrl, email } = req.user.user;
+    const token = jwt.sign({ user: req.user.user }, process.env.MY_SECRET_KEY);
+
+    res.status(200).json({
+      success: true,
+      token,
+      displayname,
+      profilePicUrl,
+      email,
+    });
   }
 );
 
