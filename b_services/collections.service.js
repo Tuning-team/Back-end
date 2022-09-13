@@ -5,6 +5,7 @@ const VideoRepository = require("../c_repositories/videos.repository");
 const CategoryRepository = require("../c_repositories/categories.repository");
 
 const { collection } = require("../d_schemas/user");
+const axios = require("axios");
 
 class CollectionsService {
   categoryRepository = new CategoryRepository();
@@ -524,7 +525,14 @@ class CollectionsService {
 
   // "날씨별 추천" 컬렉션들 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a965)
   // "흐린", "맑은", "비오는"
-  getWeatherRecommend10 = async (weather) => {
+  getWeatherRecommend10 = async () => {
+    const weatherApi = await axios.get(
+      "https://goweather.herokuapp.com/weather/seoul"
+    );
+    // console.log(description.split(" ")[description.split(" ").length - 1]);
+    const string = weatherApi.data.description;
+    const weather = string.split(" ")[string.split(" ").length - 1];
+
     try {
       // 기존에 631e7d7a4ae4c133c405a965 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
       await this.collectionRepository.getLidOfCategory(
@@ -538,9 +546,20 @@ class CollectionsService {
           weather
         );
 
+      let collectionName = "";
+      if (weather.toLowerCase() === "rain") {
+        collectionName = "오늘처럼 비오는 날 보기 좋은";
+      } else if (weather.toLowerCase() === "cloudy") {
+        collectionName = "오늘처럼 흐린 날 보기 좋은";
+      } else if (weather.toLowerCase() === "sunny") {
+        collectionName = "오늘처럼 맑은 날 보기 좋은";
+      } else {
+        collectionName = "오늘같은 날 보기 좋은";
+      }
+
       await this.categoryRepository.updateCategory(
         "631e7d7a4ae4c133c405a965",
-        `오늘처럼 ${weather} 날 보기 좋은`
+        collectionName
       );
 
       return {
@@ -555,19 +574,24 @@ class CollectionsService {
   };
 
   giveTodaysPopularCategories = async (req, res) => {
-    const { weather } = req.query;
-    // ?weather=흐린
-
     const result_1 = await this.getLikeTop10();
     const result_2 = await this.getLatestTop10();
     const result_3 = await this.getTimeRecommend10();
-    const result_4 = await this.getWeatherRecommend10(weather);
+    const result_4 = await this.getWeatherRecommend10();
     res.status(200).json({
       top10: result_1,
       latest10: result_2,
       timeRecommend: result_3,
       weatherRecommend: result_4,
     });
+
+    setInterval(async () => {
+      await this.getLikeTop10();
+      await this.getLatestTop10();
+      await this.getTimeRecommend10();
+      await this.getWeatherRecommend10();
+      console.log("메인 추천리스트 재설정 ---- !");
+    }, 1000 * 60 * 60); // 1h;
   };
 }
 

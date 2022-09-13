@@ -7,8 +7,11 @@
 GET	{{host}}/api/categories
 
 ### 
-PUT {{host}}/api/collections/today?weather=비오는
+PUT {{host}}/api/collections/today
 
+
+### 
+GET https://goweather.herokuapp.com/weather/Seoul
 
 ## ---------------------- 컬렉션 관련 API ------------------------
 
