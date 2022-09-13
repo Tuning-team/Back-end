@@ -316,16 +316,15 @@ class CollectionRepository {
   giveCategoryIdOnWeatherRecommendation = async (weather) => {
     let categoriesToRecommmend = [];
 
-    if (weather === "맑은") {
+    if (weather.toLowerCase() === "rain") {
       categoriesToRecommmend = [
-        "6319aeebd1e330e86bbade8b",
-        "6319aeebd1e330e86bbade93",
-        "6319aeebd1e330e86bbade95",
-        "6319aeebd1e330e86bbade96",
-        "6319aeebd1e330e86bbadea5",
+        "6319aeebd1e330e86bbade7b",
+        "6319aeebd1e330e86bbade80",
+        "6319aeebd1e330e86bbade83",
+        "6319aeebd1e330e86bbade88",
+        "6319aeebd1e330e86bbade9e",
       ];
-      //
-    } else if (weather === "흐린") {
+    } else if (weather.toLowerCase() === "cloudy") {
       categoriesToRecommmend = [
         "6319aeebd1e330e86bbade7d",
         "6319aeebd1e330e86bbade8a",
@@ -334,16 +333,14 @@ class CollectionRepository {
         "6319aeebd1e330e86bbade98",
         "6319aeebd1e330e86bbade9d",
       ];
-      //
-    } else if (weather === "비오는") {
+    } else if (weather.toLowerCase() === "sunny") {
       categoriesToRecommmend = [
-        "6319aeebd1e330e86bbade7b",
-        "6319aeebd1e330e86bbade80",
-        "6319aeebd1e330e86bbade83",
-        "6319aeebd1e330e86bbade88",
-        "6319aeebd1e330e86bbade9e",
+        "6319aeebd1e330e86bbade8b",
+        "6319aeebd1e330e86bbade93",
+        "6319aeebd1e330e86bbade95",
+        "6319aeebd1e330e86bbade96",
+        "6319aeebd1e330e86bbadea5",
       ];
-      //
     } else {
       categoriesToRecommmend = [
         "6319aeebd1e330e86bbade7a",
@@ -352,7 +349,6 @@ class CollectionRepository {
         "6319aeebd1e330e86bbade84",
         "6319aeebd1e330e86bbadea3",
       ];
-      //
     }
 
     const collectionsToRecommend = await Collection.find({
