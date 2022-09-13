@@ -59,9 +59,7 @@ const googleCallback_jwt = (req, res, next) => {
 
         result = { displayName, profilePicUrl, email, token };
 
-        res
-          .status(201)
-          .redirect(`http://localhost:3000/google_login/${accessToken}`);
+        res.status(201).redirect(`http://localhost:3000/google_login/${token}`);
       }
     )(req, res, next);
   } catch (error) {
@@ -117,7 +115,7 @@ const googleCallback_woPassport = async (req, res, next) => {
       "https://www.googleapis.com/oauth2/v2/userinfo",
       {
         headers: {
-          Authorization: `Bearer ${result.data.access_token}`,
+          Authorization: `Bearer ${access_token}`,
         },
       }
     );
