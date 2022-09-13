@@ -59,7 +59,9 @@ const googleCallback_jwt = (req, res, next) => {
 
         result = { displayName, profilePicUrl, email, token };
 
-        res.status(201).redirect(`http://localhost:3000/${accessToken}`);
+        res
+          .status(201)
+          .redirect(`http://localhost:3000/google_login/${accessToken}`);
       }
     )(req, res, next);
   } catch (error) {
