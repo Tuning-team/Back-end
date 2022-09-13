@@ -140,3 +140,9 @@ POST {{host}}/api/videos/add/XQGE6C8btv4
 
 ### 
 GET https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=lLgy8r6fl7A,22Gguht_plk
+
+
+
+###
+GET https://www.googleapis.com/oauth2/v2/userinfo
+Authorization: : "Bearer ya29.a0AVA9y1vZWoB2IZerOgATQ_JFxpFX6MY8zRhVV-cVpCSdplAOGQNPg050551MdS6Ye-KgE_pSqL9ZYgAu-dsevpvAWv1ETfyRPCWiFmj67ImzaiNp5Judn2YcBrvOhb2OzXWPgUu2VHq4d0gmgFBnVOF0LPOUaCgYKATASARESFQE65dr8tduBmvf_ReU_xB1HCN8yYg0163"

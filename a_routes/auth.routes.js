@@ -11,6 +11,7 @@ const Auth = require("./middleware/auth");
 const { authMiddleware } = new Auth();
 
 const jwt = require("jsonwebtoken");
+const qs = require("qs");
 
 // 세션ID를 가진 사용자가 접속했을 때,유저 정보 받아보기
 router.get("/user", authMiddleware, async (req, res) => {
@@ -42,7 +43,7 @@ const googleCallback_jwt = (req, res, next) => {
     passport.authenticate(
       "google",
       {
-        failureRedirect: "https://localhost:3000/login",
+        failureRedirect: "http://localhost:3000/login",
         failureMessage: true,
       },
       (err, user, info) => {
@@ -58,9 +59,7 @@ const googleCallback_jwt = (req, res, next) => {
 
         result = { displayName, profilePicUrl, email, token };
 
-        res
-          .status(201)
-          .json({ user: result, msg: "구글 로그인에 성공하였습니다." });
+        res.status(201).redirect(`http://localhost:3000/${accessToken}`);
       }
     )(req, res, next);
   } catch (error) {
@@ -82,6 +81,47 @@ const googleCallback_original = (req, res, next) => {
         return;
       }
     )(req, res, next);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const googleCallback_woPassport = async (req, res, next) => {
+  try {
+    const { code } = req.query;
+
+    let data = {
+      code: code,
+      client_id:
+        "603162325798-hb44n9gjugoc6aoinmb0964ovrqi8uqe.apps.googleusercontent.com",
+      client_secret: "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",
+      redirect_uri: "http://localhost:4000/api/google_callback",
+      grant_type: "authorization_code",
+    };
+
+    const result = await axios({
+      method: "POST",
+      headers: {
+        host: "accounts.google.com",
+        "content-type": "application/x-www-form-urlencoded",
+      },
+      data: qs.stringify(data),
+      url: "https://accounts.google.com/o/oauth2/token",
+    });
+
+    console.log(result.data.access_token);
+
+    const userInfo = await axios.get(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${result.data.access_token}`,
+        },
+      }
+    );
+    console.log(userInfo.data);
+
+    res.status(200).redirect("https://localhost:3000/");
   } catch (error) {
     next(error);
   }
