@@ -11,7 +11,8 @@ PUT {{host}}/api/collections/today
 
 
 ### 
-GET https://goweather.herokuapp.com/weather/Seoul
+GET https://goweather.herokuapp.com/weather/seoul
+
 
 ## ---------------------- 컬렉션 관련 API ------------------------
 

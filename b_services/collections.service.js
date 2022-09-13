@@ -17,12 +17,10 @@ class CollectionsService {
   // 내가 모은 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsByUserId = async (req, res) => {
     try {
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
+      console.log("use_id", user_id);
 
       const { offset, limit } = req.query;
-
       const { userDataAll, totalContents, hasNext } =
         await this.collectionRepository.getAllCollectionsByUserIdWithPaging(
           user_id,
@@ -225,9 +223,7 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       let {
         category_id, //
@@ -270,10 +266,7 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
-
+      const user_id = res.locals.user_id;
       const { collection_id } = req.params;
 
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -306,9 +299,7 @@ class CollectionsService {
   likeCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -411,7 +402,7 @@ class CollectionsService {
   // 컬렉션에 영상 추가
   addVideoOnCollection = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
       const { collection_id } = req.params;
       const { videos } = req.body; //
 
@@ -524,14 +515,14 @@ class CollectionsService {
   };
 
   // "날씨별 추천" 컬렉션들 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a965)
-  // "흐린", "맑은", "비오는"
   getWeatherRecommend10 = async () => {
     const weatherApi = await axios.get(
-      "https://goweather.herokuapp.com/weather/seoul"
+      "https://goweather.herokuapp.com/weather/newyork"
     );
     // console.log(description.split(" ")[description.split(" ").length - 1]);
     const string = weatherApi.data.description;
     const weather = string.split(" ")[string.split(" ").length - 1];
+    console.log("string", string, "weather", weather);
 
     try {
       // 기존에 631e7d7a4ae4c133c405a965 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
@@ -590,7 +581,7 @@ class CollectionsService {
       await this.getLatestTop10();
       await this.getTimeRecommend10();
       await this.getWeatherRecommend10();
-      console.log("메인 추천리스트 재설정 ---- !");
+      console.log("메인화면 추천리스트 재설정 ---- !");
     }, 1000 * 60 * 60); // 1h;
   };
 }
