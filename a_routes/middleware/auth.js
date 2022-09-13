@@ -1,6 +1,12 @@
+const jwt = require("jsonwebtoken");
+
 class Auth {
-  authMiddleware = (req, res, next) => {
+  authMiddleware_o = (req, res, next) => {
     console.log("------ 🤔 Authorization Checking ------");
+
+    console.log("req", req);
+    console.log("req.session", req.session);
+    console.log("req.session.passport", req.session.passport);
 
     try {
       const user_id = req.session.passport
@@ -27,23 +33,23 @@ class Auth {
     }
   };
 
-  authMiddlewareViaJWT = (req, res, next) => {
+  authMiddleware = (req, res, next) => {
     console.log("------ 🤔 Authorization Checking ------");
 
     try {
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
+      const { authorization } = req.headers;
+      const [tokenType, tokenValue] = authorization.split(" ");
 
-      console.log("use_id", user_id);
-
-      if (!user_id) {
+      if (tokenType !== "Bearer") {
         res.status(400).json({
           success: false,
           message: "로그인이 필요합니다!",
         });
         return;
       }
+
+      const { user_id } = jwt.verify(tokenValue, process.env.SECRET_KEY);
+
       console.log("------ ✅  Authorization Checked ------");
       res.locals.user_id = user_id;
       next();
