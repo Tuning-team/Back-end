@@ -11,7 +11,8 @@ PUT {{host}}/api/collections/today
 
 
 ### 
-GET https://goweather.herokuapp.com/weather/Seoul
+GET https://goweather.herokuapp.com/weather/seoul
+
 
 ## ---------------------- 컬렉션 관련 API ------------------------
 
@@ -139,3 +140,9 @@ POST {{host}}/api/videos/add/XQGE6C8btv4
 
 ### 
 GET https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=lLgy8r6fl7A,22Gguht_plk
+
+
+
+###
+GET https://www.googleapis.com/oauth2/v2/userinfo
+Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2wwbOf6w7oUstMxDt5kDRX19nRDPc0Uus0Ybs6PbJIUbymnq74HgOKKalAvUYO7YtjcuDfFo2XxdaKxfsAi1VA_X7L-QyXfWnz5dULcaI7YaCgYKATASARMSFQE65dr8XCcfN26UcSMirEyHBM_1PA0163

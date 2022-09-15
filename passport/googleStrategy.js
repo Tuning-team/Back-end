@@ -39,7 +39,7 @@ module.exports = () => {
           let user = await Users.findOne({ googleId: newUser.googleId });
 
           if (user) {
-            return done(null, { user, accessToken });
+            return done(null, { user, accessToken }); // 세션에 저장
           } else {
             user = await Users.create(newUser);
             return done(null, { user, accessToken });
