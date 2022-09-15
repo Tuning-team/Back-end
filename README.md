@@ -54,4 +54,5 @@
 
 ### **ERD**
 
-https://www.notion.so/bohyeonkim/4fb6c6bd2e444b65b3165a1cf6c80597#bdf9e40474014beeadb81ffe6d1210d7
+<img width="881" alt="스크린샷 2022-08-30 오후 8 34 29" src="https://user-images.githubusercontent.com/71807433/190443295-f02acb16-e570-4e94-991b-b69ae072584e.png">
+
