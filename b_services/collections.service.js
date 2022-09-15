@@ -327,7 +327,7 @@ class CollectionsService {
         await this.userRepository.likeCollection(user_id, collection_id);
         res.status(200).json({
           success: true,
-          data: like,
+          data: "like",
           message: "컬렉션에 좋아요를 등록하였습니다.",
         });
       } else {
@@ -335,7 +335,7 @@ class CollectionsService {
         await this.userRepository.disLikeCollection(user_id, collection_id);
         res.status(200).json({
           success: true,
-          data: dislike,
+          data: "dislike",
           message: "컬렉션에 좋아요를 취소하였습니다.",
         });
       }
