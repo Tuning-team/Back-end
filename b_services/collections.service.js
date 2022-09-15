@@ -169,7 +169,7 @@ class CollectionsService {
     try {
       const { collection_id } = req.params;
 
-      const collection = await this.collectionRepository.getCollectionById(
+      let collection = await this.collectionRepository.getCollectionById(
         collection_id
       );
 
@@ -196,21 +196,30 @@ class CollectionsService {
           }
         })
       );
+      const allCollections = await this.collectionRepository.getAllCollections(
+        collection_id
+      );
 
-      const returnCollection = [
-        {
-          _id: collection._id,
-          user_id: collection.user_id,
-          category_id: collection.category_id[0],
-          collectionTitle: collection.collectionTitle,
-          description: collection.description,
-          videos: collection.videos,
-          thumbnails: thumbnailsArr,
-          commentNum: commentNum,
-          likes: collection.likes,
-          createdAt: collection.createdAt,
-        },
-      ];
+      const returnCollection = await Promise.all(
+        allCollections.map(async (el) => {
+          const writerInfo = await this.userRepository.getUserById(el.user_id);
+
+          return {
+            _id: el._id,
+            user_id: el.user_id,
+            writerName: writerInfo.displayName,
+            category_id: el.category_id,
+            collectionTitle: el.collectionTitle,
+            description: el.description,
+            videos: el.videos,
+            thumbnails: thumbnailsArr,
+            commentNum: commentNum,
+            likes: el.likes,
+            createdAt: el.createdAt,
+          };
+        })
+      );
+
       res.status(200).json({ success: true, data: returnCollection });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
@@ -319,6 +328,7 @@ class CollectionsService {
         await this.userRepository.likeCollection(user_id, collection_id);
         res.status(200).json({
           success: true,
+          data: like,
           message: "컬렉션에 좋아요를 등록하였습니다.",
         });
       } else {
@@ -326,6 +336,7 @@ class CollectionsService {
         await this.userRepository.disLikeCollection(user_id, collection_id);
         res.status(200).json({
           success: true,
+          data: dislike,
           message: "컬렉션에 좋아요를 취소하였습니다.",
         });
       }
