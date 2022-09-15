@@ -1,5 +1,7 @@
 # **Tuning**
 
+![image](https://user-images.githubusercontent.com/71807433/190448910-237745b4-1544-4559-9303-8fccaa81345e.png)
+
 > 내가 좋아하는 유투브 영상들로 나만의 컬렉션을 만들고 사람들과 공유하는 커뮤니티 웹앱
 
 ---
