@@ -25,7 +25,7 @@ Content-Type: application/json
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/6312cd792a4f77334033a9c0
+GET	{{host}}/api/collections/6321cf35b3b3994263cfb7bc
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
