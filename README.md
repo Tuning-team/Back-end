@@ -6,7 +6,7 @@
 
 ---
 
-### **참여자**
+### **⭐️참여자**
 
 - @SpaceTime52 - [GitHub](https://github.com/SpaceTime52) / [Tistory]()
 - @hemi333 - [GitHub](https://github.com/hemi333) / [Tistory](https://bo-hyemi-an.tistory.com/)
@@ -14,14 +14,14 @@
 
 ---
 
-### **개발기간**
+### **⭐️개발기간**
 
 2022년 8월 26일 ~ 2022년 10월 07일(6주)
 
 ---
 
 
-### **구현 기능**
+### **⭐️구현 기능**
 
 1. 구글 소셜로그인
 2. 검색기능 (Youtube API, DB)
@@ -33,7 +33,7 @@
 
 ---
 
-### **모듈 리스트**
+### **⭐️모듈 리스트**
 
 ```json
 "devDependencies": {
@@ -67,6 +67,6 @@
 
 ---
 
-### **ERD**
+### **⭐️ERD**
 
 <img width="881" alt="스크린샷 2022-08-30 오후 8 34 29" src="https://user-images.githubusercontent.com/71807433/190443295-f02acb16-e570-4e94-991b-b69ae072584e.png">
