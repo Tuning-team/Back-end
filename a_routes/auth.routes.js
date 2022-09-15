@@ -40,10 +40,11 @@ router.get("/google", passport.authenticate("google"));
 
 const googleCallback_jwt = (req, res, next) => {
   try {
+    console.log(req.headers.origin);
     passport.authenticate(
       "google",
       {
-        failureRedirect: "http://localhost:3000/login",
+        failureRedirect: `${req.headers.origin}/login`,
         failureMessage: true,
       },
       (err, user, info) => {
@@ -59,7 +60,7 @@ const googleCallback_jwt = (req, res, next) => {
 
         result = { displayName, profilePicUrl, email, token };
 
-        res.status(201).redirect(`http://localhost:3000/google_login/${token}`);
+        res.status(201).redirect(`${req.headers.origin}/google_login/${token}`);
       }
     )(req, res, next);
   } catch (error) {
