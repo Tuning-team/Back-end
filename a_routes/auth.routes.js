@@ -73,12 +73,12 @@ const googleCallback_original = (req, res, next) => {
     passport.authenticate(
       "google",
       {
-        failureRedirect: "https://localhost:3000/login",
+        failureRedirect: `${req.headers.origin}/login`,
         failureMessage: true,
       },
       (err, user, info) => {
         if (err) return next(err);
-        res.status(200).redirect("https://localhost:3000/");
+        res.status(200).redirect(`${req.headers.origin}`);
         return;
       }
     )(req, res, next);
@@ -122,7 +122,7 @@ const googleCallback_woPassport = async (req, res, next) => {
     );
     console.log(userInfo.data);
 
-    res.status(200).redirect("https://localhost:3000/");
+    res.status(200).redirect(`${req.headers.origin}`);
   } catch (error) {
     next(error);
   }
