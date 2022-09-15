@@ -40,10 +40,11 @@ router.get("/google", passport.authenticate("google"));
 
 const googleCallback_jwt = (req, res, next) => {
   try {
+    console.log(req.headers.origin);
     passport.authenticate(
       "google",
       {
-        failureRedirect: "http://localhost:3000/login",
+        failureRedirect: `${req.headers.origin}/login`,
         failureMessage: true,
       },
       (err, user, info) => {
@@ -59,7 +60,7 @@ const googleCallback_jwt = (req, res, next) => {
 
         result = { displayName, profilePicUrl, email, token };
 
-        res.status(201).redirect(`http://localhost:3000/google_login/${token}`);
+        res.status(201).redirect(`${req.headers.origin}/google_login/${token}`);
       }
     )(req, res, next);
   } catch (error) {
@@ -72,12 +73,12 @@ const googleCallback_original = (req, res, next) => {
     passport.authenticate(
       "google",
       {
-        failureRedirect: "https://localhost:3000/login",
+        failureRedirect: `${req.headers.origin}/login`,
         failureMessage: true,
       },
       (err, user, info) => {
         if (err) return next(err);
-        res.status(200).redirect("https://localhost:3000/");
+        res.status(200).redirect(`${req.headers.origin}`);
         return;
       }
     )(req, res, next);
@@ -121,7 +122,7 @@ const googleCallback_woPassport = async (req, res, next) => {
     );
     console.log(userInfo.data);
 
-    res.status(200).redirect("https://localhost:3000/");
+    res.status(200).redirect(`${req.headers.origin}`);
   } catch (error) {
     next(error);
   }

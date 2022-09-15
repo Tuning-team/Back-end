@@ -1,12 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 class Auth {
-  authMiddleware_o = (req, res, next) => {
+  authMiddleware_session = (req, res, next) => {
     console.log("------ 🤔 Authorization Checking ------");
-
-    console.log("req", req);
-    console.log("req.session", req.session);
-    console.log("req.session.passport", req.session.passport);
 
     try {
       const user_id = req.session.passport
@@ -48,7 +44,7 @@ class Auth {
         return;
       }
 
-      const { user_id } = jwt.verify(tokenValue, process.env.SECRET_KEY);
+      const { user_id } = jwt.verify(tokenValue, process.env.MY_SECRET_KEY);
 
       console.log("------ ✅  Authorization Checked ------");
       res.locals.user_id = user_id;
