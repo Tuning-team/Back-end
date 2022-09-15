@@ -2,7 +2,7 @@
 
 > 내가 좋아하는 유투브 영상들로 나만의 컬렉션을 만들고 사람들과 공유하는 커뮤니티 웹앱
 
-
+<hr>
 
 ### **참여자**
 
@@ -12,4 +12,46 @@
 
 ---
 
+### **개발기간**
 
+2022년 8월 26일 ~ 2022년 10월 07일(6주)
+
+---
+
+### **모듈 리스트**
+
+```json
+"devDependencies": {
+    "axios": "^0.27.2",
+    "connect-mongo": "^4.6.0",
+    "connect-mongodb-session": "^3.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.1",
+    "ejs": "~2.6.1",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "hangul-js": "^0.2.6",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.4.6",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.19",
+    "passport": "^0.5.3",
+    "passport-google": "^0.3.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "qs": "^6.11.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "urllib": "^3.1.2",
+    "webpack": "^5.74.0"
+  },
+```
+
+---
+
+### **ERD**
+
+https://www.notion.so/bohyeonkim/4fb6c6bd2e444b65b3165a1cf6c80597#bdf9e40474014beeadb81ffe6d1210d7
