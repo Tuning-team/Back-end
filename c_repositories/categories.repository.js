@@ -4,7 +4,6 @@ class CategoryRepository {
   // 카테고리 전체 조회
   getAllCategories = async (_id) => {
     const Categories = await Category.find({ _id });
-    console.log("Categories", Categories);
     return Categories;
   };
 

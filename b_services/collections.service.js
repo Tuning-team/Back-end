@@ -114,8 +114,6 @@ class CollectionsService {
       );
       const category_title = categories[0].categoryName;
 
-      console.log("category_title", category_title);
-
       const resultData = [];
 
       for (let i = 0; i < categoryDataAll.length; i++) {
