@@ -60,7 +60,9 @@ const googleCallback_jwt = (req, res, next) => {
 
         result = { displayName, profilePicUrl, email, token };
 
-        res.status(201).redirect(`${req.headers.origin}/google_login/${token}`);
+        res
+          .status(201)
+          .redirect(`https://www.tube-tuning.com/google_login/${token}`);
       }
     )(req, res, next);
   } catch (error) {
