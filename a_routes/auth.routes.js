@@ -44,7 +44,7 @@ const googleCallback_jwt = (req, res, next) => {
     passport.authenticate(
       "google",
       {
-        failureRedirect: `${req.headers.origin}/login`,
+        failureRedirect: `https://www.tube-tuning.com/login`,
         failureMessage: true,
       },
       (err, user, info) => {
