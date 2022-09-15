@@ -109,6 +109,13 @@ class CollectionsService {
           .json({ success: false, message: "만들어진 컬렉션이 없습니다." });
       }
 
+      const categories = await this.categoryRepository.getAllCategories(
+        category_id
+      );
+      const category_title = categories[0].categoryName;
+
+      console.log("category_title", category_title);
+
       const resultData = [];
 
       for (let i = 0; i < categoryDataAll.length; i++) {
@@ -141,6 +148,7 @@ class CollectionsService {
         resultData.push({
           _id: categoryDataAll[i]._id,
           category_id: categoryDataAll[i].category_id[0],
+          category_title,
           collectionTitle: categoryDataAll[i].collectionTitle,
           description: categoryDataAll[i].description,
           videos: categoryDataAll[i].videos,
@@ -527,7 +535,7 @@ class CollectionsService {
   // "날씨별 추천" 컬렉션들 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a965)
   getWeatherRecommend10 = async () => {
     const weatherApi = await axios.get(
-      "https://goweather.herokuapp.com/weather/newyork"
+      "https://goweather.herokuapp.com/weather/seoul"
     );
     // console.log(description.split(" ")[description.split(" ").length - 1]);
     const string = weatherApi.data.description;
@@ -592,7 +600,7 @@ class CollectionsService {
       await this.getTimeRecommend10();
       await this.getWeatherRecommend10();
       console.log("메인화면 추천리스트 재설정 ---- !");
-    }, 1000 * 60 * 60); // 1h;
+    }, 1000 * 60); // 1m;
   };
 }
 
