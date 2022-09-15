@@ -33,7 +33,12 @@ app.use(logger("dev")); // 로그 보여주는 방식에 관한
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(
   session({
@@ -41,6 +46,12 @@ app.use(
     store: store,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 5300000,
+      secure: true,
+    },
   })
 );
 
