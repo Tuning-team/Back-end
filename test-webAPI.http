@@ -1,13 +1,10 @@
-# @host = https://tube-tuning.com
-@host = http://localhost:4000
-
+@host = https://tube-tuning.com
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
 GET	{{host}}/api/categories
 
-### 
-PUT {{host}}/api/collections/today?weather=비오는
+
 
 
 ## ---------------------- 컬렉션 관련 API ------------------------
@@ -20,12 +17,13 @@ Content-Type: application/json
     "category_id": "6319aeebd1e330e86bbade88",
     "collectionTitle": "방탄소년단 모음",
     "description": "BTS 짱!",
-    "videos": ["nWJB1U7cQVs", "nWJB1U7cQVs", "22Gguht_plk","22Gguht_plk", "Wb3GEhloiYI"]
+    "videos": ["nWJB1U7cQVs", "nWJB1U7cQVs"]
 }
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/6312cd792a4f77334033a9c0
+GET	{{host}}/api/collections/631c3bb510ac2a9a91e4d14f
+
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
@@ -51,11 +49,11 @@ Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbadea8&offset=0&limit=3
+GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7b&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
-GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=2
+GET	{{host}}/api/collections/search?keyword=게임&offset=0&limit=3
 
 
 
@@ -119,7 +117,7 @@ GET {{host}}/api/user/6312ad8b5057863778c220ca
 
 ## ---------------------- 영상 관련 API  ------------------------
 ### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id
-GET	{{host}}/api/videos/6319e2bb9dbc9f0427279e97?offset=0&limit=2
+GET	{{host}}/api/videos/6319e2bb9dbc9f0427279e97?offset=0&limit=5
 
 
 ### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id
@@ -133,6 +131,3 @@ GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpW
 
 ### 22. 영상 아이디를 하나 넣으면 그 채널 전체의 재생목록 영상을 검색가능하게 함
 POST {{host}}/api/videos/add/XQGE6C8btv4
-
-### 
-GET https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=lLgy8r6fl7A,22Gguht_plk
