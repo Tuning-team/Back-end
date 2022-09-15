@@ -184,6 +184,8 @@ class CollectionsService {
           collection_id
         );
 
+      console.log("collection", collection);
+
       let commentNum = collectionComments.length;
       let thumbnailsArr = await Promise.all(
         collection.videos.map(async (id) => {
@@ -196,29 +198,26 @@ class CollectionsService {
           }
         })
       );
-      const allCollections = await this.collectionRepository.getAllCollections(
-        collection_id
+
+      const writerInfo = await this.userRepository.getUserById(
+        collection.user_id
       );
 
-      const returnCollection = await Promise.all(
-        allCollections.map(async (el) => {
-          const writerInfo = await this.userRepository.getUserById(el.user_id);
-
-          return {
-            _id: el._id,
-            user_id: el.user_id,
-            writerName: writerInfo.displayName,
-            category_id: el.category_id,
-            collectionTitle: el.collectionTitle,
-            description: el.description,
-            videos: el.videos,
-            thumbnails: thumbnailsArr,
-            commentNum: commentNum,
-            likes: el.likes,
-            createdAt: el.createdAt,
-          };
-        })
-      );
+      const returnCollection = [
+        {
+          _id: collection._id,
+          user_id: collection.user_id,
+          writerName: writerInfo.displayName,
+          category_id: collection.category_id,
+          collectionTitle: collection.collectionTitle,
+          description: collection.description,
+          videos: collection.videos,
+          thumbnails: thumbnailsArr,
+          commentNum: commentNum,
+          likes: collection.likes,
+          createdAt: collection.createdAt,
+        },
+      ];
 
       res.status(200).json({ success: true, data: returnCollection });
     } catch (error) {
