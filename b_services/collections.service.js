@@ -238,8 +238,8 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      // const user_id = res.locals.user_id;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
 
       let {
         category_id, //
@@ -282,8 +282,8 @@ class CollectionsService {
   // 컬렉션 수정
   editCollection = async (req, res) => {
     try {
-      // const user_id = res.local.user_id;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.local.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
       let { category_id, collectionTitle, description, videos } = req.body;
 
