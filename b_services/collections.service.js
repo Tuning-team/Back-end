@@ -295,12 +295,11 @@ class CollectionsService {
         res
           .status(400)
           .json({ success: false, message: "해당 컬렉션이 없습니다." });
+      } else if (user_id !== thisCollection.user_id) {
+        res
+          .status(400)
+          .json({ success: false, message: "작성자만 수정이 가능합니다." });
       }
-      // } else if (user_id !== thisCollection.user_id) {
-      //   res
-      //     .status(400)
-      //     .json({ success: false, message: "작성자만 수정이 가능합니다." });
-      // }
 
       const createdVideos = await this.videoRepository.createVideosByIds(
         videos

@@ -36,6 +36,6 @@ router.put(
   "/:collection_id",
   authMiddleware,
   collectionsService.addVideoOnCollection
-); // 컬렉션에 영상 추가
+); // 컬렉션에 영상 추가,
 
 module.exports = router;
