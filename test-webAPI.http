@@ -1,5 +1,6 @@
 # @host = https://api.tube-tuning.com
-@host = http://localhost:4000
+@host = https://tube-tuning.com
+# @host = http://localhost:4000
 
 
 ## ---------------------- 카테고리 관련 API ------------------------
@@ -11,7 +12,7 @@ PUT {{host}}/api/collections/today
 
 
 ### 
-GET https://goweather.herokuapp.com/weather/seoul
+GET https://goweather.herokuapp.com/weather/Seoul
 
 
 ## ---------------------- 컬렉션 관련 API ------------------------
@@ -22,9 +23,9 @@ Content-Type: application/json
 
 {
     "category_id": "6319aeebd1e330e86bbade88",
-    "collectionTitle": "방탄소년단 모음",
-    "description": "BTS 짱!",
-    "videos": ["nWJB1U7cQVs", "nWJB1U7cQVs", "22Gguht_plk","22Gguht_plk", "Wb3GEhloiYI"]
+    "collectionTitle": "키엘리니?",
+    "description": "누구임?",
+    "videos": ["yWiydiTLAXo"]
 }
 
 
@@ -109,11 +110,11 @@ DELETE {{host}}/api/comments/6319e5f9ec6de8cd335697dc
 
 ## ---------------------- 영상 찾기 관련 API ------------------------
 ### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
-GET {{host}}/api/search/videos/db?keyword=방탄소년단
+GET {{host}}/api/search/videos/db?keyword=축구
 
 
 ### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
-GET {{host}}/api/search/videos/youtube?keyword=운동
+GET {{host}}/api/search/videos/youtube?keyword=축구
 
 
 

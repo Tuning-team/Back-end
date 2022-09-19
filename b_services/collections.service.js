@@ -654,7 +654,7 @@ class CollectionsService {
       await this.getTimeRecommend10();
       await this.getWeatherRecommend10();
       console.log("메인화면 추천리스트 재설정 ---- !");
-    }, 1000 * 60); // 1m;
+    }, 1000 * 60 * 60); // 1h;
   };
 }
 
