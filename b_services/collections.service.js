@@ -6,6 +6,7 @@ const CategoryRepository = require("../c_repositories/categories.repository");
 
 const { collection } = require("../d_schemas/user");
 const axios = require("axios");
+const { Collection } = require("mongoose");
 
 class CollectionsService {
   categoryRepository = new CategoryRepository();
@@ -231,7 +232,8 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = res.locals.user_id;
+      // const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
 
       let {
         category_id, //
@@ -268,6 +270,61 @@ class CollectionsService {
       res
         .status(400)
         .json({ success: false, message: "컬렉션 생성에 실패하였습니다." });
+    }
+  };
+
+  // 컬렉션 수정
+  editCollection = async (req, res) => {
+    try {
+      // const user_id = res.local.user_id;
+      const user_id = process.env.TEMP_USER_ID;
+      const { collection_id } = req.params;
+      let { category_id, collectionTitle, description, videos } = req.body;
+
+      const thisCollection = await this.collectionRepository.getCollectionById(
+        collection_id
+      );
+
+      if (!thisCollection) {
+        res
+          .status(400)
+          .json({ success: false, message: "해당 컬렉션이 없습니다." });
+      }
+      // } else if (user_id !== thisCollection.user_id) {
+      //   res
+      //     .status(400)
+      //     .json({ success: false, message: "작성자만 수정이 가능합니다." });
+      // }
+
+      const createdVideos = await this.videoRepository.createVideosByIds(
+        videos
+      );
+
+      category_id = [category_id];
+
+      const video_ids = Array.from(
+        new Set(createdVideos.map((e) => e._id.toString()))
+      );
+
+      const returnCollection = await this.collectionRepository.editCollection(
+        user_id,
+        category_id,
+        collectionTitle,
+        description,
+        video_ids,
+        collection_id
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "컬렉션을 수정하였습니다.",
+        data: returnCollection,
+      });
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res
+        .status(400)
+        .json({ success: false, message: "컬렉션 수정에 실패하였습니다." });
     }
   };
 

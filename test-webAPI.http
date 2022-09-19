@@ -31,6 +31,16 @@ Content-Type: application/json
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
 GET	{{host}}/api/collections/6319e2bb9dbc9f0427279e97
 
+### 4. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
+PUT {{host}}/api/collections/6328142ba7db6e584c8a2aad
+Content-Type: application/json
+
+{
+    "category_id": "6319aeebd1e330e86bbade88",
+    "collectionTitle": "mbti",
+    "description": "mbti 신기행",
+    "videos": ["5yiMd2lGQJo", "PmGs8I7qetY"]
+}
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
 DELETE {{host}}/api/collections/6319e2bb9dbc9f0427279e97
