@@ -7,8 +7,7 @@ const searchService = new SearchService();
 const Auth = require("./middleware/auth");
 const { authMiddleware } = new Auth();
 
-
 router.get("/videos/db", searchService.videoSearchViaDB);
-router.get("/videos/youtube", authMiddleware, searchService.videoSearchViaYoutube);
+router.get("/videos/youtube", searchService.videoSearchViaYoutube);
 
 module.exports = router;
