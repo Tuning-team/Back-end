@@ -17,6 +17,11 @@ router.get(
 ); // 내가 모은 컬렉션 목록 조회
 router.put("/today", collectionsService.giveTodaysPopularCategories); // 컬렉션 좋아요 내림차순 10개까지 조회
 router.get("/:collection_id", collectionsService.getCollection); // 컬렉션 상세 조회
+router.put(
+  "/:collcetion_id",
+  authMiddleware,
+  collectionsService.editCollection
+); // 컬렉션 수정
 router.delete(
   "/:collection_id",
   authMiddleware,
