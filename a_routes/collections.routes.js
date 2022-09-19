@@ -18,7 +18,7 @@ router.get(
 router.put("/today", collectionsService.giveTodaysPopularCategories); // 컬렉션 좋아요 내림차순 10개까지 조회
 router.get("/:collection_id", collectionsService.getCollection); // 컬렉션 상세 조회
 router.put(
-  "/:collcetion_id",
+  "/:collection_id",
   authMiddleware,
   collectionsService.editCollection
 ); // 컬렉션 수정
