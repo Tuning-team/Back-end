@@ -52,7 +52,7 @@ class VideoRepository {
           channelTitle: e.snippet.channelTitle,
           channelId: e.snippet.channelId,
           thumbnails: e.snippet.thumbnails.medium.url,
-          description: e.snippet.description,
+          description: e.snippet.description ? e.snippet.description : "-",
         };
       });
 

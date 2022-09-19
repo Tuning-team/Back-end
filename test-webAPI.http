@@ -1,4 +1,8 @@
+# @host = https://api.tube-tuning.com
 @host = https://tube-tuning.com
+# @host = http://localhost:4000
+
+>>>>>>> origin/feature
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
@@ -9,7 +13,7 @@ PUT {{host}}/api/collections/today
 
 
 ### 
-GET https://goweather.herokuapp.com/weather/seoul
+GET https://goweather.herokuapp.com/weather/Seoul
 
 
 ## ---------------------- 컬렉션 관련 API ------------------------
@@ -20,16 +24,31 @@ Content-Type: application/json
 
 {
     "category_id": "6319aeebd1e330e86bbade88",
-    "collectionTitle": "방탄소년단 모음",
-    "description": "BTS 짱!",
-    "videos": ["nWJB1U7cQVs", "nWJB1U7cQVs"]
+
+    "collectionTitle": "키엘리니?",
+    "description": "누구임?",
+    "videos": ["yWiydiTLAXo"]
+
 }
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-=======
-GET	{{host}}/api/collections/6321cf35b3b3994263cfb7bc
 
+GET	{{host}}/api/collections/6321cf35b3b3994263cfb7bc
+=======
+GET	{{host}}/api/collections/6319e2bb9dbc9f0427279e97
+
+
+### 4. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
+PUT {{host}}/api/collections/6328142ba7db6e584c8a2aad
+Content-Type: application/json
+
+{
+    "category_id": "6319aeebd1e330e86bbade88",
+    "collectionTitle": "mbti",
+    "description": "mbti 신기행",
+    "videos": ["5yiMd2lGQJo", "PmGs8I7qetY"]
+}
 
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
@@ -45,7 +64,7 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/6319e4b3ec6de8cd33569795
+PUT	{{host}}/api/collections/like/6319e2bb9dbc9f0427279e97
 Content-Type: application/json
 
 
@@ -55,7 +74,8 @@ Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7b&offset=0&limit=3
+GET	{{host}}/api/collections?category_id=631e7d7a4ae4c133c405a965&offset=0&limit=3
+>>>>>>> origin/feature
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
@@ -99,11 +119,11 @@ DELETE {{host}}/api/comments/6319e5f9ec6de8cd335697dc
 
 ## ---------------------- 영상 찾기 관련 API ------------------------
 ### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
-GET {{host}}/api/search/videos/db?keyword=방탄소년단
+GET {{host}}/api/search/videos/db?keyword=축구
 
 
 ### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
-GET {{host}}/api/search/videos/youtube?keyword=운동
+GET {{host}}/api/search/videos/youtube?keyword=축구
 
 
 
