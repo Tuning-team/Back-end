@@ -55,6 +55,32 @@ class UsersRepository {
     );
     return updatedDetail;
   };
+  //관심사 등록
+  interestCategory = async (user_id, category_id) => {
+    const { interestedCategorysArr } = await User.findOne({ _id: user_id });
+
+    interestedCategorysArr.push(category_id);
+
+    console.log("interestedCategorysArr:", interestedCategorysArr);
+
+    const updatedInterest = await User.updateOne(
+      {_id: user_id},
+      { interestedCategorysArr: interestedCategorysArr }
+    );
+    return updatedInterest;
+  }
+  //관심사 등록 삭제
+  disInterestCategory = async (user_id, category_id) => {
+    const { interestedCategorysArr } = await User.findOne({ _id: user_id });
+
+    const changedArr = interestedCategorysArr.filter((e) => e !== category_id);
+
+    const updatedInterest = await User.updateOne(
+      {_id: user_id},
+      { interestedCategorysArr: changedArr }
+    );
+    return updatedInterest;
+  }
 }
 
 module.exports = UsersRepository;

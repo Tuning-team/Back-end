@@ -159,15 +159,10 @@ GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpW
 
 ### 22. 영상 아이디를 하나 넣으면 그 채널 전체의 재생목록 영상을 검색가능하게 함
 POST {{host}}/api/videos/add/XQGE6C8btv4
-<<<<<<< HEAD
-=======
-
-### 
-GET https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=lLgy8r6fl7A,22Gguht_plk
-
-
 
 ###
 GET https://www.googleapis.com/oauth2/v2/userinfo
 Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2wwbOf6w7oUstMxDt5kDRX19nRDPc0Uus0Ybs6PbJIUbymnq74HgOKKalAvUYO7YtjcuDfFo2XxdaKxfsAi1VA_X7L-QyXfWnz5dULcaI7YaCgYKATASARMSFQE65dr8XCcfN26UcSMirEyHBM_1PA0163
->>>>>>> origin/feature
+
+###
+GET {{host}}/api/interest/6319aeebd1e330e86bbade7c
