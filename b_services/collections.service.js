@@ -271,6 +271,13 @@ class CollectionsService {
         video_ids // ["",""]
       );
 
+      console.log("returnCollection", returnCollection);
+      const collection_id = returnCollection._id.toString();
+      const updatedUser = await this.userRepository.createMyCollection(
+        user_id,
+        collection_id
+      );
+
       res.status(201).json({
         success: true,
         message: "컬렉션을 생성하였습니다.",
@@ -342,6 +349,7 @@ class CollectionsService {
   deleteCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
 
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -358,6 +366,7 @@ class CollectionsService {
           .json({ success: false, message: "작성자만 삭제가 가능합니다." });
       } else {
         await this.collectionRepository.deleteCollection(collection_id);
+        await this.userRepository.deleteMyCollection(user_id, collection_id);
         res
           .status(200)
           .json({ success: true, message: "컬렉션을 삭제하였습니다." });
@@ -381,7 +390,7 @@ class CollectionsService {
         collection_id
       );
 
-      const { likedCollectionsArr } = await this.userRepository.getUserById(
+      const { myLikingCollections } = await this.userRepository.getUserById(
         user_id
       );
 
@@ -389,7 +398,7 @@ class CollectionsService {
         res
           .status(400)
           .json({ success: false, message: "해당 컬렉션이 없습니다." });
-      } else if (!likedCollectionsArr.includes(collection_id)) {
+      } else if (!myLikingCollections.includes(collection_id)) {
         await this.collectionRepository.likeCollection(collection_id);
         await this.userRepository.likeCollection(user_id, collection_id);
         res.status(200).json({

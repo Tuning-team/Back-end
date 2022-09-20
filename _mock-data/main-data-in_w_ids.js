@@ -8,8 +8,8 @@ const users = [
     lastName: "Kim",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvmkSJ_xTohZASxEYTNzTumaAkOEK36BQqs38Q60V=s96-c",
-    myCollectionsArr: ["6312cd792a4f77334033a9bd", "6312cd792a4f77334033a9c1"],
-    likedCollectionsArr: ["6312cd792a4f77334033a9c3"],
+    myCollections: ["6312cd792a4f77334033a9bd", "6312cd792a4f77334033a9c1"],
+    myLikingCollections: ["6312cd792a4f77334033a9c3"],
     createdAt: "2022-08-30T07:02:22.737+00:00",
   },
   {
@@ -21,8 +21,8 @@ const users = [
     lastName: "Kim",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvmmUdDch2QKNWgijUsMvskVPeT9WDqEiABVBdIme=s96-c",
-    myCollectionsArr: ["6312cd792a4f77334033a9c2", "6312cd792a4f77334033a9be"],
-    likedCollectionsArr: ["6312cd792a4f77334033a9c3"],
+    myCollections: ["6312cd792a4f77334033a9c2", "6312cd792a4f77334033a9be"],
+    myLikingCollections: ["6312cd792a4f77334033a9c3"],
     createdAt: "2022-08-30T08:28:14.357+00:00",
   },
   {
@@ -34,8 +34,8 @@ const users = [
     lastName: "Kim",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvml_ySVSzUsDoVOQmADwCbMTCR_8vtAgEGCmy0qy=s96-c",
-    myCollectionsArr: ["6312cd792a4f77334033a9bf", "6312cd792a4f77334033a9c3"],
-    likedCollectionsArr: ["6312cd792a4f77334033a9bd"],
+    myCollections: ["6312cd792a4f77334033a9bf", "6312cd792a4f77334033a9c3"],
+    myLikingCollections: ["6312cd792a4f77334033a9bd"],
     createdAt: "2022-08-20T02:34:23.144+00:00",
   },
   {
@@ -47,8 +47,8 @@ const users = [
     lastName: "김",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvmm-deZJTslcxU7fDYb_sjfF4QzZVT2C6YXtsmc=s96-c",
-    myCollectionsArr: ["6312cd792a4f77334033a9c0"],
-    likedCollectionsArr: ["6312cd792a4f77334033a9bf"],
+    myCollections: ["6312cd792a4f77334033a9c0"],
+    myLikingCollections: ["6312cd792a4f77334033a9bf"],
     createdAt: "2022-08-20T03:36:15.519+00:00",
   },
 ];

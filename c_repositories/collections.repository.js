@@ -165,6 +165,11 @@ class CollectionRepository {
       { $inc: { keep: -1 } }
     );
     return notKeepCollection.keep;
+    
+  // 유저가 보유한 좋아요 리스트
+  getCollectionsByLikedArray = async (myLikingCollections) => {
+    const allCollectionsUserLiked = await User.find({ myLikingCollections });
+    return allCollectionsUserLiked;
   };
 
   // 해당 컬렉션이 보유한 좋아요 리스트
