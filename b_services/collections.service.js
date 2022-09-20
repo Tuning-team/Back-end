@@ -15,12 +15,10 @@ class CollectionsService {
   commentRepository = new CommentRepository();
   videoRepository = new VideoRepository();
 
-  // 내가 모은 컬렉션 목록 조회 with Pagenation ↔
+  // 내가 만든 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsByUserId = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      console.log("use_id", user_id);
-
       const { offset, limit } = req.query;
       const { userDataAll, totalContents, hasNext } =
         await this.collectionRepository.getAllCollectionsByUserIdWithPaging(
@@ -191,8 +189,6 @@ class CollectionsService {
           collection_id
         );
 
-      console.log("collection", collection);
-
       let commentNum = collectionComments.length;
       let thumbnailsArr = await Promise.all(
         collection.videos.map(async (id) => {
@@ -248,6 +244,11 @@ class CollectionsService {
         videos, // videoId (유튜브)
       } = req.body;
 
+      if (!category_id || !collectionTitle || !description || !videos) {
+        res.status(400).json({ message: "누락된 항목이 있습니다." });
+        return;
+      }
+
       const createdVideos = await this.videoRepository.createVideosByIds(
         videos
       );
@@ -264,6 +265,13 @@ class CollectionsService {
         collectionTitle,
         description,
         video_ids // ["",""]
+      );
+
+      console.log("returnCollection", returnCollection);
+      const collection_id = returnCollection._id.toString();
+      const updatedUser = await this.userRepository.createMyCollection(
+        user_id,
+        collection_id
       );
 
       res.status(201).json({
@@ -337,6 +345,7 @@ class CollectionsService {
   deleteCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
 
       const thisCollection = await this.collectionRepository.getCollectionById(
@@ -353,6 +362,7 @@ class CollectionsService {
           .json({ success: false, message: "작성자만 삭제가 가능합니다." });
       } else {
         await this.collectionRepository.deleteCollection(collection_id);
+        await this.userRepository.deleteMyCollection(user_id, collection_id);
         res
           .status(200)
           .json({ success: true, message: "컬렉션을 삭제하였습니다." });
@@ -376,7 +386,7 @@ class CollectionsService {
         collection_id
       );
 
-      const { likedCollectionsArr } = await this.userRepository.getUserById(
+      const { myLikingCollections } = await this.userRepository.getUserById(
         user_id
       );
 
@@ -384,7 +394,7 @@ class CollectionsService {
         res
           .status(400)
           .json({ success: false, message: "해당 컬렉션이 없습니다." });
-      } else if (!likedCollectionsArr.includes(collection_id)) {
+      } else if (!myLikingCollections.includes(collection_id)) {
         await this.collectionRepository.likeCollection(collection_id);
         await this.userRepository.likeCollection(user_id, collection_id);
         res.status(200).json({
@@ -591,7 +601,6 @@ class CollectionsService {
     const weatherApi = await axios.get(
       "https://goweather.herokuapp.com/weather/seoul"
     );
-    // console.log(description.split(" ")[description.split(" ").length - 1]);
     const string = weatherApi.data.description;
     const weather = string.split(" ")[string.split(" ").length - 1];
     console.log("string", string, "weather", weather);
@@ -653,7 +662,7 @@ class CollectionsService {
       await this.getLatestTop10();
       await this.getTimeRecommend10();
       await this.getWeatherRecommend10();
-      console.log("메인화면 추천리스트 재설정 ---- !");
+      console.log("메인화면 추천리스트 재설정 완료 ---- !");
     }, 1000 * 60 * 60); // 1h;
   };
 }

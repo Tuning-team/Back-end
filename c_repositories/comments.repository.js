@@ -23,9 +23,7 @@ class CommentRepository {
 
   // _id에 해당하는 댓글을 불러옴
   getCommentDetail = async (comment_id) => {
-    console.log("comment_id", comment_id);
     const thisComment = await Comment.findOne({ _id: comment_id });
-
     return thisComment;
   };
 
