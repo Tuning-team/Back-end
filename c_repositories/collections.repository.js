@@ -118,6 +118,13 @@ class CollectionRepository {
     return updatedCollection;
   };
 
+  removeVideoFromCollection = async (_id, filteredArr) => {
+    await Collection.findOneAndUpdate({ _id }, { $set: { videos: filteredArr } });
+    const updatedCollection = await Collection.findOne({ _id });
+
+    return updatedCollection;
+  };
+
   // _id에 해당하는 컬렉션 수정. return 수정된 컬렉션 정보
   editCollection = async (user_id, category_id, collectionTitle, description, videos, _id) => {
     console.log("_id, videos", _id, videos);
