@@ -25,14 +25,6 @@ class UsersRepository {
     return updateDatail;
   };
 
-  // 담기 취소(삭제)
-  notKeepCollection = async (collection_id) => {
-    const notKeepCollection = await User.deleteOne({
-      _id: collection_id,
-    });
-    return notKeepCollection;
-  };
-
   // 유저가 보유한 담기 리스트
   getCollectionsByKeepingArray = async (keepCollectionsArr) => {
     const allCollectionsUserKept = await User.find({ keepCollectionsArr });
