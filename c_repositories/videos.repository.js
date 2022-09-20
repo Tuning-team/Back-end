@@ -87,7 +87,7 @@ class VideoRepository {
   //   const updatedVideo = await Video.updateOne(
   //     { _id: video_id },
   //     { $set:{videoTitle, category_id, channelTitle, thumbnails} }
-  //     
+  //
   //   );
   //   return updatedVideo;
   // };

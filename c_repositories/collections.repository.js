@@ -77,7 +77,6 @@ class CollectionRepository {
   // 작성된 컬렉션 상세 조회
   getCollectionById = async (_id) => {
     const collection = await Collection.findOne({ _id });
-    console.log("collection", collection);
     return collection;
   };
 
@@ -97,13 +96,7 @@ class CollectionRepository {
   };
 
   // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
-  createCollection = async (
-    user_id,
-    category_id,
-    collectionTitle,
-    description,
-    videos
-  ) => {
+  createCollection = async (user_id, category_id, collectionTitle, description, videos) => {
     const collection = await Collection.create({
       user_id,
       category_id,
@@ -126,14 +119,7 @@ class CollectionRepository {
   };
 
   // _id에 해당하는 컬렉션 수정. return 수정된 컬렉션 정보
-  editCollection = async (
-    user_id,
-    category_id,
-    collectionTitle,
-    description,
-    videos,
-    _id
-  ) => {
+  editCollection = async (user_id, category_id, collectionTitle, description, videos, _id) => {
     console.log("_id, videos", _id, videos);
     const editCollection = await Collection.updateOne(
       { _id: _id },
@@ -149,23 +135,12 @@ class CollectionRepository {
   };
 
   // _id에 해당하는 컬렉션의 담은 수를 1개 올린다. return 컬렉션의 현재 담은 수
-  keepCollection = async (_id) => {
-    const keepCollection = await Collection.findOneAndUpdate(
-      { _id },
-      { $inc: { keep: +1 } }
-    );
+  keepCollection = async (_id, updatedArr) => {
+    const keepCollection = await Collection.findOneAndUpdate({ _id }, { keptBy: updatedArr });
 
-    return keepCollection.keep;
+    return keepCollection;
   };
 
-  // _id에 해당하는 컬렉션의 담은 수를 1개 내린다. returns 담기 취소한 컬렉션의 현재 담은 수
-  notKeepCollection = async (_id) => {
-    const notKeepCollection = await Collection.findOneAndUpdate(
-      { _id },
-      { $inc: { keep: -1 } }
-    );
-    return notKeepCollection.keep;
-    
   // 유저가 보유한 좋아요 리스트
   getCollectionsByLikedArray = async (myLikingCollections) => {
     const allCollectionsUserLiked = await User.find({ myLikingCollections });
@@ -181,30 +156,21 @@ class CollectionRepository {
 
   // _id에 해당하는 컬렉션의 좋아요를 1개 올린다. return 좋아한 컬렉션의 현재 좋아요 수
   likeCollection = async (_id) => {
-    const likeCollection = await Collection.findOneAndUpdate(
-      { _id },
-      { $inc: { likes: +1 } }
-    );
+    const likeCollection = await Collection.findOneAndUpdate({ _id }, { $inc: { likes: +1 } });
 
     return likeCollection.likes;
   };
 
   // _id에 해당하는 컬렉션의 좋아요를 1개 내린다. returns 좋아요 취소한 컬렉션의 현재 좋아요 수
   disLikeCollection = async (_id) => {
-    const disLikeCollection = await Collection.findOneAndUpdate(
-      { _id },
-      { $inc: { likes: -1 } }
-    );
+    const disLikeCollection = await Collection.findOneAndUpdate({ _id }, { $inc: { likes: -1 } });
     return disLikeCollection.likes;
   };
 
   // 검색어에 맞는 컬렉션 리스트
   getCollectionsBySearch = async (keyword) => {
     const searchCollections = await Collection.find({
-      $or: [
-        { collectionTitle: new RegExp(keyword, "i") },
-        { description: new RegExp(keyword, "i") },
-      ],
+      $or: [{ collectionTitle: new RegExp(keyword, "i") }, { description: new RegExp(keyword, "i") }],
     });
 
     console.log(searchCollections);
@@ -214,17 +180,11 @@ class CollectionRepository {
   // 검색어에 맞는 컬렉션 리스트 (페이지네이션 필요한 경우)
   getCollectionsBySearchWithPaging = async (keyword, offset, limit) => {
     const resultForCount = await Collection.find({
-      $or: [
-        { collectionTitle: new RegExp(keyword, "i") },
-        { description: new RegExp(keyword, "i") },
-      ],
+      $or: [{ collectionTitle: new RegExp(keyword, "i") }, { description: new RegExp(keyword, "i") }],
     });
 
     const resultBySearch = await Collection.find({
-      $or: [
-        { collectionTitle: new RegExp(keyword, "i") },
-        { description: new RegExp(keyword, "i") },
-      ],
+      $or: [{ collectionTitle: new RegExp(keyword, "i") }, { description: new RegExp(keyword, "i") }],
     })
       .sort({
         createdAt: -1,
@@ -248,10 +208,7 @@ class CollectionRepository {
 
     const resultData = [];
     for (let i = 0; i < likeTopCollections.length; i++) {
-      const pushedCollections = [
-        ...likeTopCollections[i].category_id,
-        "6319aeebd1e330e86bbade9f",
-      ];
+      const pushedCollections = [...likeTopCollections[i].category_id, "6319aeebd1e330e86bbade9f"];
 
       const result = await Collection.findOneAndUpdate(
         { _id: likeTopCollections[i]._id },
@@ -274,10 +231,7 @@ class CollectionRepository {
 
     const resultData = [];
     for (let i = 0; i < latestTopCollections.length; i++) {
-      const pushedCollections = [
-        ...latestTopCollections[i].category_id,
-        "631e7d7a4ae4c133c405a964",
-      ];
+      const pushedCollections = [...latestTopCollections[i].category_id, "631e7d7a4ae4c133c405a964"];
 
       const result = await Collection.findOneAndUpdate(
         { _id: latestTopCollections[i]._id },
@@ -331,15 +285,9 @@ class CollectionRepository {
 
     const resultData = [];
     for (let i = 0; i < collectionsToRecommend.length; i++) {
-      const pushedCollections = [
-        ...collectionsToRecommend[i].category_id,
-        "631e7d7a4ae4c133c405a966",
-      ];
+      const pushedCollections = [...collectionsToRecommend[i].category_id, "631e7d7a4ae4c133c405a966"];
 
-      await Collection.findOneAndUpdate(
-        { _id: collectionsToRecommend[i]._id },
-        { $set: { category_id: pushedCollections } }
-      );
+      await Collection.findOneAndUpdate({ _id: collectionsToRecommend[i]._id }, { $set: { category_id: pushedCollections } });
 
       resultData.push(collectionsToRecommend[i]._id);
     }
@@ -396,10 +344,7 @@ class CollectionRepository {
 
     const resultData = [];
     for (let i = 0; i < collectionsToRecommend.length; i++) {
-      const pushedCollections = [
-        ...collectionsToRecommend[i].category_id,
-        "631e7d7a4ae4c133c405a965",
-      ];
+      const pushedCollections = [...collectionsToRecommend[i].category_id, "631e7d7a4ae4c133c405a965"];
 
       await Collection.findOneAndUpdate(
         { _id: collectionsToRecommend[i]._id },
@@ -422,9 +367,7 @@ class CollectionRepository {
     // collections = [ {},{},{},{},{} .. ]
 
     for (let i = 0; i < collections.length; i++) {
-      const filteredCategories = collections[i].category_id.filter(
-        (e) => e !== category_id
-      );
+      const filteredCategories = collections[i].category_id.filter((e) => e !== category_id);
 
       const result = await Collection.findOneAndUpdate(
         { _id: collections[i]._id },
