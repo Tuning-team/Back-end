@@ -5,7 +5,7 @@ class UsersRepository {
   getUserById = async (user_id) => {
     const returnUserInfo = await User.findOne({ _id: user_id });
     return returnUserInfo;
-  };
+  };  
 
   // 유저 정보 수정
   updateVideo = async (_id, profilePicUrl, displayName) => {
@@ -95,6 +95,34 @@ class UsersRepository {
     return updatedDetail;
   };
 
+  //관심사 등록
+  interestCategory = async (user_id, category_id) => {
+    const { interestedCategorysArr } = await User.findOne({ _id: user_id });
+
+    interestedCategorysArr.push(category_id);
+
+    console.log("interestedCategorysArr:", interestedCategorysArr);
+
+    const updatedInterest = await User.updateOne(
+      {_id: user_id},
+      { interestedCategorysArr: interestedCategorysArr }
+    );
+    return updatedInterest;
+  }
+  //관심사 등록 삭제
+  disInterestCategory = async (user_id, category_id) => {
+    const { interestedCategorysArr } = await User.findOne({ _id: user_id });
+
+    const changedArr = interestedCategorysArr.filter((e) => e !== category_id);
+
+    const updatedInterest = await User.updateOne(
+      {_id: user_id},
+      { interestedCategorysArr: changedArr }
+    );
+    return updatedInterest;
+  }
+
+
   deleteMyCollection = async (user_id, collection_id) => {
     // 기존 likedArr 찾아서,
     const { myCollections } = await User.findOne({ _id: user_id });
@@ -141,6 +169,7 @@ class UsersRepository {
     const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
     return allCollectionsUserLiked;
   };
+
 }
 
 module.exports = UsersRepository;

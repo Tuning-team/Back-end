@@ -76,20 +76,21 @@ class VideoRepository {
   };
 
   //수정
-  updateVideo = async (
-    video_id,
-    videoTitle,
-    category_id,
-    channelTitle,
-    channel_id,
-    thumbnails
-  ) => {
-    const updatedVideo = await Video.updateOne(
-      { videoTitle, category_id, channelTitle, thumbnails },
-      { _id: video_id }
-    );
-    return updatedVideo;
-  };
+  // updateVideo = async (
+  //   video_id,
+  //   videoTitle,
+  //   category_id,
+  //   channelTitle,
+  //   channel_id,
+  //   thumbnails
+  // ) => {
+  //   const updatedVideo = await Video.updateOne(
+  //     { _id: video_id },
+  //     { $set:{videoTitle, category_id, channelTitle, thumbnails} }
+  //     
+  //   );
+  //   return updatedVideo;
+  // };
 
   //삭제
   deleteVideo = async (_id) => {
