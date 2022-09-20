@@ -28,6 +28,11 @@ const CollectionSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  keptBy: {
+    type: Array,
+    required: true,
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
