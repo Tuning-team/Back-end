@@ -10,6 +10,8 @@ const VideoRepository = require("../c_repositories/videos.repository.js");
 const videoRepository = new VideoRepository();
 const CollectionsRepository = require("../c_repositories/collections.repository.js");
 const collectionsRepository = new CollectionsRepository();
+const CommentsRepository = require("../c_repositories/comments.repository.js");
+const commentsRepository = new CommentsRepository();
 
 const axios = require("axios");
 
@@ -25,7 +27,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/AItbvmkSJ_xTohZASxEYTNzTumaAkOEK36BQqs38Q60V=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -39,7 +41,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/AItbvmmUdDch2QKNWgijUsMvskVPeT9WDqEiABVBdIme=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -53,7 +55,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/AItbvmm-deZJTslcxU7fDYb_sjfF4QzZVT2C6YXtsmc=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -67,7 +69,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/AItbvml_ySVSzUsDoVOQmADwCbMTCR_8vtAgEGCmy0qy=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -81,7 +83,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/AItbvml37SSBx3o0P6bj2LLaukBX_zF3g9AkxMShux70=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -95,7 +97,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/AItbvmkN5T19KzoVP8PibD-oYmuumzRYetnovwkZqf_q=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -109,7 +111,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a-/AFdZucoR5PD1h8BTkMwTERbM8HoNXSfDLenrN0dttjGq=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -123,7 +125,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/AItbvmmTDoFzhZMQ55PkxoR-b7IgOS_s4pgkNl2g0GAW=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -137,7 +139,7 @@ const axios = require("axios");
 //     profilePicUrl:
 //       "https://lh3.googleusercontent.com/a/ALm5wu2lrJJvv-ezQsed1o4nJZkizOBfS5dwXN72MpDN=s96-c",
 //     myLikingCollectionsArr: [],
-//     myCollectionsArr: [],
+//     myCollections: [],
 //     myInterestingCategories: [],
 //     myKeepingCollections: [],
 //     Followings: [],
@@ -423,6 +425,177 @@ const axios = require("axios");
 // createCollections(newVideosSources);
 
 // 3. User_Comments_Collections
+const commentsToInsert = [
+  {
+    comments: "또 들를게요!",
+  },
+  {
+    comments: "너무너무 좋습니다.",
+  },
+  {
+    comments: "이 컬렉션 좋습니다!",
+  },
+  {
+    comments: "짱짱 튜닝 너무 좋네요",
+  },
+  {
+    comments: "좋아요~~~",
+  },
+  {
+    comments: "감성 터져요",
+  },
+  {
+    comments: "좋아요~~",
+  },
+  {
+    comments: "내 감성~~~ 우어우어",
+  },
+  {
+    comments: "오 이런 컬렉션 좋은 것 같아요!!",
+  },
+  {
+    comments: "오 이런 컬렉션도 좋은 것 같아요!!",
+  },
+  {
+    comments: "진짜 좋아요 짱짱짱 !",
+  },
+  {
+    comments: "퍼가요",
+  },
+  {
+    comments: "오 짱!!",
+  },
+  {
+    comments: "너무너무 좋습니다.",
+  },
+  {
+    comments: "저도 이거 진짜 좋아하는데",
+  },
+  {
+    comments: "딱 제스타일! 너무 좋아요. 퍼갑니다!",
+  },
+  {
+    comments: "오",
+  },
+  {
+    comments: "오오오오 딱 내가 찾던 컬렉션!",
+  },
+  {
+    comments: "좋아요~~~",
+  },
+  {
+    comments: "진짜 좋아요 짱짱짱 !",
+  },
+  {
+    comments: "또 들를게요!",
+  },
+  {
+    comments: "오오오오",
+  },
+  {
+    comments: "짱짱 튜닝 너무 좋네요",
+  },
+  {
+    comments: "오오오오",
+  },
+  {
+    comments: "오오오오 딱 내가 찾던 컬렉션!",
+  },
+  {
+    comments: "감성 터져요",
+  },
+  {
+    comments: "오 이런 컬렉션 좋은 것 같아요!!",
+  },
+  {
+    comments: "내 감성~~~ 우어우어",
+  },
+  {
+    comments: "좋아요~~",
+  },
+  {
+    comments: "이런 컬렉션 만들어주셔서 정말 감사합니다!!",
+  },
+  {
+    comments: "이런 컬렉션 만들어주셔서 정말 감사합니다!!",
+  },
+  {
+    comments: "딱 제스타일! 너무 좋아요. 퍼갑니다!",
+  },
+  {
+    comments: "오",
+  },
+  {
+    comments: "오 짱!!",
+  },
+  {
+    comments: "또 들를게요!",
+  },
+  {
+    comments: "퍼가요",
+  },
+  {
+    comments: "너무너무 좋습니다.",
+  },
+  {
+    comments: "좋아요~~~",
+  },
+  {
+    comments: "저도 이거 진짜 좋아하는데",
+  },
+  {
+    comments: "퍼가요",
+  },
+  {
+    comments: "이 컬렉션 좋습니다!",
+  },
+  {
+    comments: "담아갑니다",
+  },
+  {
+    comments: "진짜 좋아요 짱짱짱 !",
+  },
+  {
+    comments: "오 이런 컬렉션도 좋은 것 같아요!!",
+  },
+  {
+    comments: "딱 내가 찾던 콜렉션이네요!",
+  },
+  {
+    comments: "우와 눈물이 납니다. ㅠ",
+  },
+];
+
+const userCommentsOnCollections = async (commentsToInsert) => {
+  try {
+    const users = await Users.find();
+    const user_ids = users.map((e) => e._id);
+    console.log("user_ids", user_ids);
+
+    const collections = await Collections.find();
+    const collection_ids = collections.map((e) => e._id);
+    console.log("collection_ids", collection_ids);
+
+    commentsToInsert = [...commentsToInsert, ...commentsToInsert];
+    console.log("commentsToInsert", commentsToInsert);
+
+    for (let i = 0; i < commentsToInsert.length; i++) {
+      const comment = commentsToInsert[i].comments;
+      const user_id = user_ids[i % user_ids.length]; // 반복
+      const collection_id = collection_ids[i % collection_ids.length]; // 반복
+
+      const createdComment = await commentsRepository.createComment(
+        user_id,
+        collection_id,
+        comment
+      );
+      console.log("createdComment", createdComment);
+    }
+  } catch (error) {
+    console.log(`${error.message}`);
+  }
+};
+userCommentsOnCollections(commentsToInsert);
 
 // # User_Keep_Collections
 // const collections = Collections.find();

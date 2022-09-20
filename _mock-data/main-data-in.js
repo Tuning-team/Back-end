@@ -8,11 +8,11 @@ const users = [
     lastName: "Kim",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvmmUdDch2QKNWgijUsMvskVPeT9WDqEiABVBdIme=s96-c",
-    "myCollectionsArr : Array": [
+    "myCollections : Array": [
       "630615c2f236aa859d1c6bf1",
       "6306188d706e6ab66e2e0931",
     ],
-    "likedCollectionsArr : Array": [
+    "myLikingCollections : Array": [
       "630615c2f236aa859d1c6bf1",
       "6306188d706e6ab66e2e0931",
     ],
@@ -27,8 +27,8 @@ const users = [
     lastName: "jeon",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvml37SSBx3o0P6bj2LLaukBX_zF3g9AkxMShux70=s96-c",
-    "myCollectionsArr : Array": ["630615f9f236aa859d1c6bfc"],
-    "likedCollectionsArr : Array": ["630615f9f236aa859d1c6bfc"],
+    "myCollections : Array": ["630615f9f236aa859d1c6bfc"],
+    "myLikingCollections : Array": ["630615f9f236aa859d1c6bfc"],
     createdAt: "2022-08-30T08:28:14.357+00:00",
   },
   {
@@ -40,9 +40,9 @@ const users = [
     lastName: "Kim",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvmmUdDch2QKNWgijUsMvskVPeT9WDqEiABVBdIme=s96-c",
-    "myCollectionsArr : Array":
+    "myCollections : Array":
       '["630618e2706e6ab66e2e094a". "630619f4706e6ab66e2e09a0"]',
-    "likedCollectionsArr : Array":
+    "myLikingCollections : Array":
       '["630618e2706e6ab66e2e094a". "630619f4706e6ab66e2e09a0"]',
     createdAt: "2022-08-20T02:34:23.144+00:00",
   },
@@ -55,11 +55,11 @@ const users = [
     lastName: "Kim",
     profilePicUrl:
       "https://lh3.googleusercontent.com/a/AItbvmmUdDch2QKNWgijUsMvskVPeT9WDqEiABVBdIme=s96-c",
-    "myCollectionsArr : Array": [
+    "myCollections : Array": [
       "630619ed706e6ab66e2e0995",
       "630619fb706e6ab66e2e09a3",
     ],
-    "likedCollectionsArr : Array": [
+    "myLikingCollections : Array": [
       "630619ed706e6ab66e2e0995",
       "630619fb706e6ab66e2e09a3",
     ],

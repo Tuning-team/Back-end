@@ -376,7 +376,7 @@ class CollectionsService {
         collection_id
       );
 
-      const { likedCollectionsArr } = await this.userRepository.getUserById(
+      const { myLikingCollections } = await this.userRepository.getUserById(
         user_id
       );
 
@@ -384,7 +384,7 @@ class CollectionsService {
         res
           .status(400)
           .json({ success: false, message: "해당 컬렉션이 없습니다." });
-      } else if (!likedCollectionsArr.includes(collection_id)) {
+      } else if (!myLikingCollections.includes(collection_id)) {
         await this.collectionRepository.likeCollection(collection_id);
         await this.userRepository.likeCollection(user_id, collection_id);
         res.status(200).json({
