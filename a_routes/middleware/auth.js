@@ -44,7 +44,7 @@ class Auth {
         return;
       }
 
-      const { user_id } = jwt.verify(tokenValue, process.env.MY_SECRET_KEY);
+      let { user_id } = jwt.verify(tokenValue, process.env.MY_SECRET_KEY);
 
       console.log("------ ✅  Authorization Checked ------");
       res.locals.user_id = user_id;

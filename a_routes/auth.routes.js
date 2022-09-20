@@ -13,28 +13,6 @@ const { authMiddleware } = new Auth();
 const jwt = require("jsonwebtoken");
 const qs = require("qs");
 
-// 세션ID를 가진 사용자가 접속했을 때,유저 정보 받아보기
-router.get("/user", authMiddleware, async (req, res) => {
-  const user_id = res.locals.user_id;
-  const user = await userRepository.getUserById(user_id);
-
-  res.status(200).json({ success: true, user });
-});
-
-router.get("/user/:user_id", async (req, res) => {
-  const user = await userRepository.getUserById(req.params.user_id);
-  res.status(200).json({ success: true, user });
-});
-
-router.get("/logout", function (req, res, next) {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.status(200).redirect(process.env.REDIRECT_PATH);
-  });
-});
-
 // 구글에 사용자의 인증을 요청하는 API
 router.get("/google", passport.authenticate("google"));
 
