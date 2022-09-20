@@ -149,8 +149,8 @@ class CollectionRepository {
   };
 
   // 유저가 보유한 좋아요 리스트
-  getCollectionsByLikedArray = async (likeCollectionsArr) => {
-    const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
+  getCollectionsByLikedArray = async (myLikingCollections) => {
+    const allCollectionsUserLiked = await User.find({ myLikingCollections });
     return allCollectionsUserLiked;
   };
 

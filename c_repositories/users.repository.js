@@ -25,17 +25,17 @@ class UsersRepository {
   // 좋아요
   likeCollection = async (user_id, collection_id) => {
     // 기존 likedArr 찾아서,
-    const { likedCollectionsArr } = await User.findOne({ _id: user_id });
+    const { myLikingCollections } = await User.findOne({ _id: user_id });
 
     // 새로 좋아한 컬렉션 하나 넣어서
-    likedCollectionsArr.push(collection_id);
+    myLikingCollections.push(collection_id);
 
-    console.log("likedCollectionsArr:", likedCollectionsArr);
+    console.log("myLikingCollections:", myLikingCollections);
 
     // 업데이트
     const updatedDetail = await User.updateOne(
       { _id: user_id },
-      { likedCollectionsArr: likedCollectionsArr }
+      { myLikingCollections: myLikingCollections }
     );
     return updatedDetail;
   };
@@ -43,15 +43,15 @@ class UsersRepository {
   // 좋아요 취소
   disLikeCollection = async (user_id, collection_id) => {
     // 기존 likedArr 찾아서,
-    const { likedCollectionsArr } = await User.findOne({ _id: user_id });
+    const { myLikingCollections } = await User.findOne({ _id: user_id });
 
     // 새로 좋아한 컬렉션 하나 넣어서
-    const filteredArr = likedCollectionsArr.filter((e) => e !== collection_id);
+    const filteredArr = myLikingCollections.filter((e) => e !== collection_id);
 
     // 업데이트
     const updatedDetail = await User.updateOne(
       { _id: user_id },
-      { likedCollectionsArr: filteredArr }
+      { myLikingCollections: filteredArr }
     );
     return updatedDetail;
   };
