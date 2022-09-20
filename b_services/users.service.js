@@ -5,7 +5,7 @@ const CategoryRepository = require("../c_repositories/categories.repository");
 class UserService {
   categoryRepository = new CategoryRepository();
   collectionRepository = new CollectionRepository();
-  userRepository = new UsersRepository();
+  usersRepository = new UsersRepository();
 
   //ID로 유저정보 조회
   getLoggedInUser = async (req, res) => {
@@ -16,7 +16,7 @@ class UserService {
   };
   //ID로 유저정보 조회
   getUserById = async (req, res) => {
-    const user = await this.userRepository.getUserById(req.params.user_id);
+    const user = await this.usersRepository.getUserById(req.params.user_id);
     res.status(200).json({ success: true, user });
   };
 
@@ -30,10 +30,10 @@ class UserService {
       const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
 
-      let { myInterestingCategories } = await this.userRepository.getUserById(user_id);
+      let { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
       myInterestingCategories = Array.from(new Set([...myInterestingCategories, ...category_ids]));
 
-      await this.userRepository.setInterestCategories(user_id, myInterestingCategories);
+      await this.usersRepository.setInterestCategories(user_id, myInterestingCategories);
 
       let categories = await this.categoryRepository.getAllCategories(category_ids);
 
@@ -65,7 +65,7 @@ class UserService {
       // const user_id = process.env.TEMP_USER_ID;
 
       // user_id를
-      const { myInterestingCategories } = await this.userRepository.getUserById(user_id);
+      const { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
 
       console.log("myInterestingCategories", myInterestingCategories);
       let categories = await this.categoryRepository.getAllCategories(myInterestingCategories);
@@ -99,11 +99,11 @@ class UserService {
       const { category_id } = req.params;
 
       // user_id를
-      const { myInterestingCategories } = await this.userRepository.getUserById(user_id);
+      const { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
       // [cid,]
       const filteredArr = myInterestingCategories.filter((e) => e !== category_id);
 
-      const updatedUser = await this.userRepository.updateUserInterest(user_id, filteredArr);
+      const updatedUser = await this.usersRepository.updateUserInterest(user_id, filteredArr);
       console.log("updatedUser", updatedUser);
 
       res.status(200).json({
@@ -178,7 +178,7 @@ class UserService {
       // const user_id = res.locals.user_id;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
-      let { myKeepingCollections } = await this.userRepository.getUserById(user_id);
+      let { myKeepingCollections } = await this.usersRepository.getUserById(user_id);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
@@ -190,7 +190,7 @@ class UserService {
         await this.collectionRepository.keepCollection(collection_id, updatedArr);
 
         myKeepingCollections.push(collection_id);
-        await this.userRepository.keepCollection(user_id, myKeepingCollections);
+        await this.usersRepository.keepCollection(user_id, myKeepingCollections);
 
         res.status(200).json({
           success: true,
@@ -218,7 +218,7 @@ class UserService {
       const user_id = res.locals.user_id;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
-      let { myKeepingCollections } = await this.userRepository.getUserById(user_id);
+      let { myKeepingCollections } = await this.usersRepository.getUserById(user_id);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
@@ -230,7 +230,7 @@ class UserService {
         await this.collectionRepository.keepCollection(collection_id, filteredUserArr);
 
         const filteredCollectionArr = myKeepingCollections.filter((e) => e !== collection_id);
-        await this.userRepository.keepCollection(user_id, filteredCollectionArr);
+        await this.usersRepository.keepCollection(user_id, filteredCollectionArr);
 
         res.status(200).json({
           success: true,
@@ -252,7 +252,7 @@ class UserService {
       let user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
 
-      let { myKeepingCollections } = await this.userRepository.getUserById(user_id);
+      let { myKeepingCollections } = await this.usersRepository.getUserById(user_id);
 
       res.status(200).json({
         success: true,
