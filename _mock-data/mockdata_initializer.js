@@ -12,6 +12,8 @@ const CollectionsRepository = require("../c_repositories/collections.repository.
 const collectionsRepository = new CollectionsRepository();
 const CommentsRepository = require("../c_repositories/comments.repository.js");
 const commentsRepository = new CommentsRepository();
+const UsersRepository = require("../c_repositories/users.repository.js");
+const usersRepository = new UsersRepository();
 
 const axios = require("axios");
 
@@ -425,177 +427,251 @@ const axios = require("axios");
 // createCollections(newVideosSources);
 
 // 3. User_Comments_Collections
-const commentsToInsert = [
-  {
-    comments: "또 들를게요!",
-  },
-  {
-    comments: "너무너무 좋습니다.",
-  },
-  {
-    comments: "이 컬렉션 좋습니다!",
-  },
-  {
-    comments: "짱짱 튜닝 너무 좋네요",
-  },
-  {
-    comments: "좋아요~~~",
-  },
-  {
-    comments: "감성 터져요",
-  },
-  {
-    comments: "좋아요~~",
-  },
-  {
-    comments: "내 감성~~~ 우어우어",
-  },
-  {
-    comments: "오 이런 컬렉션 좋은 것 같아요!!",
-  },
-  {
-    comments: "오 이런 컬렉션도 좋은 것 같아요!!",
-  },
-  {
-    comments: "진짜 좋아요 짱짱짱 !",
-  },
-  {
-    comments: "퍼가요",
-  },
-  {
-    comments: "오 짱!!",
-  },
-  {
-    comments: "너무너무 좋습니다.",
-  },
-  {
-    comments: "저도 이거 진짜 좋아하는데",
-  },
-  {
-    comments: "딱 제스타일! 너무 좋아요. 퍼갑니다!",
-  },
-  {
-    comments: "오",
-  },
-  {
-    comments: "오오오오 딱 내가 찾던 컬렉션!",
-  },
-  {
-    comments: "좋아요~~~",
-  },
-  {
-    comments: "진짜 좋아요 짱짱짱 !",
-  },
-  {
-    comments: "또 들를게요!",
-  },
-  {
-    comments: "오오오오",
-  },
-  {
-    comments: "짱짱 튜닝 너무 좋네요",
-  },
-  {
-    comments: "오오오오",
-  },
-  {
-    comments: "오오오오 딱 내가 찾던 컬렉션!",
-  },
-  {
-    comments: "감성 터져요",
-  },
-  {
-    comments: "오 이런 컬렉션 좋은 것 같아요!!",
-  },
-  {
-    comments: "내 감성~~~ 우어우어",
-  },
-  {
-    comments: "좋아요~~",
-  },
-  {
-    comments: "이런 컬렉션 만들어주셔서 정말 감사합니다!!",
-  },
-  {
-    comments: "이런 컬렉션 만들어주셔서 정말 감사합니다!!",
-  },
-  {
-    comments: "딱 제스타일! 너무 좋아요. 퍼갑니다!",
-  },
-  {
-    comments: "오",
-  },
-  {
-    comments: "오 짱!!",
-  },
-  {
-    comments: "또 들를게요!",
-  },
-  {
-    comments: "퍼가요",
-  },
-  {
-    comments: "너무너무 좋습니다.",
-  },
-  {
-    comments: "좋아요~~~",
-  },
-  {
-    comments: "저도 이거 진짜 좋아하는데",
-  },
-  {
-    comments: "퍼가요",
-  },
-  {
-    comments: "이 컬렉션 좋습니다!",
-  },
-  {
-    comments: "담아갑니다",
-  },
-  {
-    comments: "진짜 좋아요 짱짱짱 !",
-  },
-  {
-    comments: "오 이런 컬렉션도 좋은 것 같아요!!",
-  },
-  {
-    comments: "딱 내가 찾던 콜렉션이네요!",
-  },
-  {
-    comments: "우와 눈물이 납니다. ㅠ",
-  },
-];
+// const commentsToInsert = [
+//   {
+//     comments: "또 들를게요!",
+//   },
+//   {
+//     comments: "너무너무 좋습니다.",
+//   },
+//   {
+//     comments: "이 컬렉션 좋습니다!",
+//   },
+//   {
+//     comments: "짱짱 튜닝 너무 좋네요",
+//   },
+//   {
+//     comments: "좋아요~~~",
+//   },
+//   {
+//     comments: "감성 터져요",
+//   },
+//   {
+//     comments: "좋아요~~",
+//   },
+//   {
+//     comments: "내 감성~~~ 우어우어",
+//   },
+//   {
+//     comments: "오 이런 컬렉션 좋은 것 같아요!!",
+//   },
+//   {
+//     comments: "오 이런 컬렉션도 좋은 것 같아요!!",
+//   },
+//   {
+//     comments: "진짜 좋아요 짱짱짱 !",
+//   },
+//   {
+//     comments: "퍼가요",
+//   },
+//   {
+//     comments: "오 짱!!",
+//   },
+//   {
+//     comments: "너무너무 좋습니다.",
+//   },
+//   {
+//     comments: "저도 이거 진짜 좋아하는데",
+//   },
+//   {
+//     comments: "딱 제스타일! 너무 좋아요. 퍼갑니다!",
+//   },
+//   {
+//     comments: "오",
+//   },
+//   {
+//     comments: "오오오오 딱 내가 찾던 컬렉션!",
+//   },
+//   {
+//     comments: "좋아요~~~",
+//   },
+//   {
+//     comments: "진짜 좋아요 짱짱짱 !",
+//   },
+//   {
+//     comments: "또 들를게요!",
+//   },
+//   {
+//     comments: "오오오오",
+//   },
+//   {
+//     comments: "짱짱 튜닝 너무 좋네요",
+//   },
+//   {
+//     comments: "오오오오",
+//   },
+//   {
+//     comments: "오오오오 딱 내가 찾던 컬렉션!",
+//   },
+//   {
+//     comments: "감성 터져요",
+//   },
+//   {
+//     comments: "오 이런 컬렉션 좋은 것 같아요!!",
+//   },
+//   {
+//     comments: "내 감성~~~ 우어우어",
+//   },
+//   {
+//     comments: "좋아요~~",
+//   },
+//   {
+//     comments: "이런 컬렉션 만들어주셔서 정말 감사합니다!!",
+//   },
+//   {
+//     comments: "이런 컬렉션 만들어주셔서 정말 감사합니다!!",
+//   },
+//   {
+//     comments: "딱 제스타일! 너무 좋아요. 퍼갑니다!",
+//   },
+//   {
+//     comments: "오",
+//   },
+//   {
+//     comments: "오 짱!!",
+//   },
+//   {
+//     comments: "또 들를게요!",
+//   },
+//   {
+//     comments: "퍼가요",
+//   },
+//   {
+//     comments: "너무너무 좋습니다.",
+//   },
+//   {
+//     comments: "좋아요~~~",
+//   },
+//   {
+//     comments: "저도 이거 진짜 좋아하는데",
+//   },
+//   {
+//     comments: "퍼가요",
+//   },
+//   {
+//     comments: "이 컬렉션 좋습니다!",
+//   },
+//   {
+//     comments: "담아갑니다",
+//   },
+//   {
+//     comments: "진짜 좋아요 짱짱짱 !",
+//   },
+//   {
+//     comments: "오 이런 컬렉션도 좋은 것 같아요!!",
+//   },
+//   {
+//     comments: "딱 내가 찾던 콜렉션이네요!",
+//   },
+//   {
+//     comments: "우와 눈물이 납니다. ㅠ",
+//   },
+// ];
 
-const userCommentsOnCollections = async (commentsToInsert) => {
-  try {
-    const users = await Users.find();
-    const user_ids = users.map((e) => e._id);
-    console.log("user_ids", user_ids);
+// const userCommentsOnCollections = async (commentsToInsert) => {
+//   try {
+//     const users = await Users.find();
+//     const user_ids = users.map((e) => e._id);
+//     console.log("user_ids", user_ids);
 
-    const collections = await Collections.find();
-    const collection_ids = collections.map((e) => e._id);
-    console.log("collection_ids", collection_ids);
+//     const collections = await Collections.find();
+//     const collection_ids = collections.map((e) => e._id);
+//     console.log("collection_ids", collection_ids);
 
-    commentsToInsert = [...commentsToInsert, ...commentsToInsert];
-    console.log("commentsToInsert", commentsToInsert);
+//     commentsToInsert = [...commentsToInsert, ...commentsToInsert];
+//     console.log("commentsToInsert", commentsToInsert);
 
-    for (let i = 0; i < commentsToInsert.length; i++) {
-      const comment = commentsToInsert[i].comments;
-      const user_id = user_ids[i % user_ids.length]; // 반복
-      const collection_id = collection_ids[i % collection_ids.length]; // 반복
+//     for (let i = 0; i < commentsToInsert.length; i++) {
+//       const comment = commentsToInsert[i].comments;
+//       const user_id = user_ids[i % user_ids.length]; // 반복
+//       const collection_id = collection_ids[i % collection_ids.length]; // 반복
 
-      const createdComment = await commentsRepository.createComment(
-        user_id,
-        collection_id,
-        comment
-      );
-      console.log("createdComment", createdComment);
-    }
-  } catch (error) {
-    console.log(`${error.message}`);
-  }
-};
-userCommentsOnCollections(commentsToInsert);
+//       const createdComment = await commentsRepository.createComment(
+//         user_id,
+//         collection_id,
+//         comment
+//       );
+//       console.log("createdComment", createdComment);
+//     }
+//   } catch (error) {
+//     console.log(`${error.message}`);
+//   }
+// };
+// userCommentsOnCollections(commentsToInsert);
+
+// 4. User_likes_Collections
+// const userlikesCollections = async () => {
+//   try {
+//     const users = await Users.find();
+//     const user_ids = users.map((e) => e._id);
+//     console.log("user_ids", user_ids);
+
+//     const collections = await Collections.find();
+//     const collection_ids = collections.map((e) => e._id);
+//     console.log("collection_ids", collection_ids);
+
+//     for (let i = 0; i < collection_ids.length * 7; i++) {
+//       const user_id = user_ids[i % user_ids.length]; // 반복
+//       const collection_id = collection_ids[(i + 2) % collection_ids.length]; // 반복
+
+//       const { myLikingCollections } = await usersRepository.getUserById(
+//         user_id
+//       );
+
+//       console.log("usersRepository", myLikingCollections);
+
+//       if (!myLikingCollections.includes(collection_id)) {
+//         await collectionsRepository.likeCollection(collection_id.toString());
+//         await usersRepository.likeCollection(user_id, collection_id.toString());
+//       }
+
+//       console.log(`${user_id}가 ${collection_id} 좋아함`);
+//     }
+//   } catch (error) {
+//     console.log(`${error.message}`);
+//   }
+// };
+// userlikesCollections();
+
+// 5. User_follows_User
+// const userfollowsUsers = async () => {
+//   try {
+//     const users = await Users.find();
+//     const user_ids = users.map((e) => e._id);
+//     console.log("user_ids", user_ids);
+
+//     for (let i = 0; i < user_ids.length * 7; i++) {
+//       const user_id = user_ids[i % user_ids.length];
+//       const user_id_2 = user_ids[((i + 3) * 2) % user_ids.length];
+
+//       const user = await usersRepository.getUserById(user_id);
+//       console.log("user.followings", user.followings);
+
+//       if (!user.followings.includes(user_id_2) && user_id !== user_id_2) {
+//         //팔로우
+//         await usersRepository.followUser(user_id, user_id_2);
+
+//         console.log({
+//           success: true,
+//           message: `${user_id}가 ${user_id_2}를 팔로우합니다.`,
+//         });
+//       } else {
+//         //언팔로우
+//         await usersRepository.unfollowUser(user_id, user_id_2);
+
+//         console.log({
+//           success: true,
+//           message: `${user_id}가 ${user_id_2}팔로우를 취소했습니다.`,
+//         });
+//       }
+//     }
+//   } catch (error) {
+//     console.log(`${error.message}`);
+//   }
+// };
+// userfollowsUsers();
+
+// --------------
 
 // # User_Keep_Collections
 // const collections = Collections.find();
@@ -613,27 +689,6 @@ userCommentsOnCollections(commentsToInsert);
 // };
 // userkeepsCollections();
 
-// const userlikesCollections = async (user_ids, collection_ids) => {
-//   try {
-//     // userkeepsCollections 하나씩 돌면서
-//     // user > myLikingCollections collection_id 저장
-//     // collection > collection_ids - like 수 올리기
-//   } catch (error) {
-//     console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
-//   }
-// };
-// userlikesCollections();
-
-// const userfollowsUsers = async (user_ids) => {
-//   try {
-//     // user_ids 하나씩 돌면서
-//     // user !== user 이면 follow 저장 , Set으로 중복제거
-//   } catch (error) {
-//     console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
-//   }
-// };
-// userfollowsUsers();
-
 // const userChooseFavoriteCategories = async (user_ids) => {
 //   try {
 //     // user_ids 하나씩 돌면서
@@ -643,41 +698,3 @@ userCommentsOnCollections(commentsToInsert);
 //   }
 // };
 // userChooseFavoriteCategories();
-
-// const {
-// users,
-// categories,
-// collections,
-// comments,
-// videos,
-// } = require("./main-data-in_wo_ids.js");
-
-// const Users = require("../d_schemas/user");
-// const Collections = require("../d_schemas/collection");
-// const Comments = require("../d_schemas/comment");
-// const Categories = require("../d_schemas/category");
-// const Videos = require("../d_schemas/video");
-
-// console.log("users", users);
-// console.log("collections", collections);
-// console.log("comments", comments);
-// console.log("categories", categories);
-// console.log("videos", videos);
-
-// try {
-// Collections.create(collections).then((e) => console.log(e)); // 완료
-// Comments.create(comments).then((e) => console.log(e));
-// Categories.create(categories).then((e) => console.log(e)); // 완료
-// Videos.create(videos).then((e) => console.log(e)); // 완료
-// } catch (error) {
-//   console.log(error);
-// }
-
-// const dataInitializer = () => {
-// const createdCollections = Collections.create(collections);
-//   const createdComments = Comments.create(comments);
-//   const createdCategories = Categories.create(categories);
-//   const createdVideos = Videos.create(videos);
-// };
-
-// module.exports = dataInitializer;

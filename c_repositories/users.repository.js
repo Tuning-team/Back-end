@@ -86,6 +86,33 @@ class UsersRepository {
     );
     return updatedDetail;
   };
+
+  followUser = async (user_id, userToFollow) => {
+    const { followings } = await User.findOne({ _id: user_id });
+    followings.push(userToFollow.toString());
+    console.log("followings:", followings);
+
+    // 업데이트
+    const updatedDetail = await User.updateOne(
+      { _id: user_id },
+      { followings }
+    );
+    return updatedDetail;
+  };
+
+  unfollowUser = async (user_id, userToFollow) => {
+    const { followings } = await User.findOne({ _id: user_id });
+
+    // 새로 좋아한 컬렉션 하나 넣어서
+    const filteredArr = followings.filter((e) => e !== userToFollow);
+
+    // 업데이트
+    const updatedDetail = await User.updateOne(
+      { _id: user_id },
+      { followings: filteredArr }
+    );
+    return updatedDetail;
+  };
 }
 
 module.exports = UsersRepository;

@@ -49,7 +49,7 @@ const Users = new mongoose.Schema({
     required: true,
     default: [],
   },
-  Followings: {
+  followings: {
     type: Array,
     required: true,
     default: [],

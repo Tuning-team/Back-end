@@ -3,19 +3,37 @@
 @host = http://localhost:4000
 
 
+### 오늘의 메인 추천 리셋하기
+PUT {{host}}/api/collections/today
+
+### 오늘의 메인 추천을 위한 외부의 날씨 API
+GET https://goweather.herokuapp.com/weather/Seoul
+
+### 크롤링 유튜브 외부서버
+GET http://3.34.136.55:8080/api/search?q=bts
+
+
+
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
 GET	{{host}}/api/categories
 
-### 
-PUT {{host}}/api/collections/today
 
-###
-GET http://3.34.136.55:8080/api/search?q=Lofi Hiphop
+### ---------------------- 유저 관련 API ------------------------
+### 16. 로그인한 유저의 정보 가져오기 : GET /api/user
+GET	{{host}}/api/user/
 
-### 
-GET https://goweather.herokuapp.com/weather/Seoul
 
+### 17. 고유 id로 유저 정보 찾기 : GET /api/user/:user_id
+GET {{host}}/api/user/632919bf0c70d67f1b92e0e3
+
+
+### 32. 로그인 유저가 params 유저를 팔로잉하기
+PUT {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
+
+
+### 33. params 유저가 팔로잉 하고 있는 유저들의 id 리스트 
+GET {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
 
 ## ---------------------- 컬렉션 관련 API ------------------------
 
@@ -46,7 +64,7 @@ Content-Type: application/json
 }
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
-DELETE {{host}}/api/collections/632935ecbb6f21b8046c16a7
+DELETE {{host}}/api/collections/6329359ca9166c6eab1a37a0
 
 ### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
 PUT	{{host}}/api/collections/6319e4b3ec6de8cd33569795
@@ -58,7 +76,7 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/6319e2bb9dbc9f0427279e97
+PUT	{{host}}/api/collections/like/6329359ca9166c6eab1a37a0
 Content-Type: application/json
 
 
@@ -117,20 +135,6 @@ GET {{host}}/api/search/videos/db?keyword=축구
 
 ### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
 GET {{host}}/api/search/videos/youtube?keyword=축구
-
-
-
-
-
-## ---------------------- 유저 정보 찾기 관련 API ------------------------
-### 16. 로그인한 유저의 정보 가져오기 : GET /api/user
-GET	{{host}}/api/user/
-
-
-### 17. 고유 id로 유저 정보 찾기 : GET /api/user/:user_id
-GET {{host}}/api/user/6312ad8b5057863778c220ca
-
-
 
 
 
