@@ -59,7 +59,6 @@ class VideoRepository {
       let returnArr = await Promise.all(
         array.map(async (e) => {
           const foundVideo = await Video.findOne({ videoId: e.videoId });
-          console.log("foundVideo", foundVideo);
           if (foundVideo) {
             return foundVideo;
           } else {

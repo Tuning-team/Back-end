@@ -18,29 +18,31 @@ router.get("/google", passport.authenticate("google"));
 
 const googleCallback_jwt = (req, res, next) => {
   try {
-    console.log(req.headers.origin);
     passport.authenticate(
       "google",
       {
-        failureRedirect: `https://www.tube-tuning.com/login`,
+        failureRedirect: `${process.env.ACCESS_POINT}/login`,
         failureMessage: true,
       },
       (err, user, info) => {
         if (err) return next(err);
 
-        console.log(user);
         const { _id, displayName, profilePicUrl, email } = user.user;
         const { accessToken } = user;
 
-        const token = jwt.sign({ user_id: _id }, process.env.MY_SECRET_KEY, {
-          expiresIn: "24h",
-        });
+        const token = jwt.sign(
+          { isLogin: true, user_id: _id },
+          process.env.MY_SECRET_KEY,
+          {
+            expiresIn: "24h",
+          }
+        );
 
         result = { displayName, profilePicUrl, email, token };
 
         res
           .status(201)
-          .redirect(`https://www.tube-tuning.com/google_login/${token}`);
+          .redirect(`${process.env.ACCESS_POINT}/google_login/${token}`);
       }
     )(req, res, next);
   } catch (error) {
@@ -89,8 +91,6 @@ const googleCallback_woPassport = async (req, res, next) => {
       data: qs.stringify(data),
       url: "https://accounts.google.com/o/oauth2/token",
     });
-
-    console.log(result.data.access_token);
 
     const userInfo = await axios.get(
       "https://www.googleapis.com/oauth2/v2/userinfo",

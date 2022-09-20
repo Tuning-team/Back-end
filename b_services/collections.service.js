@@ -19,8 +19,6 @@ class CollectionsService {
   getAllCollectionsByUserId = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      console.log("use_id", user_id);
-
       const { offset, limit } = req.query;
       const { userDataAll, totalContents, hasNext } =
         await this.collectionRepository.getAllCollectionsByUserIdWithPaging(
@@ -190,8 +188,6 @@ class CollectionsService {
         await this.commentRepository.getAllCommentsOnCollectionId(
           collection_id
         );
-
-      console.log("collection", collection);
 
       let commentNum = collectionComments.length;
       let thumbnailsArr = await Promise.all(
@@ -600,7 +596,6 @@ class CollectionsService {
     const weatherApi = await axios.get(
       "https://goweather.herokuapp.com/weather/seoul"
     );
-    // console.log(description.split(" ")[description.split(" ").length - 1]);
     const string = weatherApi.data.description;
     const weather = string.split(" ")[string.split(" ").length - 1];
     console.log("string", string, "weather", weather);
@@ -662,7 +657,7 @@ class CollectionsService {
       await this.getLatestTop10();
       await this.getTimeRecommend10();
       await this.getWeatherRecommend10();
-      console.log("메인화면 추천리스트 재설정 ---- !");
+      console.log("메인화면 추천리스트 재설정 완료 ---- !");
     }, 1000 * 60 * 60); // 1h;
   };
 }
