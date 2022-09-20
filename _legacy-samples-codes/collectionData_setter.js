@@ -29,15 +29,3 @@ const collectionSetter = async () => {
 };
 
 collectionSetter();
-
-// id 마다 돌면서 videos 불러오고,
-
-// 불러온 비디오 중복 제거하여
-
-// 해당 아이디 DB에 updated
-
-// try {
-//   // Collections.create(collections).then((e) => console.log(e)); // 완료
-// } catch (error) {
-//   console.log(error);
-// }

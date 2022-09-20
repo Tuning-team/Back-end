@@ -56,8 +56,6 @@ class UsersRepository {
     // 새로 좋아한 컬렉션 하나 넣어서
     myLikingCollections.push(collection_id);
 
-    console.log("myLikingCollections:", myLikingCollections);
-
     // 업데이트
     const updatedDetail = await User.updateOne(
       { _id: user_id },
@@ -88,7 +86,6 @@ class UsersRepository {
 
     // 새로 생성한 컬렉션 하나 넣어서
     myCollections.push(collection_id);
-    console.log("myCollections:", myCollections);
 
     // 업데이트
     const updatedDetail = await User.updateOne(
@@ -116,7 +113,6 @@ class UsersRepository {
   followUser = async (user_id, userToFollow) => {
     const { followings } = await User.findOne({ _id: user_id });
     followings.push(userToFollow.toString());
-    console.log("followings:", followings);
 
     // 업데이트
     const updatedDetail = await User.updateOne(
