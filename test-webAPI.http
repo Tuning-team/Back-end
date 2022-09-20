@@ -1,6 +1,6 @@
 # @host = https://api.tube-tuning.com
-@host = https://tube-tuning.com
-# @host = http://localhost:4000
+# @host = https://tube-tuning.com
+@host = http://localhost:4000
 
 >>>>>>> origin/feature
 
@@ -11,6 +11,8 @@ GET	{{host}}/api/categories
 ### 
 PUT {{host}}/api/collections/today
 
+###
+GET http://3.34.136.55:8080/api/search?q=Lofi Hiphop
 
 ### 
 GET https://goweather.herokuapp.com/weather/Seoul
@@ -40,13 +42,13 @@ GET	{{host}}/api/collections/6319e2bb9dbc9f0427279e97
 
 
 ### 4. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
-PUT {{host}}/api/collections/6328142ba7db6e584c8a2aad
+PUT {{host}}/api/collections/6319e2bb9dbc9f0427279e97
 Content-Type: application/json
 
 {
     "category_id": "6319aeebd1e330e86bbade88",
     "collectionTitle": "mbti",
-    "description": "mbti 신기행",
+    "description": "mbti 신기행짱",
     "videos": ["5yiMd2lGQJo", "PmGs8I7qetY"]
 }
 
