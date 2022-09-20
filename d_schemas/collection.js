@@ -23,6 +23,11 @@ const CollectionSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
+  ytVideos: {
+    type: Array,
+    required: true,
+    default: [],
+  },
   likes: {
     type: Number,
     required: true,

@@ -1,7 +1,9 @@
 const Collection = require("../d_schemas/collection");
 const User = require("../d_schemas/user");
+const VideoRepository = require("./videos.repository.js");
 
 class CollectionRepository {
+  videoRepository = new VideoRepository();
   // 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollections = async () => {
     const collections = await Collection.find({}).sort({
@@ -97,12 +99,21 @@ class CollectionRepository {
 
   // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
   createCollection = async (user_id, category_id, collectionTitle, description, videos) => {
+    let ytVideos = [];
+    for (let i = 0; i < videos.length; i++) {
+      const { videoId } = await this.videoRepository.getVideoById(videos[i]);
+      ytVideos.push(videoId);
+    }
+
+    console.log("ytVideos", ytVideos);
+
     const collection = await Collection.create({
       user_id,
       category_id,
       collectionTitle,
       description,
       videos,
+      ytVideos,
     });
     return collection;
   };

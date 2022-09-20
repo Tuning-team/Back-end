@@ -18,14 +18,7 @@ class VideoRepository {
   };
 
   //생성
-  createVideo = async (
-    videoId,
-    videoTitle,
-    category_id,
-    channelTitle,
-    channel_id,
-    thumbnails
-  ) => {
+  createVideo = async (videoId, videoTitle, category_id, channelTitle, channel_id, thumbnails) => {
     const createdVideo = await Video.create({
       videoId,
       videoTitle,
