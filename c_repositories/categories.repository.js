@@ -7,6 +7,10 @@ class CategoryRepository {
     const Categories = await Category.find({ _id });
     return Categories;
   };
+  getCategoryInfo = async (_id) => {
+    const CategoryInfo = await Category.findOne({ _id });
+    return CategoryInfo;
+  };
 
   // 활성화된(isVisible = True) 카테고리 전체 조회
   // 관리자가 분류해야 하는 “인기있는“, “이번 프로모션을 위한” 등등의 카테고리 숨김
@@ -33,10 +37,7 @@ class CategoryRepository {
 
   // 카테고리 이름 수정. return 수정된 카테고리 이름
   updateCategory = async (_id, categoryName) => {
-    const updateCategory = await Category.updateOne(
-      { _id },
-      { $set: { categoryName } }
-    );
+    const updateCategory = await Category.updateOne({ _id }, { $set: { categoryName } });
     return updateCategory;
   };
 
@@ -60,20 +61,14 @@ class CategoryRepository {
   };
   // _id에 해당하는 카테고리의 관심을 1개 올린다.
   likeCollection = async (_id) => {
-    const interestCategory = await Collection.findOneAndUpdate(
-      { _id },
-      { $inc: { interest: +1 } }
-    );
+    const interestCategory = await Collection.findOneAndUpdate({ _id }, { $inc: { interest: +1 } });
 
     return interestCategory.likes;
   };
 
   // _id에 해당하는 카테고리의 관심을 1개 내린다.
   disLikeCollection = async (_id) => {
-    const interestCategory = await Collection.findOneAndUpdate(
-      { _id },
-      { $inc: { interest: -1 } }
-    );
+    const interestCategory = await Collection.findOneAndUpdate({ _id }, { $inc: { interest: -1 } });
     return interestCategory.likes;
   };
 }

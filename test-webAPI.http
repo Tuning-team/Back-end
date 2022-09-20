@@ -62,9 +62,16 @@ Content-Type: application/json
 
 {
     "category_id": "6319aeebd1e330e86bbade88",
-    "collectionTitle": "키엘리니로 테스트하기",
-    "description": "누구임?",
-    "videos": ["yWiydiTLAXo"]
+    "collectionTitle": "생성 테스트하기",
+    "description": "ㅇㅇ",
+    "videos": ["_VE04NqHNqc",
+  "P1UZTj1h1a0",
+  "hKfb-rudyWA",
+  "JdHyjfVcN9Y",
+  "rRhowWJ6r_4",
+  "8z_HtjtIdio",
+  "lmmA-go5244",
+  "wunMxN8LTV8"]
 }
 
 
@@ -112,6 +119,14 @@ GET	{{host}}/api/collections?category_id=631e7d7a4ae4c133c405a965&offset=0&limit
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
 GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=2
 
+
+### 35. 4가지 카테고리에 해당하는 컬렉션 정보 보내기
+GET	{{host}}/api/collections/recommendation
+Content-Type: application/json
+
+{ 
+    "category_ids" : ["6319aeebd1e330e86bbade9f", "631e7d7a4ae4c133c405a964", "631e7d7a4ae4c133c405a966", "631e7d7a4ae4c133c405a965"] 
+} 
 
 ### 35. 특정 컬렉션에서 영상을 제거하기
 DELETE	{{host}}/api/collections/remove/63291a3edcc97f368cc4fe70?video_id=63291a3edcc97f368cc4fe6c

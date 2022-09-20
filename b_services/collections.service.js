@@ -106,23 +106,23 @@ class CollectionsService {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryDataAll[i]._id);
         let commentNum = collectionComments.length;
 
-        let thumbnailsArr = [];
-        for (let j = 0; j < categoryDataAll[i].videos.length; j++) {
-          try {
-            var { thumbnails } = await this.videoRepository.getVideoById(categoryDataAll[i].videos[j]);
-          } catch (error) {
-            var thumbnails = undefined;
-            console.log(error);
-          }
+        // let thumbnailsArr = [];
+        // for (let j = 0; j < categoryDataAll[i].videos.length; j++) {
+        //   try {
+        //     var { thumbnails } = await this.videoRepository.getVideoById(categoryDataAll[i].videos[j]);
+        //   } catch (error) {
+        //     var thumbnails = undefined;
+        //     console.log(error);
+        //   }
 
-          if (!thumbnails) {
-            thumbnailsArr.push(
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
-            );
-          } else {
-            thumbnailsArr.push(thumbnails);
-          }
-        }
+        //   if (!thumbnails) {
+        //     thumbnailsArr.push(
+        //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
+        //     );
+        //   } else {
+        //     thumbnailsArr.push(thumbnails);
+        //   }
+        // }
 
         resultData.push({
           _id: categoryDataAll[i]._id,
@@ -131,7 +131,7 @@ class CollectionsService {
           collectionTitle: categoryDataAll[i].collectionTitle,
           description: categoryDataAll[i].description,
           videos: categoryDataAll[i].videos,
-          thumbnails: thumbnailsArr,
+          thumbnails: categoryDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
           commentNum: commentNum,
           likes: categoryDataAll[i].likes,
           createdAt: categoryDataAll[i].createdAt,
@@ -146,6 +146,103 @@ class CollectionsService {
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res.status(400).json({ success: false, message: "컬렉션 조회에 실패하였습니다." });
+    }
+  };
+
+  getAllCollectionsByCategories = async (req, res) => {
+    try {
+      const { category_ids } = req.body;
+      const resultData = [];
+      for (let i = 0; i < category_ids.length; i++) {
+        const categoryData = await this.collectionRepository.getAllCollectionsByCategoryId(category_ids[i]);
+        const { categoryName } = await this.categoryRepository.getCategoryInfo(category_ids[i]);
+
+        let data = [];
+        for (let j = 0; j < categoryData.length; j++) {
+          let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryData[j]._id);
+          let commentNum = collectionComments.length;
+
+          // let thumbnailsArr = [];
+          // for (let k = 0; k < categoryData[j].videos.length; k++) {
+          //   try {
+          //     var { thumbnails } = await this.videoRepository.getVideoById(categoryData[j].videos[k]);
+          //   } catch (error) {
+          //     var thumbnails = undefined;
+          //     console.log(error);
+          //   }
+
+          //   if (!thumbnails) {
+          //     thumbnailsArr.push(
+          //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
+          //     );
+          //   } else {
+          //     thumbnailsArr.push(thumbnails);
+          //   }
+          // }
+
+          data.push({
+            _id: categoryData[j]._id,
+            collectionTitle: categoryData[j].collectionTitle,
+            description: categoryData[j].description,
+            videos: categoryData[j].videos,
+            thumbnails: categoryData[j].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
+            commentNum: commentNum,
+            likes: categoryData[j].likes,
+
+            createdAt: categoryData[j].createdAt,
+          });
+        }
+
+        resultData.push({
+          [`res${i + 1}`]: {
+            categoryInfo: {
+              category_id: category_ids[i],
+              category_name: categoryName,
+            },
+            collections: data,
+          },
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: "데이터를 불러왔습니다.",
+        data: resultData,
+      });
+      return;
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res.status(400).json({ success: false, message: "데이터 조회에 실패하였습니다." });
+    }
+  };
+
+  getShortCollectionsByCategories = async (req, res) => {
+    try {
+      const { category_ids } = req.body;
+
+      const resultData = [];
+      for (let i = 0; i < category_ids.length; i++) {
+        const categoryData = await this.collectionRepository.getAllCollectionsByCategoryId(category_ids[i]);
+        const { categoryName } = await this.categoryRepository.getCategoryInfo(category_ids[i]);
+
+        resultData.push({
+          [`res${i + 1}`]: {
+            categoryInfo: {
+              category_id: category_ids[i],
+              category_name: categoryName,
+            },
+            collections: categoryData,
+          },
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: "데이터를 불러왔습니다.",
+        data: resultData,
+      });
+      return;
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res.status(400).json({ success: false, message: "데이터 조회에 실패하였습니다." });
     }
   };
 

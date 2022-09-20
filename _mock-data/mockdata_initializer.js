@@ -39,6 +39,8 @@ const axios = require("axios");
 // # Users_Keeps_Collections
 // # Users_Chooses_Categories
 
+// ytVideosSetter();
+
 // ----------------------- 함수 정의 -----------------------------
 
 const createCollections = async (newVideosSources) => {
@@ -54,11 +56,7 @@ const createCollections = async (newVideosSources) => {
       collectionTitle = `${newVideosSources[i].keyword} 영상 모음`;
       description = `${newVideosSources[i].keyword} 영상을 모아봤어요. ${newVideosSources[i].addDescription}`;
 
-      let videosList = await axios.get(
-        encodeURI(
-          `http://3.34.136.55:8080/api/search?q=${newVideosSources[i].keyword}`
-        )
-      );
+      let videosList = await axios.get(encodeURI(`http://3.34.136.55:8080/api/search?q=${newVideosSources[i].keyword}`));
 
       console.log("videosList", videosList.data.results);
 
@@ -74,9 +72,7 @@ const createCollections = async (newVideosSources) => {
       const createdVideos = await videoRepository.createVideosByIds(videos);
       category_id = [category_id];
 
-      const video_ids = Array.from(
-        new Set(createdVideos.map((e) => e._id.toString()))
-      );
+      const video_ids = Array.from(new Set(createdVideos.map((e) => e._id.toString())));
 
       user_id = user_ids[i % user_ids.length]; // 반복
 
@@ -96,10 +92,7 @@ const createCollections = async (newVideosSources) => {
       myCollections = Array.from(new Set(myCollections));
       console.log("myCollections", myCollections);
 
-      let updatedUser = await Users.findOneAndUpdate(
-        { _id: user_id },
-        { $set: { myCollections } }
-      );
+      let updatedUser = await Users.findOneAndUpdate({ _id: user_id }, { $set: { myCollections } });
 
       console.log("updatedUser", updatedUser);
       console.log({
@@ -131,11 +124,7 @@ const userCommentsOnCollections = async (commentsToInsert) => {
       const user_id = user_ids[i % user_ids.length]; // 반복
       const collection_id = collection_ids[i % collection_ids.length]; // 반복
 
-      const createdComment = await commentsRepository.createComment(
-        user_id,
-        collection_id,
-        comment
-      );
+      const createdComment = await commentsRepository.createComment(user_id, collection_id, comment);
       console.log("createdComment", createdComment);
     }
   } catch (error) {
@@ -157,9 +146,7 @@ const userlikesCollections = async () => {
       const user_id = user_ids[i % user_ids.length]; // 반복
       const collection_id = collection_ids[(i + 2) % collection_ids.length]; // 반복
 
-      const { myLikingCollections } = await usersRepository.getUserById(
-        user_id
-      );
+      const { myLikingCollections } = await usersRepository.getUserById(user_id);
 
       console.log("usersRepository", myLikingCollections);
 
@@ -209,4 +196,21 @@ const userfollowsUsers = async () => {
   } catch (error) {
     console.log(`${error.message}`);
   }
+};
+
+const ytVideosSetter = async () => {
+  // 모든 컬렉션 하나씩 돌면서,
+  const allCollections = await collectionsRepository.getAllCollections();
+
+  for (let i = 0; i < allCollections.length; i++) {
+    let array = [];
+    for (let j = 0; j < allCollections[i].videos.length; j++) {
+      const { videoId } = await videoRepository.getVideoById(allCollections[i].videos[j]);
+      array.push(videoId);
+    }
+    await Collections.findOneAndUpdate({ _id: allCollections[i]._id.toString() }, { $set: { ytVideos: array } });
+  }
+
+  // videos id 활용해서 youtube videos를 찾음
+  // 그 배열을 다시 그 컬렉션에 넣음
 };
