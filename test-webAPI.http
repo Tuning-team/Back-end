@@ -25,7 +25,7 @@ Content-Type: application/json
 
 {
     "category_id": "6319aeebd1e330e86bbade88",
-    "collectionTitle": "키엘리니?",
+    "collectionTitle": "키엘리니로 테스트하기",
     "description": "누구임?",
     "videos": ["yWiydiTLAXo"]
 }
@@ -46,7 +46,7 @@ Content-Type: application/json
 }
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
-DELETE {{host}}/api/collections/6319e2bb9dbc9f0427279e97
+DELETE {{host}}/api/collections/632935ecbb6f21b8046c16a7
 
 ### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
 PUT	{{host}}/api/collections/6319e4b3ec6de8cd33569795
