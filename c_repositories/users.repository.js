@@ -22,6 +22,32 @@ class UsersRepository {
     return deletedUser;
   };
 
+  // 담기
+  keepCollection = async (user_id, collection_id) => {
+    const { keepCollectionsArr } = await User.findOne({ _id: user_id });
+    keepCollectionsArr.push(collection_id);
+
+    const updateDatail = await User.updateOne(
+      { _id: user_id },
+      { keepCollectionsArr: keepCollectionsArr }
+    );
+    return updateDatail;
+  };
+
+  // 담기 취소(삭제)
+  notKeepCollection = async (collection_id) => {
+    const notKeepCollection = await User.deleteOne({
+      _id: collection_id,
+    });
+    return notKeepCollection;
+  };
+
+  // 유저가 보유한 담기 리스트
+  getCollectionsByKeepingArray = async (keepCollectionsArr) => {
+    const allCollectionsUserKept = await User.find({ keepCollectionsArr });
+    return allCollectionsUserKept;
+  };
+
   // 좋아요
   likeCollection = async (user_id, collection_id) => {
     // 기존 likedArr 찾아서,
@@ -54,6 +80,12 @@ class UsersRepository {
       { likedCollectionsArr: filteredArr }
     );
     return updatedDetail;
+  };
+
+  // 유저가 보유한 좋아요 리스트
+  getCollectionsByLikedArray = async (likeCollectionsArr) => {
+    const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
+    return allCollectionsUserLiked;
   };
 }
 

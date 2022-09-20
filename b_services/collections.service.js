@@ -15,7 +15,7 @@ class CollectionsService {
   commentRepository = new CommentRepository();
   videoRepository = new VideoRepository();
 
-  // 내가 모은 컬렉션 목록 조회 with Pagenation ↔
+  // 내가 만든 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsByUserId = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
@@ -247,6 +247,11 @@ class CollectionsService {
         description,
         videos, // videoId (유튜브)
       } = req.body;
+
+      if (!category_id || !collectionTitle || !description || !videos) {
+        res.status(400).json({ message: "누락된 항목이 있습니다." });
+        return;
+      }
 
       const createdVideos = await this.videoRepository.createVideosByIds(
         videos

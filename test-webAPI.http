@@ -32,7 +32,7 @@ Content-Type: application/json
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/6319e2bb9dbc9f0427279e97
+GET	{{host}}/api/collections/63291a3fdcc97f368cc4fe92
 
 ### 4. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
 PUT {{host}}/api/collections/6319e2bb9dbc9f0427279e97
@@ -159,3 +159,16 @@ GET https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpW
 ###
 GET https://www.googleapis.com/oauth2/v2/userinfo
 Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2wwbOf6w7oUstMxDt5kDRX19nRDPc0Uus0Ybs6PbJIUbymnq74HgOKKalAvUYO7YtjcuDfFo2XxdaKxfsAi1VA_X7L-QyXfWnz5dULcaI7YaCgYKATASARMSFQE65dr8XCcfN26UcSMirEyHBM_1PA0163
+
+
+### 컬렉션 담기
+PUT {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 컬렉션 담기 취소(삭제)
+DELETE {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 내가 담은 컬렉션 확인
+GET {{host}}/api/user/keep
+
+### 이 컬렉션이 담긴 유저 확인
+GET {{host}}/api/collections/whokeep/:collection_id

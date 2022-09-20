@@ -148,10 +148,23 @@ class CollectionRepository {
     return deleteCollection;
   };
 
-  // 유저가 보유한 좋아요 리스트
-  getCollectionsByLikedArray = async (likeCollectionsArr) => {
-    const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
-    return allCollectionsUserLiked;
+  // _id에 해당하는 컬렉션의 담은 수를 1개 올린다. return 컬렉션의 현재 담은 수
+  keepCollection = async (_id) => {
+    const keepCollection = await Collection.findOneAndUpdate(
+      { _id },
+      { $inc: { keep: +1 } }
+    );
+
+    return keepCollection.keep;
+  };
+
+  // _id에 해당하는 컬렉션의 담은 수를 1개 내린다. returns 담기 취소한 컬렉션의 현재 담은 수
+  notKeepCollection = async (_id) => {
+    const notKeepCollection = await Collection.findOneAndUpdate(
+      { _id },
+      { $inc: { keep: -1 } }
+    );
+    return notKeepCollection.keep;
   };
 
   // 해당 컬렉션이 보유한 좋아요 리스트
