@@ -1,10 +1,10 @@
 // 원활한 영상 검색 서비스를 제공하기 위한 영상id 정보를 수집합니다.
 require("dotenv").config(); // 환경변수 적용
 const mongoose = require("mongoose");
-const connect = require("../d_schemas/index.js");
+const connect = require("../../d_schemas/index.js");
 connect();
 
-const VideoSearch = require("../d_schemas/videoSearch");
+const VideoSearch = require("../../d_schemas/videoSearch");
 const axios = require("axios");
 
 class VideoDataBaseCreator {

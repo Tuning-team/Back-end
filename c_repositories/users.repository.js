@@ -55,6 +55,37 @@ class UsersRepository {
     );
     return updatedDetail;
   };
+
+  createMyCollection = async (user_id, collection_id) => {
+    // 기존 likedArr 찾아서,
+    const { myCollections } = await User.findOne({ _id: user_id });
+
+    // 새로 생성한 컬렉션 하나 넣어서
+    myCollections.push(collection_id);
+    console.log("myCollections:", myCollections);
+
+    // 업데이트
+    const updatedDetail = await User.updateOne(
+      { _id: user_id },
+      { myCollections: myCollections }
+    );
+    return updatedDetail;
+  };
+
+  deleteMyCollection = async (user_id, collection_id) => {
+    // 기존 likedArr 찾아서,
+    const { myCollections } = await User.findOne({ _id: user_id });
+
+    // 새로 좋아한 컬렉션 하나 넣어서
+    const filteredArr = myCollections.filter((e) => e !== collection_id);
+
+    // 업데이트
+    const updatedDetail = await User.updateOne(
+      { _id: user_id },
+      { myCollections: filteredArr }
+    );
+    return updatedDetail;
+  };
 }
 
 module.exports = UsersRepository;
