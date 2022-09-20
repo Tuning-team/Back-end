@@ -27,10 +27,29 @@ GET	{{host}}/api/user/
 ### 17. 고유 id로 유저 정보 찾기 : GET /api/user/:user_id
 GET {{host}}/api/user/632919bf0c70d67f1b92e0e3
 
+### 25. PUT	/api/user/interest/:category_id  _ 관심사 카테고리 선택
+PUT {{host}}/api/user/interest/6319aeebd1e330e86bbade7c,6319aeebd1e330e86bbade7b,6319aeebd1e330e86bbade80
+
+### 26. GET	/api/user/interest/  _ 관심사 카테고리 불러오기 (로그인유저)
+GET {{host}}/api/user/interest
+
+### 27. DELETE	/api/user/interest/:category_id  _ 관심사 카테고리 제거하기 (로그인유저)
+DELETE {{host}}/api/user/interest/6319aeebd1e330e86bbade7c
+
+### 28. PUT	/api/user/keep/:collection_id  _ 로그인유저 컬렉션 담기
+PUT {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 29. DELETE	/api/user/keep/:collection_id  _ 로그인유저 컬렉션 담기 취소
+DELETE {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 30. GET	/api/user/keep/:collection_id  _ 로그인유저 담기 컬렉션 조회
+GET {{host}}/api/user/keep
+
+### 31. GET	/api/collections/whokeep/:collection_id  _ 컬렉션을 담은 이용자 리스트 조회
+GET {{host}}/api/collections/whokeep/63291a3fdcc97f368cc4fe92
 
 ### 32. 로그인 유저가 params 유저를 팔로잉하기
 PUT {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
-
 
 ### 33. params 유저가 팔로잉 하고 있는 유저들의 id 리스트 
 GET {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3

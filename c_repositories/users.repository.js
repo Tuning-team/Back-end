@@ -5,15 +5,6 @@ class UsersRepository {
   getUserById = async (user_id) => {
     const returnUserInfo = await User.findOne({ _id: user_id });
     return returnUserInfo;
-  };  
-
-  // 유저 정보 수정
-  updateVideo = async (_id, profilePicUrl, displayName) => {
-    const updatedUser = await User.update(
-      { profilePicUrl, displayName },
-      { where: { _id } }
-    );
-    return updatedUser;
   };
 
   // 유저 삭제
@@ -22,15 +13,15 @@ class UsersRepository {
     return deletedUser;
   };
 
-  // 담기
-  keepCollection = async (user_id, collection_id) => {
-    const { keepCollectionsArr } = await User.findOne({ _id: user_id });
-    keepCollectionsArr.push(collection_id);
+  updateUserInterest = async (user_id, myInterestingCategories) => {
+    const updatedUser = await User.updateOne({ _id: user_id }, { myInterestingCategories });
 
-    const updateDatail = await User.updateOne(
-      { _id: user_id },
-      { keepCollectionsArr: keepCollectionsArr }
-    );
+    return updatedUser;
+  };
+
+  // 담기
+  keepCollection = async (_id, myKeepingCollections) => {
+    const updateDatail = await User.updateOne({ _id }, { myKeepingCollections });
     return updateDatail;
   };
 
@@ -57,10 +48,7 @@ class UsersRepository {
     myLikingCollections.push(collection_id);
 
     // 업데이트
-    const updatedDetail = await User.updateOne(
-      { _id: user_id },
-      { myLikingCollections: myLikingCollections }
-    );
+    const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingCollections: myLikingCollections });
     return updatedDetail;
   };
 
@@ -73,10 +61,7 @@ class UsersRepository {
     const filteredArr = myLikingCollections.filter((e) => e !== collection_id);
 
     // 업데이트
-    const updatedDetail = await User.updateOne(
-      { _id: user_id },
-      { myLikingCollections: filteredArr }
-    );
+    const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingCollections: filteredArr });
     return updatedDetail;
   };
 
@@ -88,40 +73,15 @@ class UsersRepository {
     myCollections.push(collection_id);
 
     // 업데이트
-    const updatedDetail = await User.updateOne(
-      { _id: user_id },
-      { myCollections: myCollections }
-    );
+    const updatedDetail = await User.updateOne({ _id: user_id }, { myCollections: myCollections });
     return updatedDetail;
   };
 
   //관심사 등록
-  interestCategory = async (user_id, category_id) => {
-    const { interestedCategorysArr } = await User.findOne({ _id: user_id });
-
-    interestedCategorysArr.push(category_id);
-
-    console.log("interestedCategorysArr:", interestedCategorysArr);
-
-    const updatedInterest = await User.updateOne(
-      {_id: user_id},
-      { interestedCategorysArr: interestedCategorysArr }
-    );
+  setInterestCategories = async (user_id, myInterestingCategories) => {
+    const updatedInterest = await User.updateOne({ _id: user_id }, { myInterestingCategories });
     return updatedInterest;
-  }
-  //관심사 등록 삭제
-  disInterestCategory = async (user_id, category_id) => {
-    const { interestedCategorysArr } = await User.findOne({ _id: user_id });
-
-    const changedArr = interestedCategorysArr.filter((e) => e !== category_id);
-
-    const updatedInterest = await User.updateOne(
-      {_id: user_id},
-      { interestedCategorysArr: changedArr }
-    );
-    return updatedInterest;
-  }
-
+  };
 
   deleteMyCollection = async (user_id, collection_id) => {
     // 기존 likedArr 찾아서,
@@ -131,10 +91,7 @@ class UsersRepository {
     const filteredArr = myCollections.filter((e) => e !== collection_id);
 
     // 업데이트
-    const updatedDetail = await User.updateOne(
-      { _id: user_id },
-      { myCollections: filteredArr }
-    );
+    const updatedDetail = await User.updateOne({ _id: user_id }, { myCollections: filteredArr });
     return updatedDetail;
   };
 
@@ -143,10 +100,7 @@ class UsersRepository {
     followings.push(userToFollow.toString());
 
     // 업데이트
-    const updatedDetail = await User.updateOne(
-      { _id: user_id },
-      { followings }
-    );
+    const updatedDetail = await User.updateOne({ _id: user_id }, { followings });
     return updatedDetail;
   };
 
@@ -157,10 +111,7 @@ class UsersRepository {
     const filteredArr = followings.filter((e) => e !== userToFollow);
 
     // 업데이트
-    const updatedDetail = await User.updateOne(
-      { _id: user_id },
-      { followings: filteredArr }
-    );
+    const updatedDetail = await User.updateOne({ _id: user_id }, { followings: filteredArr });
     return updatedDetail;
   };
 
@@ -169,7 +120,6 @@ class UsersRepository {
     const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
     return allCollectionsUserLiked;
   };
-
 }
 
 module.exports = UsersRepository;
