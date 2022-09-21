@@ -10,7 +10,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "Bohyeon Kim",
@@ -23,7 +23,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "김승민",
@@ -36,7 +36,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "김혜미",
@@ -49,7 +49,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "minji jeon",
@@ -62,7 +62,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "김보현",
@@ -75,7 +75,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "Hyo c.",
@@ -88,7 +88,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "지나(Gina)",
@@ -101,7 +101,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
   {
     displayName: "Gginaa",
@@ -114,7 +114,7 @@ const users = [
     myCollections: [],
     myInterestingCategories: [],
     myKeepingCollections: [],
-    Followings: [],
+    followings: [],
   },
 ];
 
@@ -482,8 +482,8 @@ const collectionsListFromDB = [
     ],
     commentNum: 3,
     likes: 3,
-    keptBy: ["6329192569d8145d2cb49b6b"],
     createdAt: "2022-09-20T01:41:23.943Z",
+    keptBy: [],
   },
   {
     _id: "63291a39dcc97f368cc4fe06",
@@ -533,6 +533,7 @@ const collectionsListFromDB = [
     commentNum: 3,
     likes: 3,
     createdAt: "2022-09-20T01:41:13.215Z",
+    keptBy: [],
   },
   {
     _id: "63291a34dcc97f368cc4fd8d",
@@ -562,6 +563,7 @@ const collectionsListFromDB = [
     commentNum: 4,
     likes: 3,
     createdAt: "2022-09-20T01:41:08.620Z",
+    keptBy: [],
   },
 ];
 
@@ -876,21 +878,6 @@ const getAllCategories = [
   },
 ];
 
-const getTop10 = {
-  data: [
-    "63291a49dcc97f368cc4ffb3",
-    "63291a30dcc97f368cc4fd05",
-    "63291a34dcc97f368cc4fd8d",
-    "63291a35dcc97f368cc4fdac",
-    "63291a33dcc97f368cc4fd71",
-    "63291a2fdcc97f368cc4fce9",
-    "63291a31dcc97f368cc4fd27",
-    "63291a2cdcc97f368cc4fcbd",
-    "63291a2bdcc97f368cc4fcaa",
-    "63291a2ddcc97f368cc4fccd",
-  ],
-};
-
 module.exports = {
   users,
   newVideosSources,
@@ -899,5 +886,4 @@ module.exports = {
   videosListFromDB,
   collectionDataList,
   getAllCategories,
-  getTop10,
 };

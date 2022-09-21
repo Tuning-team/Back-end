@@ -19,7 +19,6 @@ router.delete("/:collection_id", authMiddleware, collectionsService.deleteCollec
 router.put("/like/:collection_id", authMiddleware, collectionsService.likeCollection); // 컬렉션 좋아요 또는 좋아요 취소
 router.put("/:collection_id", authMiddleware, collectionsService.addVideoOnCollection); // 컬렉션에 영상 추가,
 router.get("/whokeep/:collection_id", collectionsService.whoKeepCollection); // 컬렉션 담은 이용자 조회
-
 router.delete("/remove/:collection_id", authMiddleware, collectionsService.removeVideoFromCollection); // 컬렉션에서 영상 삭제
 
 module.exports = router;
