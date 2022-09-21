@@ -65,6 +65,7 @@ class CollectionsService {
           collectionTitle: userDataAll[i].collectionTitle,
           description: userDataAll[i].description,
           videos: userDataAll[i].videos,
+          ytVideos: userDataAll[i].ytVideos,
           thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: userDataAll[i].likes,
@@ -106,24 +107,6 @@ class CollectionsService {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryDataAll[i]._id);
         let commentNum = collectionComments.length;
 
-        // let thumbnailsArr = [];
-        // for (let j = 0; j < categoryDataAll[i].videos.length; j++) {
-        //   try {
-        //     var { thumbnails } = await this.videoRepository.getVideoById(categoryDataAll[i].videos[j]);
-        //   } catch (error) {
-        //     var thumbnails = undefined;
-        //     console.log(error);
-        //   }
-
-        //   if (!thumbnails) {
-        //     thumbnailsArr.push(
-        //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
-        //     );
-        //   } else {
-        //     thumbnailsArr.push(thumbnails);
-        //   }
-        // }
-
         resultData.push({
           _id: categoryDataAll[i]._id,
           category_id: categoryDataAll[i].category_id[0],
@@ -131,6 +114,7 @@ class CollectionsService {
           collectionTitle: categoryDataAll[i].collectionTitle,
           description: categoryDataAll[i].description,
           videos: categoryDataAll[i].videos,
+          ytVideos: categoryDataAll[i].ytVideos,
           thumbnails: categoryDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
           commentNum: commentNum,
           likes: categoryDataAll[i].likes,
@@ -162,29 +146,12 @@ class CollectionsService {
           let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryData[j]._id);
           let commentNum = collectionComments.length;
 
-          // let thumbnailsArr = [];
-          // for (let k = 0; k < categoryData[j].videos.length; k++) {
-          //   try {
-          //     var { thumbnails } = await this.videoRepository.getVideoById(categoryData[j].videos[k]);
-          //   } catch (error) {
-          //     var thumbnails = undefined;
-          //     console.log(error);
-          //   }
-
-          //   if (!thumbnails) {
-          //     thumbnailsArr.push(
-          //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU"
-          //     );
-          //   } else {
-          //     thumbnailsArr.push(thumbnails);
-          //   }
-          // }
-
           data.push({
             _id: categoryData[j]._id,
             collectionTitle: categoryData[j].collectionTitle,
             description: categoryData[j].description,
             videos: categoryData[j].videos,
+            videos: categoryData[j].ytVideos,
             thumbnails: categoryData[j].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
             commentNum: commentNum,
             likes: categoryData[j].likes,
@@ -283,6 +250,7 @@ class CollectionsService {
           collectionTitle: collection.collectionTitle,
           description: collection.description,
           videos: collection.videos,
+          ytVideos: collection.ytVideos,
           thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: collection.likes,
@@ -321,7 +289,7 @@ class CollectionsService {
 
       const video_ids = Array.from(new Set(createdVideos.map((e) => e._id.toString())));
 
-      const returnCollection = await this.collectionRepository.createCollection(
+      const returnCollection = await this.collectionRepository.createCo_llection(
         user_id,
         category_id,
         collectionTitle,
@@ -484,6 +452,7 @@ class CollectionsService {
           collectionTitle: resultBySearch[i].collectionTitle,
           description: resultBySearch[i].description,
           videos: resultBySearch[i].videos,
+          ytVideos: resultBySearch[i].ytVideos,
           thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: resultBySearch[i].likes,

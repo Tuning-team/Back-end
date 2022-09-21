@@ -11,8 +11,7 @@ router.post("/", authMiddleware, collectionsService.createCollection); // 컬렉
 router.get("/search", collectionsService.getCollectionsBySearch); // 검색어에 맞는 컬렉션 리스트
 router.get("/", collectionsService.getAllCollectionsByCategoryId); // 카테고리에 포함된 컬렉션 목록 조회
 router.get("/mine", authMiddleware, collectionsService.getAllCollectionsByUserId); // 내가 모은 컬렉션 목록 조회
-router.get("/recommendation", collectionsService.getAllCollectionsByCategories); // 추천 카테고리 한번에
-// router.get("/recommendation", collectionsService.getShortCollectionsByCategories); // 추천 카테고리 한번에
+router.post("/recommendation", collectionsService.getAllCollectionsByCategories); // 추천 카테고리 한번에
 router.put("/today", collectionsService.giveTodaysPopularCategories); // 컬렉션 좋아요 내림차순 10개까지 조회
 router.get("/:collection_id", collectionsService.getCollection); // 컬렉션 상세 조회
 router.put("/:collection_id", authMiddleware, collectionsService.editCollection); // 컬렉션 수정

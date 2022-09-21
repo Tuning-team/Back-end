@@ -1,6 +1,6 @@
 # @host = https://api.tube-tuning.com
-# @host = https://tube-tuning.com
-@host = http://localhost:4000
+@host = https://tube-tuning.com
+# @host = http://localhost:4000
 
 
 ### 오늘의 메인 추천 리셋하기
@@ -59,7 +59,7 @@ GET {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
 ### 2. 컬렉션 생성 : POST /api/collections
 POST {{host}}/api/collections
 Content-Type: application/json
-
+3000ms -> 
 {
     "category_id": "6319aeebd1e330e86bbade88",
     "collectionTitle": "생성 테스트하기",
@@ -121,11 +121,12 @@ GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=2
 
 
 ### 35. 4가지 카테고리에 해당하는 컬렉션 정보 보내기
-GET	{{host}}/api/collections/recommendation
+POST	{{host}}/api/collections/recommendation
 Content-Type: application/json
 
 { 
-    "category_ids" : ["6319aeebd1e330e86bbade9f", "631e7d7a4ae4c133c405a964", "631e7d7a4ae4c133c405a966", "631e7d7a4ae4c133c405a965"] 
+    "category_ids" :
+     ["6319aeebd1e330e86bbade9f", "631e7d7a4ae4c133c405a964", "631e7d7a4ae4c133c405a966", "631e7d7a4ae4c133c405a965"] 
 } 
 
 ### 35. 특정 컬렉션에서 영상을 제거하기
