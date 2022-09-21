@@ -139,7 +139,11 @@
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -148,12 +152,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -161,10 +159,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,6 +176,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,6 +187,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -195,10 +201,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -224,6 +232,7 @@ class CategoryRepository {
     const Categories = <span class="cstat-no" title="statement not covered" >await Category.find({ _id });</span>
 <span class="cstat-no" title="statement not covered" >    return Categories;</span>
   };
+&nbsp;
   getCategoryInfo = <span class="fstat-no" title="function not covered" >as</span>ync (_id) =&gt; {
     const CategoryInfo = <span class="cstat-no" title="statement not covered" >await Category.findOne({ _id });</span>
 <span class="cstat-no" title="statement not covered" >    return CategoryInfo;</span>
@@ -263,6 +272,7 @@ class CategoryRepository {
     const deleteCategory = <span class="cstat-no" title="statement not covered" >await Category.deleteOne({ _id });</span>
 <span class="cstat-no" title="statement not covered" >    return deleteCategory;</span>
   };
+&nbsp;
   // 유저가 관심있는 카테고리 리스트
   getAllInterestOnCategoryArray = <span class="fstat-no" title="function not covered" >as</span>ync (myInterestingCategories) =&gt; {
     const allCategoriesUserInterested = <span class="cstat-no" title="statement not covered" >await User.find({</span>
@@ -270,12 +280,14 @@ class CategoryRepository {
     });
 <span class="cstat-no" title="statement not covered" >    return allCategoriesUserInterested;</span>
   };
+&nbsp;
   // 해당 카테고리가 관심받은 리스트
   getAllInteretOnCategoryId = <span class="fstat-no" title="function not covered" >as</span>ync (category_id) =&gt; {
     const interests = <span class="cstat-no" title="statement not covered" >await Category.find({ category_id });</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return interests;</span>
   };
+&nbsp;
   // _id에 해당하는 카테고리의 관심을 1개 올린다.
   likeCollection = <span class="fstat-no" title="function not covered" >as</span>ync (_id) =&gt; {
     const interestCategory = <span class="cstat-no" title="statement not covered" >await Collection.findOneAndUpdate({ _id }, { $inc: { interest: +1 } });</span>
@@ -298,7 +310,7 @@ module.exports = CategoryRepository;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-21T09:21:19.274Z
+                at 2022-09-21T13:44:59.837Z
             </div>
         <script src="../prettify.js"></script>
         <script>
