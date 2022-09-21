@@ -10,6 +10,7 @@ const {
   videosListFromDB,
   collectionDataList,
   getAllCategories,
+  getTop10,
 } = require("../data/collection-data-in");
 
 let req, res, next;
@@ -193,6 +194,108 @@ describe("editCollection 테스트 : 컬렉션 수정", () => {
 
     // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
     await collectionsService.editCollection(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("whoKeepCollection 테스트 : 컬렉션에 담긴 유저 리스트", () => {
+  beforeEach(() => {
+    req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+  });
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+    collectionsService.collectionRepository.getCollectionById = jest.fn();
+    collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.whoKeepCollection(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("getLikeTop10 테스트 : 컬렉션 좋아요 내림차순 10개에 카테고리 아이디 부여 ", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+    collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+    collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("6319aeebd1e330e86bbade9f");
+
+    collectionsService.collectionRepository.giveCategoryIdOnLikeTop10 = jest.fn();
+    collectionsService.collectionRepository.giveCategoryIdOnLikeTop10.mockReturnValue(getTop10);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getLikeTop10(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("getLatestTop10 테스트 : 가장 최근에 만들어진 컬렉션 10개에 카테고리 아이디 부여 ", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+    collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+    collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a964");
+
+    collectionsService.collectionRepository.giveCategoryIdOnLatestTop10 = jest.fn();
+    collectionsService.collectionRepository.giveCategoryIdOnLatestTop10.mockReturnValue(getTop10);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getLatestTop10(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("getTimeRecommend10 테스트 : 시간대별 추천 컬렉션 10개에 카테고리 아이디 부여 ", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+    collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+    collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a966");
+
+    collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation = jest.fn();
+    collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation.mockReturnValue(getTop10);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getTimeRecommend10(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("getWeatherRecommend10 테스트 : 날씨별 추천 컬렉션 10개에 카테고리 아이디 부여 ", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+    collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+    collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a965");
+
+    collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation = jest.fn();
+    collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation.mockReturnValue(getTop10);
+
+    collectionsService.categoryRepository.updateCategory = jest.fn();
+    collectionsService.categoryRepository.updateCategory.mockReturnValue("631e7d7a4ae4c133c405a96521");
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getWeatherRecommend10(req, res);
 
     // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
     expect(res.statusCode).toBe(200);

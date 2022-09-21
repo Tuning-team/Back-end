@@ -514,6 +514,7 @@ class CollectionsService {
     }
   };
 
+  // 컬렉션에 담긴 유저 확인 (Read)
   whoKeepCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
