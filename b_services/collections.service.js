@@ -20,6 +20,7 @@ class CollectionsService {
     try {
       const user_id = res.locals.user_id;
       const { offset, limit } = req.query;
+
       const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsByUserIdWithPaging(
         user_id,
         offset,
@@ -155,7 +156,6 @@ class CollectionsService {
             thumbnails: categoryData[j].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
             commentNum: commentNum,
             likes: categoryData[j].likes,
-
             createdAt: categoryData[j].createdAt,
           });
         }
@@ -167,37 +167,6 @@ class CollectionsService {
               category_name: categoryName,
             },
             collections: data,
-          },
-        });
-      }
-      res.status(200).json({
-        success: true,
-        message: "데이터를 불러왔습니다.",
-        data: resultData,
-      });
-      return;
-    } catch (error) {
-      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
-      res.status(400).json({ success: false, message: "데이터 조회에 실패하였습니다." });
-    }
-  };
-
-  getShortCollectionsByCategories = async (req, res) => {
-    try {
-      const { category_ids } = req.body;
-
-      const resultData = [];
-      for (let i = 0; i < category_ids.length; i++) {
-        const categoryData = await this.collectionRepository.getAllCollectionsByCategoryId(category_ids[i]);
-        const { categoryName } = await this.categoryRepository.getCategoryInfo(category_ids[i]);
-
-        resultData.push({
-          [`res${i + 1}`]: {
-            categoryInfo: {
-              category_id: category_ids[i],
-              category_name: categoryName,
-            },
-            collections: categoryData,
           },
         });
       }
@@ -289,7 +258,7 @@ class CollectionsService {
 
       const video_ids = Array.from(new Set(createdVideos.map((e) => e._id.toString())));
 
-      const returnCollection = await this.collectionRepository.createCo_llection(
+      const returnCollection = await this.collectionRepository.createCollection(
         user_id,
         category_id,
         collectionTitle,
@@ -297,7 +266,6 @@ class CollectionsService {
         video_ids // ["",""]
       );
 
-      console.log("returnCollection", returnCollection);
       const collection_id = returnCollection._id.toString();
       const updatedUser = await this.userRepository.createMyCollection(user_id, collection_id);
 
@@ -315,7 +283,7 @@ class CollectionsService {
   // 컬렉션 수정
   editCollection = async (req, res) => {
     try {
-      const user_id = res.local.user_id;
+      const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
       let { category_id, collectionTitle, description, videos } = req.body;

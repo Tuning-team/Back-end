@@ -1,129 +1,200 @@
-// 테스트할 클래스&인스턴스
+// 테스트할 클래스&인스턴스 & 필요한 모델, 모듈, 데이터
 const CollectionsService = require("../../b_services/collections.service");
 const collectionsService = new CollectionsService();
-const CollectionRepository = require("../../c_repositories/collections.repository");
-const collectionRepository = new CollectionRepository();
 
-// 필요 모델, 모듈
-const Collection = require("../../d_schemas/collection");
 const httpMocks = require("node-mocks-http");
+const {
+  users,
+  collectionsListFromDB,
+  commentsToInsert,
+  videosListFromDB,
+  collectionDataList,
+  getAllCategories,
+} = require("../data/collection-data-in");
 
-// Mock Data
-const collectionDataIn = require("../data/collection-data-in");
-const collectionDataOut = require("../data/collection-data-out");
-
-let req, res, next; // beforeEach 밖에서도 사용하기 위해 여기에 선언
+let req, res, next;
 beforeEach(() => {
   req = httpMocks.createRequest(); // 빈 리퀘스트 객체 생성
   res = httpMocks.createResponse(); // 빈 리스폰스 객체 생성
-  next = jest.fn(); // next는 특별한 기능이 없으나, 데이터 수집을 위해 mock 함수로 생성
+  next = jest.fn(); // mock 함수로 생성(데이터 수집)
 });
 
-describe("CollectionsServices", () => {
-  let repo, user_id;
+describe("getAllCollectionsByUserId 테스트 : UserId로 각자 만든 컬렉션 리스트", () => {
   beforeEach(() => {
-    repo = collectionsService.collectionRepository;
+    res.locals.user_id = "6329192569d8145d2cb49b6b";
+    req.query = { offset: 0, limit: 3 };
   });
-  describe("getAllCollectionsByUserId 메소드 테스트", () => {
-    beforeEach(() => {
-      repo.getAllCollectionsByUserIdWithPaging = jest.fn();
-      repo.getAllCollectionsByUserIdWithPaging.mockReturnValue({
-        userDataAll: [
-          {
-            _id: "63291a43dcc97f368cc4ff06",
-            category_id: "6319aeebd1e330e86bbade95",
-            category_title: "오늘처럼 맑은 날 보기 좋은",
-            collectionTitle: "코미디 영상 모음",
-            description: "코미디 영상을 모아봤어요. 너무너무 좋아요",
-            videos: [
-              "63291a43dcc97f368cc4ff04",
-              "63291a43dcc97f368cc4fefc",
-              "63291a43dcc97f368cc4fef8",
-              "63291a43dcc97f368cc4ff02",
-              "63291a43dcc97f368cc4fefa",
-              "63291a43dcc97f368cc4ff00",
-              "63291a43dcc97f368cc4fefe",
-            ],
-            thumbnails: [
-              "https://i.ytimg.com/vi/5m0pve4u4O8/mqdefault.jpg",
-              "https://i.ytimg.com/vi/vng5n5HaCik/mqdefault.jpg",
-              "https://i.ytimg.com/vi/CHiTd4O75g0/mqdefault.jpg",
-              "https://i.ytimg.com/vi/7k37KQROx0k/mqdefault.jpg",
-              "https://i.ytimg.com/vi/hVakguLDLfw/mqdefault.jpg",
-              "https://i.ytimg.com/vi/C1gObjWwib0/mqdefault.jpg",
-              "https://i.ytimg.com/vi/pJ_xADOtEOo/mqdefault.jpg",
-            ],
-            commentNum: 3,
-            likes: 3,
-            createdAt: "2022-09-20T01:41:23.943Z",
-          },
-          {
-            _id: "63291a43dcc97f368cc4ff06",
-            category_id: "6319aeebd1e330e86bbade95",
-            category_title: "오늘처럼 맑은 날 보기 좋은",
-            collectionTitle: "코미디 영상 모음",
-            description: "코미디 영상을 모아봤어요. 너무너무 좋아요",
-            videos: [
-              "63291a43dcc97f368cc4ff04",
-              "63291a43dcc97f368cc4fefc",
-              "63291a43dcc97f368cc4fef8",
-              "63291a43dcc97f368cc4ff02",
-              "63291a43dcc97f368cc4fefa",
-              "63291a43dcc97f368cc4ff00",
-              "63291a43dcc97f368cc4fefe",
-            ],
-            thumbnails: [
-              "https://i.ytimg.com/vi/5m0pve4u4O8/mqdefault.jpg",
-              "https://i.ytimg.com/vi/vng5n5HaCik/mqdefault.jpg",
-              "https://i.ytimg.com/vi/CHiTd4O75g0/mqdefault.jpg",
-              "https://i.ytimg.com/vi/7k37KQROx0k/mqdefault.jpg",
-              "https://i.ytimg.com/vi/hVakguLDLfw/mqdefault.jpg",
-              "https://i.ytimg.com/vi/C1gObjWwib0/mqdefault.jpg",
-              "https://i.ytimg.com/vi/pJ_xADOtEOo/mqdefault.jpg",
-            ],
-            commentNum: 3,
-            likes: 3,
-            createdAt: "2022-09-20T01:41:23.943Z",
-          },
-          {
-            _id: "63291a43dcc97f368cc4ff06",
-            category_id: "6319aeebd1e330e86bbade95",
-            category_title: "오늘처럼 맑은 날 보기 좋은",
-            collectionTitle: "코미디 영상 모음",
-            description: "코미디 영상을 모아봤어요. 너무너무 좋아요",
-            videos: [
-              "63291a43dcc97f368cc4ff04",
-              "63291a43dcc97f368cc4fefc",
-              "63291a43dcc97f368cc4fef8",
-              "63291a43dcc97f368cc4ff02",
-              "63291a43dcc97f368cc4fefa",
-              "63291a43dcc97f368cc4ff00",
-              "63291a43dcc97f368cc4fefe",
-            ],
-            thumbnails: [
-              "https://i.ytimg.com/vi/5m0pve4u4O8/mqdefault.jpg",
-              "https://i.ytimg.com/vi/vng5n5HaCik/mqdefault.jpg",
-              "https://i.ytimg.com/vi/CHiTd4O75g0/mqdefault.jpg",
-              "https://i.ytimg.com/vi/7k37KQROx0k/mqdefault.jpg",
-              "https://i.ytimg.com/vi/hVakguLDLfw/mqdefault.jpg",
-              "https://i.ytimg.com/vi/C1gObjWwib0/mqdefault.jpg",
-              "https://i.ytimg.com/vi/pJ_xADOtEOo/mqdefault.jpg",
-            ],
-            commentNum: 3,
-            likes: 3,
-            createdAt: "2022-09-20T01:41:23.943Z",
-          },
-        ],
-        totalContents: 50,
-        hasNext: true,
-      });
-      user_id = "6329192569d8145d2cb49b6b";
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+    collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging = jest.fn();
+    collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging.mockReturnValue({
+      userDataAll: collectionsListFromDB,
+      totalContents: 30,
+      hasNext: true,
     });
 
-    it("받아온 데이터를 받아 200번의 status-code를 응답해야 한다.", async () => {
-      req.query = { offset: 0, limit: 3 };
-      await collectionsService.getAllCollectionsByUserId(req, res, next);
-      expect(res.data.success).toBe(true);
+    collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+    collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+    collectionsService.videoRepository.getVideoById = jest.fn();
+    collectionsService.videoRepository.getVideoById.mockReturnValue(videosListFromDB);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getAllCollectionsByUserId(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("getAllCollectionsByCategoryId 테스트 : 카테고리에 해당하는 컬렉션 리스트", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+    req.query = { category_id: "6319aeebd1e330e86bbade7c", offset: 0, limit: 5 };
+
+    collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging = jest.fn();
+    collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging.mockReturnValue({
+      categoryDataAll: collectionDataList,
+      totalContents: 30,
+      hasNext: true,
     });
+
+    collectionsService.categoryRepository.getAllCategories = jest.fn();
+    collectionsService.categoryRepository.getAllCategories.mockReturnValue(getAllCategories);
+
+    collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+    collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getAllCollectionsByCategoryId(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData().pageInfo.hasNext).toBeTruthy();
+  });
+});
+
+describe("getAllCollectionsByCategories 테스트 : 카테고리들에 해당하는 컬렉션 리스트", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+    req.body = {
+      category_ids: [
+        "6319aeebd1e330e86bbade9f",
+        "631e7d7a4ae4c133c405a964",
+        "631e7d7a4ae4c133c405a966",
+        "631e7d7a4ae4c133c405a965",
+      ],
+    };
+
+    collectionsService.collectionRepository.getAllCollectionsByCategoryId = jest.fn();
+    collectionsService.collectionRepository.getAllCollectionsByCategoryId.mockReturnValue(collectionDataList);
+
+    collectionsService.categoryRepository.getCategoryInfo = jest.fn();
+    collectionsService.categoryRepository.getCategoryInfo.mockReturnValue({
+      _id: "6319aeebd1e330e86bbade7c",
+      categoryName: "인기있는",
+      youtubeCategoryId: "",
+      isVisible: true,
+      createdAt: "2022-09-08T08:59:23.744Z",
+      __v: 0,
+    });
+
+    collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+    collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getAllCollectionsByCategories(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData().message).toEqual("데이터를 불러왔습니다.");
+  });
+});
+
+describe("getCollection 테스트 : 컬렉션 상세 조회", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+    req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+    collectionsService.collectionRepository.getCollectionById = jest.fn();
+    collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+
+    collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+    collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+    collectionsService.videoRepository.getVideoById = jest.fn();
+    collectionsService.videoRepository.getVideoById.mockReturnValue(videosListFromDB[0]);
+
+    collectionsService.userRepository.getUserById = jest.fn();
+    collectionsService.userRepository.getUserById.mockReturnValue(users[0]);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.getCollection(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe("createCollection 테스트 : 컬렉션 만들기", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+    res.locals.user_id = "6329192569d8145d2cb49b6b";
+    req.body = {
+      category_id: "6319aeebd1e330e86bbade88",
+      collectionTitle: "생성 테스트하기",
+      description: "ㅇㅇ",
+      videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+    };
+    collectionsService.videoRepository.createVideosByIds = jest.fn();
+    collectionsService.collectionRepository.createCollection = jest.fn();
+    collectionsService.userRepository.createMyCollection = jest.fn();
+    collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
+    collectionsService.collectionRepository.createCollection.mockReturnValue(collectionsListFromDB[0]);
+    // collectionsService.userRepository.createMyCollection.mockReturnValue(null);
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.createCollection(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 201이 되어야 한다.
+    expect(res.statusCode).toBe(201);
+  });
+});
+
+describe("editCollection 테스트 : 컬렉션 수정", () => {
+  beforeEach(() => {});
+
+  it("정상 상황에 대한 테스트 ", async () => {
+    // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+    res.locals.user_id = "6329192569d8145d2cb49b6b";
+    req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+    req.body = {
+      category_id: "6319aeebd1e330e86bbade88",
+      collectionTitle: "생성 테스트하기",
+      description: "ㅇㅇ",
+      videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+    };
+
+    collectionsService.collectionRepository.getCollectionById = jest.fn();
+    collectionsService.videoRepository.createVideosByIds = jest.fn();
+    collectionsService.collectionRepository.editCollection = jest.fn();
+    collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+    collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
+    collectionsService.collectionRepository.editCollection.mockReturnValue("updated");
+
+    // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+    await collectionsService.editCollection(req, res);
+
+    // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+    expect(res.statusCode).toBe(200);
   });
 });
