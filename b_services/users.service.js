@@ -7,20 +7,21 @@ class UserService {
   collectionRepository = new CollectionRepository();
   usersRepository = new UsersRepository();
 
-  //ID로 유저정보 조회
+  // ID로 유저정보 조회
   getLoggedInUser = async (req, res) => {
     const user_id = res.locals.user_id;
     const user = await this.usersRepository.getUserById(user_id);
 
     res.status(200).json({ success: true, user });
   };
-  //ID로 유저정보 조회
+
+  // ID로 유저정보 조회
   getUserById = async (req, res) => {
     const user = await this.usersRepository.getUserById(req.params.user_id);
     res.status(200).json({ success: true, user });
   };
 
-  //카테고리 관심 등록
+  // 카테고리 관심 등록
   setInterestCategories = async (req, res) => {
     try {
       // 재료
@@ -37,16 +38,15 @@ class UserService {
 
       let categories = await this.categoryRepository.getAllCategories(category_ids);
 
-      category_ids = categories.map((e) => e._id);
-      const category_names = categories.map((e) => e.categoryName);
+      // category_ids = categories.map((e) => e._id);
+      // const category_names = categories.map((e) => e.categoryName);
 
       res.status(200).json({
         success: true,
         message: "관심사를 설정하였습니다.",
         data: {
           user_id,
-          category_ids,
-          category_names,
+          categories,
         },
       });
     } catch (error) {
@@ -58,7 +58,7 @@ class UserService {
     }
   };
 
-  //관심사 확인
+  // 관심사 확인
   getInterestCategories = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
@@ -70,16 +70,15 @@ class UserService {
       console.log("myInterestingCategories", myInterestingCategories);
       let categories = await this.categoryRepository.getAllCategories(myInterestingCategories);
 
-      const category_ids = categories.map((e) => e._id);
-      const category_names = categories.map((e) => e.categoryName);
+      // const category_ids = categories.map((e) => e._id);
+      // const category_names = categories.map((e) => e.categoryName);
 
       res.status(200).json({
         success: true,
         message: "관심사를 확인하였습니다.",
         data: {
           user_id,
-          category_ids,
-          category_names,
+          categories,
         },
       });
     } catch (error) {
@@ -119,6 +118,7 @@ class UserService {
     }
   };
 
+  // 팔로우 또는 언팔로우
   followUnfollow = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
@@ -156,6 +156,7 @@ class UserService {
     }
   };
 
+  // 팔로우하는 사람 찾기
   getFollowings = async (req, res) => {
     try {
       const { user_id } = req.params;
@@ -174,8 +175,8 @@ class UserService {
   keepCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
       let { myKeepingCollections } = await this.usersRepository.getUserById(user_id);
@@ -199,6 +200,11 @@ class UserService {
             user_id: user_id,
             kept_collection: collection_id,
           },
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "컬렉션이 이미 담겨 있습니다.",
         });
       }
     } catch (error) {
@@ -254,12 +260,19 @@ class UserService {
 
       let { myKeepingCollections } = await this.usersRepository.getUserById(user_id);
 
+      let data = [];
+      for (let i = 0; i < myKeepingCollections.length; i++) {
+        const item = await this.collectionRepository.getCollectionById(myKeepingCollections[i]);
+
+        data.push(item);
+      }
+
       res.status(200).json({
         success: true,
         message: "컬렉션을 확인하였습니다.",
         data: {
           user_id,
-          kept_collections: myKeepingCollections,
+          kept_collections: data,
         },
       });
       return;
