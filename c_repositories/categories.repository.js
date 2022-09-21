@@ -7,6 +7,7 @@ class CategoryRepository {
     const Categories = await Category.find({ _id });
     return Categories;
   };
+
   getCategoryInfo = async (_id) => {
     const CategoryInfo = await Category.findOne({ _id });
     return CategoryInfo;
@@ -46,6 +47,7 @@ class CategoryRepository {
     const deleteCategory = await Category.deleteOne({ _id });
     return deleteCategory;
   };
+
   // 유저가 관심있는 카테고리 리스트
   getAllInterestOnCategoryArray = async (myInterestingCategories) => {
     const allCategoriesUserInterested = await User.find({
@@ -53,12 +55,14 @@ class CategoryRepository {
     });
     return allCategoriesUserInterested;
   };
+
   // 해당 카테고리가 관심받은 리스트
   getAllInteretOnCategoryId = async (category_id) => {
     const interests = await Category.find({ category_id });
 
     return interests;
   };
+
   // _id에 해당하는 카테고리의 관심을 1개 올린다.
   likeCollection = async (_id) => {
     const interestCategory = await Collection.findOneAndUpdate({ _id }, { $inc: { interest: +1 } });

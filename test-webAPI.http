@@ -113,7 +113,7 @@ Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	{{host}}/api/collections?category_id=631e7d7a4ae4c133c405a965&offset=0&limit=3
+GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7c&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
@@ -178,7 +178,7 @@ GET {{host}}/api/search/videos/youtube?keyword=축구
 
 ## ---------------------- 영상 관련 API  ------------------------
 ### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id
-GET	{{host}}/api/videos/6319e2bb9dbc9f0427279e97?offset=0&limit=2
+GET	{{host}}/api/videos/63291a3edcc97f368cc4fe70?offset=0&limit=2
 
 
 ### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id

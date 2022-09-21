@@ -23,4 +23,6 @@ router.delete("/interest/:category_id", authMiddleware, userService.removeIntere
 router.put("/keep/:collection_id", authMiddleware, userService.keepCollection);
 router.delete("/keep/:collection_id", authMiddleware, userService.notKeepCollection);
 
+/*authMiddleware,*/
+
 module.exports = router;
