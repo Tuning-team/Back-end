@@ -7,14 +7,12 @@ class CommentService {
   commentRepository = new CommentRepository();
   collectionRepository = new CollectionRepository();
   userRepository = new UserRepository();
+
   //댓글 작성
   leaveCommentOn = async (req, res) => {
     try {
-      // 재료
-      // const { user_id } = req.session.passport.user.user; // userId
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
+
+      const user_id = res.locals.user_id;
       const { collection_id } = req.params;
       const { comment } = req.body;
 
@@ -52,6 +50,7 @@ class CommentService {
       const thisCollection = await this.collectionRepository.getCollectionById(
         collection_id
       );
+
       if (!thisCollection) {
         res.status(400).json({
           status: false,
@@ -62,23 +61,6 @@ class CommentService {
           await this.commentRepository.getAllCommentsOnCollectionId(
             collection_id
           );
-
-        // let data = [];
-        // for (let i = 0; i < allCommentsInfo.length; i++) {
-        //   const writerInfo = await this.userRepository.getUserById(
-        //     allCommentsInfo[i].user_id
-        //   );
-
-        //   console.log(writerInfo);
-        //   data.push({
-        //     comment_id: allCommentsInfo[i]._id,
-        //     user_id: allCommentsInfo[i].user_id,
-        //     writerName: writerInfo.displayName,
-        //     writerProfilePic: writerInfo.profilePicUrl,
-        //     comment: allCommentsInfo[i].comment,
-        //     createdAt: allCommentsInfo[i].createdAt,
-        //   });
-        // }
 
         const data = await Promise.all(
           allCommentsInfo.map(async (el) => {
@@ -114,9 +96,7 @@ class CommentService {
   //댓글 수정
   updateComment = async (req, res) => {
     try {
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
       const { comment_id } = req.params;
       const { comment } = req.body;
 
@@ -154,7 +134,7 @@ class CommentService {
   //댓글 삭제
   deleteComment = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
       const { comment_id } = req.params;
 
       const commentToDelete = await this.commentRepository.getCommentDetail(

@@ -18,14 +18,7 @@ class VideoRepository {
   };
 
   //생성
-  createVideo = async (
-    videoId,
-    videoTitle,
-    category_id,
-    channelTitle,
-    channel_id,
-    thumbnails
-  ) => {
+  createVideo = async (videoId, videoTitle, category_id, channelTitle, channel_id, thumbnails) => {
     const createdVideo = await Video.create({
       videoId,
       videoTitle,
@@ -52,14 +45,13 @@ class VideoRepository {
           channelTitle: e.snippet.channelTitle,
           channelId: e.snippet.channelId,
           thumbnails: e.snippet.thumbnails.medium.url,
-          description: e.snippet.description,
+          description: e.snippet.description ? e.snippet.description : "-",
         };
       });
 
       let returnArr = await Promise.all(
         array.map(async (e) => {
           const foundVideo = await Video.findOne({ videoId: e.videoId });
-          console.log("foundVideo", foundVideo);
           if (foundVideo) {
             return foundVideo;
           } else {
@@ -77,20 +69,21 @@ class VideoRepository {
   };
 
   //수정
-  updateVideo = async (
-    video_id,
-    videoTitle,
-    category_id,
-    channelTitle,
-    channel_id,
-    thumbnails
-  ) => {
-    const updatedVideo = await Video.updateOne(
-      { videoTitle, category_id, channelTitle, thumbnails },
-      { _id: video_id }
-    );
-    return updatedVideo;
-  };
+  // updateVideo = async (
+  //   video_id,
+  //   videoTitle,
+  //   category_id,
+  //   channelTitle,
+  //   channel_id,
+  //   thumbnails
+  // ) => {
+  //   const updatedVideo = await Video.updateOne(
+  //     { _id: video_id },
+  //     { $set:{videoTitle, category_id, channelTitle, thumbnails} }
+  //
+  //   );
+  //   return updatedVideo;
+  // };
 
   //삭제
   deleteVideo = async (_id) => {

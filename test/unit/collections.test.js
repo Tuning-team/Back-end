@@ -1,142 +1,426 @@
-// 이 테스트코드로 테스트할 Collection 관련 서비스, 저장소의 각 클래스 import
+// 테스트할 클래스&인스턴스 & 필요한 모델, 모듈, 데이터
 const CollectionsService = require("../../b_services/collections.service");
-const CollectionRepository = require("../../c_repositories/collections.repository");
-
-// 테스트할 각 클래스의 인스턴스 생성
 const collectionsService = new CollectionsService();
-const collectionRepository = new CollectionRepository();
 
-// 테스트 과정에서 사용할 Collection DB 모델 확보
-const Collection = require("../d_schemas/collection");
-
-// req, res 가상 객체를 생성해주는 모듈 import
 const httpMocks = require("node-mocks-http");
+const {
+  users,
+  collectionsListFromDB,
+  commentsToInsert,
+  videosListFromDB,
+  collectionDataList,
+  getAllCategories,
+  newVideosSources,
+  getTop10,
+} = require("../data/collection-data-in");
 
-// 테스트에 필요한 Mock Data import
-const collectionDataIn = require("../data/collection-data-in");
-const collectionDataOut = require("../data/collection-data-out");
-
-// 공용 변수들을 여기에 정의
-let req, res, next; // beforeEach 밖에서도 사용하기 위해 여기에 선언
+let req, res, next;
 beforeEach(() => {
   req = httpMocks.createRequest(); // 빈 리퀘스트 객체 생성
   res = httpMocks.createResponse(); // 빈 리스폰스 객체 생성
-  next = jest.fn(); // next는 특별한 기능이 없으나, 데이터 수집을 위해 mock 함수로 생성
+  next = jest.fn(); // mock 함수로 생성(데이터 수집)
 });
 
-// 검증 시작
-describe("CollectionsService 클래스 테스트", () => {
-  describe("getAllCollectionsByUserId 메소드 테스트", () => {
+describe("CollectionsService 단위테스트 진행", () => {
+  describe("getAllCollectionsByUserId 테스트 : UserId로 각자 만든 컬렉션 리스트", () => {
     beforeEach(() => {
-      // getAllCollectionsByUserId 메소드안에서 사용할 메소드 mocking
-      collectionsService.collectionRepository.getAllCollectionsByUserId =
-        jest.fn();
+      res.locals.user_id = "6329192569d8145d2cb49b6b";
+      req.query = { offset: 0, limit: 3 };
+    });
 
-      // mock함수로 정의된 collectionsService.getAllCollectionsByUserId
-      // 본 테스터 안에서 호출되는 collectionsService의 getAllCollectionsByUserId는 항상 collectionDataOut.getCollectionRes.data값을 리턴하기로 함
-      collectionsService.collectionRepository.getAllCollectionsByUserId.mockReturnValue(
-        collectionDataOut.getCollectionRes.data
-      );
-    });
-    // status-code가 200번일 것이다 예상
-    test("기능: 받아온 데이터를 받아 200번의 status-code를 응답해야 한다.", async () => {
-      await collectionsService.getAllCollectionsByUserId(req, res, next);
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+      collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging = jest.fn();
+      collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging.mockReturnValue({
+        userDataAll: collectionsListFromDB,
+        totalContents: 30,
+        hasNext: true,
+      });
+
+      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+      collectionsService.videoRepository.getVideoById = jest.fn();
+      collectionsService.videoRepository.getVideoById.mockReturnValue(videosListFromDB);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getAllCollectionsByUserId(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
       expect(res.statusCode).toBe(200);
-    });
-    test("기능: 받아온 데이터는 특정 형태로 응답하여 명세서에 맞춰야 한다.", async () => {
-      await collectionsService.getAllCollectionsByUserId(req, res, next);
-      expect(res._getJsonData()).toStrictEqual(
-        collectionDataOut.getCollectionRes
-      ); // 일반적인 Equal 보다는 훨씬 엄격한 Equal라서 기존과는 다르게 특정 요소에 undefined가 나오는 것을 허용하지 않음.
-    });
-    test("예외처리: 받아온 데이터가 빈 배열일 경우에도 빈 배열을 리턴한다.", async () => {
-      collectionsService.collectionRepository.getAllCollectionsByUserId.mockReturnValue(
-        []
-      ); // 저장소의 getAllPosts는 항상 빈 배열을 주기로 했을 때
-      const resultData = await collectionsService.getAllCollectionsByUserId();
-      // 서비스가 리턴한 resultData을 아래와 같이 검증한다.
-      expect(resultData).toMatchObject([]); // toBe 가 아니라 toMatchObject를 쓰는 이유 : Array는 참조형이기 때문 _ ex. [] === [] : false
     });
   });
 
-  describe("getAllCollectionsByCategoryId 메소드 테스트", () => {
-    beforeEach(async () => {
-      // getAllCollectionsByCategoryId 메소드안에서 사용할 메소드 mocking
-      collectionsService.getAllCollectionsByCategoryId = jest.fn();
+  describe("getAllCollectionsByCategoryId 테스트 : 카테고리에 해당하는 컬렉션 리스트", () => {
+    beforeEach(() => {});
 
-      // mock함수로 정의된 collectionsService.getAllCollectionsByUserId
-      // 본 테스터 안에서 호출되는 collectionsService의 getAllCollectionsByUserId는 항상 collectionDataOut.getCollectionRes.data값을 리턴하기로 함
-      collectionsService.getAllCollectionsByCategoryId.mockReturnValue(
-        collectionDataOut.getCollectionRes.data
-      );
-    });
-    // status-code가 200번일 것이다 예상
-    test("기능: 받아온 데이터를 받아 200번의 status-code를 응답해야 한다.", async () => {
-      await collectionsService.getAllCollectionsByCategoryId(req, res, next);
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      req.query = { category_id: "6319aeebd1e330e86bbade7c", offset: 0, limit: 5 };
+
+      collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging = jest.fn();
+      collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging.mockReturnValue({
+        categoryDataAll: collectionDataList,
+        totalContents: 30,
+        hasNext: true,
+      });
+
+      collectionsService.categoryRepository.getAllCategories = jest.fn();
+      collectionsService.categoryRepository.getAllCategories.mockReturnValue(getAllCategories);
+
+      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getAllCollectionsByCategoryId(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
       expect(res.statusCode).toBe(200);
-    });
-    test("기능: 받아온 데이터는 특정 형태로 응답하여 명세서에 맞춰야 한다.", async () => {
-      await collectionsService.getAllCollectionsByCategoryId(req, res, next);
-      expect(res._getJsonData()).toStrictEqual(
-        collectionDataOut.getCollectionRes
-      );
-    });
-    test("예외처리: 받아온 데이터가 빈 배열일 경우에도 빈 배열을 리턴한다.", async () => {
-      collectionsService.collectionRepository.getAllCollectionsByCategoryId.mockReturnValue(
-        []
-      ); // 저장소의 getAllPosts는 항상 빈 배열을 주기로 했을 때
-      const resultData =
-        await collectionsService.getAllCollectionsByCategoryId();
-      // 서비스가 리턴한 resultData을 아래와 같이 검증한다.
-      expect(resultData).toMatchObject([]); // toBe 가 아니라 toMatchObject를 쓰는 이유 : Array는 참조형이기 때문 _ ex. [] === [] : false
+      expect(res._getJSONData().pageInfo.hasNext).toBeTruthy();
     });
   });
 
-  describe("getCollection 메소드 테스트", () => {
-    beforeEach(async () => {
-      // getCollection 메소드안에서 사용할 메소드 mocking
-      collectionsService.getCollection = jest.fn();
+  describe("getAllCollectionsByCategories 테스트 : 카테고리들에 해당하는 컬렉션 리스트", () => {
+    beforeEach(() => {});
 
-      // mock함수로 정의된 collectionsService.getAllCollectionsByUserId
-      // 본 테스터 안에서 호출되는 collectionsService의 getAllCollectionsByUserId는 항상 collectionDataOut.getCollectionRes.data값을 리턴하기로 함
-      collectionsService.getCollection.mockReturnValue(
-        collectionDataOut.getCollectionRes.data
-      );
-    });
-    // status-code가 200번일 것이다 예상
-    test("기능: 받아온 데이터를 받아 200번의 status-code를 응답해야 한다.", async () => {
-      await collectionsService.getCollection(req, res, next);
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      req.body = {
+        category_ids: [
+          "6319aeebd1e330e86bbade9f",
+          "631e7d7a4ae4c133c405a964",
+          "631e7d7a4ae4c133c405a966",
+          "631e7d7a4ae4c133c405a965",
+        ],
+      };
+
+      collectionsService.collectionRepository.getAllCollectionsByCategoryId = jest.fn();
+      collectionsService.collectionRepository.getAllCollectionsByCategoryId.mockReturnValue(collectionDataList);
+
+      collectionsService.categoryRepository.getCategoryInfo = jest.fn();
+      collectionsService.categoryRepository.getCategoryInfo.mockReturnValue({
+        _id: "6319aeebd1e330e86bbade7c",
+        categoryName: "인기있는",
+        youtubeCategoryId: "",
+        isVisible: true,
+        createdAt: "2022-09-08T08:59:23.744Z",
+        __v: 0,
+      });
+
+      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getAllCollectionsByCategories(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
       expect(res.statusCode).toBe(200);
-    });
-    test("기능: 받아온 데이터는 특정 형태로 응답하여 명세서에 맞춰야 한다.", async () => {
-      await collectionsService.getCollection(req, res, next);
-      expect(res._getJsonData()).toStrictEqual(
-        collectionDataOut.getCollectionRes
-      );
+      expect(res._getJSONData().message).toEqual("데이터를 불러왔습니다.");
     });
   });
 
-  describe("createCollection 메소드 테스트", () => {
-    beforeEach(async () => {
-      // getCollection 메소드안에서 사용할 메소드 mocking
-      collectionsService.createCollection = jest.fn();
+  describe("getCollection 테스트 : 컬렉션 상세 조회", () => {
+    beforeEach(() => {});
 
-      // mock함수로 정의된 collectionsService.getAllCollectionsByUserId
-      // 본 테스터 안에서 호출되는 collectionsService의 getAllCollectionsByUserId는 항상 collectionDataOut.getCollectionRes.data값을 리턴하기로 함
-      collectionsService.createCollection.mockReturnValue(
-        collectionDataOut.getCollectionRes.data
-      );
-    });
-    // status-code가 200번일 것이다 예상
-    test("기능: 받아온 데이터를 받아 200번의 status-code를 응답해야 한다.", async () => {
-      await collectionsService.createCollection(req, res, next);
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+
+      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+
+      collectionsService.videoRepository.getVideoById = jest.fn();
+      collectionsService.videoRepository.getVideoById.mockReturnValue(videosListFromDB[0]);
+
+      collectionsService.userRepository.getUserById = jest.fn();
+      collectionsService.userRepository.getUserById.mockReturnValue(users[0]);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
       expect(res.statusCode).toBe(200);
     });
-    test("기능: 받아온 데이터는 특정 형태로 응답하여 명세서에 맞춰야 한다.", async () => {
-      await collectionsService.createCollection(req, res, next);
-      expect(res._getJsonData()).toStrictEqual(
-        collectionDataOut.getCollectionRes
-      );
+  });
+
+  describe("createCollection 테스트 : 컬렉션 만들기", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      res.locals.user_id = "6329192569d8145d2cb49b6b";
+      req.body = {
+        category_id: "6319aeebd1e330e86bbade88",
+        collectionTitle: "생성 테스트하기",
+        description: "ㅇㅇ",
+        videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+      };
+      collectionsService.videoRepository.createVideosByIds = jest.fn();
+      collectionsService.collectionRepository.createCollection = jest.fn();
+      collectionsService.userRepository.createMyCollection = jest.fn();
+      collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
+      collectionsService.collectionRepository.createCollection.mockReturnValue(collectionsListFromDB[0]);
+      // collectionsService.userRepository.createMyCollection.mockReturnValue(null);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.createCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 201이 되어야 한다.
+      expect(res.statusCode).toBe(201);
+    });
+  });
+
+  describe("editCollection 테스트 : 컬렉션 수정", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      res.locals.user_id = "6329192569d8145d2cb49b6b";
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+      req.body = {
+        category_id: "6319aeebd1e330e86bbade88",
+        collectionTitle: "생성 테스트하기",
+        description: "ㅇㅇ",
+        videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+      };
+
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.videoRepository.createVideosByIds = jest.fn();
+      collectionsService.collectionRepository.editCollection = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
+      collectionsService.collectionRepository.editCollection.mockReturnValue("updated");
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.editCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("deleteCollection 테스트 : 컬렉션 삭제", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      res.locals.user_id = "6329192569d8145d2cb49b6b";
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.deleteCollection = jest.fn();
+      collectionsService.collectionRepository.deleteCollection.mockReturnValue("done");
+      collectionsService.userRepository.deleteMyCollection = jest.fn();
+      collectionsService.userRepository.deleteMyCollection.mockReturnValue("done");
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.deleteCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("likeCollection 테스트 : 좋아요 누르기", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      res.locals.user_id = "6329192569d8145d2cb49b6b";
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.userRepository.getUserById = jest.fn();
+      collectionsService.userRepository.getUserById.mockReturnValue(users[0]);
+      collectionsService.collectionRepository.likeCollection = jest.fn();
+      collectionsService.collectionRepository.likeCollection.mockReturnValue("liked");
+      collectionsService.userRepository.likeCollection = jest.fn();
+      collectionsService.userRepository.likeCollection.mockReturnValue("liked");
+      collectionsService.collectionRepository.disLikeCollection = jest.fn();
+      collectionsService.collectionRepository.disLikeCollection.mockReturnValue("disliked");
+      collectionsService.userRepository.disLikeCollection = jest.fn();
+      collectionsService.userRepository.disLikeCollection.mockReturnValue("disliked");
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.likeCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("getCollectionsBySearch 테스트 : 검색어와 일치하는 컬렉션 찾기", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      req.query = { keyword: "운동", offset: 0, limit: 3 };
+
+      collectionsService.collectionRepository.getCollectionsBySearchWithPaging = jest.fn();
+      collectionsService.collectionRepository.getCollectionsBySearchWithPaging.mockReturnValue({
+        resultBySearch: collectionsListFromDB,
+        totalContents: 30,
+        hasNext: true,
+      });
+      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+      collectionsService.videoRepository.getVideoById = jest.fn();
+      collectionsService.videoRepository.getVideoById.mockReturnValue(newVideosSources);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getCollectionsBySearch(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 201이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("addVideoOnCollection 테스트 : 검색어와 일치하는 컬렉션 찾기", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      res.locals.user_id = "6329192569d8145d2cb49b6b";
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+      req.body = { videos: videosListFromDB };
+
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.addVideoOnCollection = jest.fn();
+      collectionsService.collectionRepository.addVideoOnCollection.mockReturnValue(collectionsListFromDB[0]);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.addVideoOnCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 201이 되어야 한다.
+      expect(res.statusCode).toBe(201);
+    });
+  });
+
+  describe("removeVideoFromCollection 테스트 : 컬렉션 영상 제거", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      res.locals.user_id = "6329192569d8145d2cb49b6b";
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.removeVideoFromCollection = jest.fn();
+      collectionsService.collectionRepository.removeVideoFromCollection.mockReturnValue(videosListFromDB);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.removeVideoFromCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 201이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("whoKeepCollection 테스트 : 컬렉션을 담은 사람", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.whoKeepCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 201이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("getLikeTop10 테스트 : 컬렉션 좋아요 내림차순 10개에 카테고리 아이디 부여 ", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+      collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("6319aeebd1e330e86bbade9f");
+
+      collectionsService.collectionRepository.giveCategoryIdOnLikeTop10 = jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnLikeTop10.mockReturnValue(getTop10);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getLikeTop10(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("getLatestTop10 테스트 : 가장 최근에 만들어진 컬렉션 10개에 카테고리 아이디 부여 ", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+      collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a964");
+
+      collectionsService.collectionRepository.giveCategoryIdOnLatestTop10 = jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnLatestTop10.mockReturnValue(getTop10);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getLatestTop10(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("getTimeRecommend10 테스트 : 시간대별 추천 컬렉션 10개에 카테고리 아이디 부여 ", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+      collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a966");
+
+      collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation = jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation.mockReturnValue(getTop10);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getTimeRecommend10(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+      expect(res.statusCode).toBe(200);
+    });
+  });
+
+  describe("getWeatherRecommend10 테스트 : 날씨별 추천 컬렉션 10개에 카테고리 아이디 부여 ", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+
+      collectionsService.collectionRepository.getLidOfCategory = jest.fn();
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a965");
+
+      collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation = jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation.mockReturnValue(getTop10);
+
+      collectionsService.categoryRepository.updateCategory = jest.fn();
+      collectionsService.categoryRepository.updateCategory.mockReturnValue("631e7d7a4ae4c133c405a96521");
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.getWeatherRecommend10(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 200이 되어야 한다.
+      expect(res.statusCode).toBe(200);
     });
   });
 });

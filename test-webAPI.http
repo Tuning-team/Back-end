@@ -1,11 +1,57 @@
-@host = https://tube-tuning.com
+# @host = https://api.tube-tuning.com
+# @host = https://tube-tuning.com
+@host = http://localhost:4000
+
+
+### 오늘의 메인 추천 리셋하기
+PUT {{host}}/api/collections/today
+
+### 오늘의 메인 추천을 위한 외부의 날씨 API
+GET https://goweather.herokuapp.com/weather/Seoul
+
+### 크롤링 유튜브 외부서버
+GET http://3.34.136.55:8080/api/search?q=bts
+
+
 
 ## ---------------------- 카테고리 관련 API ------------------------
 ### 1. 카테고리 요소의 리스트 찾아오기 : GET /api/categories
 GET	{{host}}/api/categories
 
 
+### ---------------------- 유저 관련 API ------------------------
+### 16. 로그인한 유저의 정보 가져오기 : GET /api/user
+GET	{{host}}/api/user/
 
+### 17. 고유 id로 유저 정보 찾기 : GET /api/user/:user_id
+GET {{host}}/api/user/632919bf0c70d67f1b92e0e3
+
+### 25. PUT	/api/user/interest/:category_id  _ 관심사 카테고리 선택
+PUT {{host}}/api/user/interest/6319aeebd1e330e86bbade7c,6319aeebd1e330e86bbade7b,6319aeebd1e330e86bbade80
+
+### 26. GET	/api/user/interest/  _ 관심사 카테고리 불러오기 (로그인유저)
+GET {{host}}/api/user/interest
+
+### 27. DELETE	/api/user/interest/:category_id  _ 관심사 카테고리 제거하기 (로그인유저)
+DELETE {{host}}/api/user/interest/6319aeebd1e330e86bbade7c
+
+### 28. PUT	/api/user/keep/:collection_id  _ 로그인유저 컬렉션 담기
+PUT {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 29. DELETE	/api/user/keep/:collection_id  _ 로그인유저 컬렉션 담기 취소
+DELETE {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 30. GET	/api/user/keep/:collection_id  _ 로그인유저 담기 컬렉션 조회
+GET {{host}}/api/user/keep
+
+### 31. GET	/api/collections/whokeep/:collection_id  _ 컬렉션을 담은 이용자 리스트 조회
+GET {{host}}/api/collections/whokeep/63291a3fdcc97f368cc4fe92
+
+### 32. 로그인 유저가 params 유저를 팔로잉하기
+PUT {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
+
+### 33. params 유저가 팔로잉 하고 있는 유저들의 id 리스트 
+GET {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
 
 ## ---------------------- 컬렉션 관련 API ------------------------
 
@@ -15,19 +61,36 @@ Content-Type: application/json
 
 {
     "category_id": "6319aeebd1e330e86bbade88",
-    "collectionTitle": "방탄소년단 모음",
-    "description": "BTS 짱!",
-    "videos": ["nWJB1U7cQVs", "22Gguht_plk"]
+    "collectionTitle": "생성 테스트하기",
+    "description": "ㅇㅇ",
+    "videos": ["_VE04NqHNqc",
+  "P1UZTj1h1a0",
+  "hKfb-rudyWA",
+  "JdHyjfVcN9Y",
+  "rRhowWJ6r_4",
+  "8z_HtjtIdio",
+  "lmmA-go5244",
+  "wunMxN8LTV8"]
 }
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/6312cd792a4f77334033a9c0
+GET	{{host}}/api/collections/63291a3fdcc97f368cc4fe92
 
 
+### 24. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
+PUT {{host}}/api/collections/6319e2bb9dbc9f0427279e97
+Content-Type: application/json
+
+{
+    "category_id": "6319aeebd1e330e86bbade88",
+    "collectionTitle": "mbti",
+    "description": "mbti 신기행짱",
+    "videos": ["5yiMd2lGQJo", "PmGs8I7qetY"]
+}
 
 ### 4. 특정 컬렉션 id로 삭제하기 : DELETE /api/collections/:collection_id
-DELETE {{host}}/api/collections/6319e2bb9dbc9f0427279e97
+DELETE {{host}}/api/collections/6329359ca9166c6eab1a37a0
 
 ### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
 PUT	{{host}}/api/collections/6319e4b3ec6de8cd33569795
@@ -39,23 +102,42 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/6319e4b3ec6de8cd33569795
+PUT	{{host}}/api/collections/like/6329359ca9166c6eab1a37a0
+Content-Type: application/json
+
+### 7. 내가 좋아한 컬렉션 리스트 : GET /api/collections/mylikes
+GET	{{host}}/api/collections/mylikes?offset=0&limit=5
+Content-Type: application/json
+
+### 7. 내가 담은 컬렉션 리스트 : GET /api/collections/mykeeps
+GET	{{host}}/api/collections/mykeeps?offset=0&limit=5
 Content-Type: application/json
 
 
 ### 7. 내가 생성한 컬렉션 리스트 : GET /api/collections/mine
-GET	{{host}}/api/collections/mine?offset=0&limit=3
+GET	{{host}}/api/collections/mine?offset=0&limit=5
 Content-Type: application/json
 
 
 ### 8. 카테고리에 맞는 컬렉션 리스트 찾기 : GET /api/collections?category_id=
-GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7b&offset=0&limit=3
+GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7c&offset=0&limit=3
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
-GET	{{host}}/api/collections/search?keyword=게임&offset=0&limit=3
+GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=2
 
 
+### 35. 4가지 카테고리에 해당하는 컬렉션 정보 보내기
+POST	{{host}}/api/collections/recommendation
+Content-Type: application/json
+
+{ 
+    "category_ids" :
+     ["6319aeebd1e330e86bbade9f", "631e7d7a4ae4c133c405a964", "631e7d7a4ae4c133c405a966", "631e7d7a4ae4c133c405a965"] 
+} 
+
+### 35. 특정 컬렉션에서 영상을 제거하기
+DELETE	{{host}}/api/collections/remove/63291a3edcc97f368cc4fe70?video_id=63291a3edcc97f368cc4fe6c
 
 
 
@@ -93,31 +175,17 @@ DELETE {{host}}/api/comments/6319e5f9ec6de8cd335697dc
 
 ## ---------------------- 영상 찾기 관련 API ------------------------
 ### 14. (기본찾기) 우리DB에 저장된 영상 중에 검색하기 : GET /api/search/videos/db?keyword=
-GET {{host}}/api/search/videos/db?keyword=방탄소년단
+GET {{host}}/api/search/videos/db?keyword=축구
 
 
 ### 15. (더찾아보기) 유튜브API에 100점 주고 검색하기 : GET /api/search/videos/youtube?keyword=
-GET {{host}}/api/search/videos/youtube?keyword=운동
-
-
-
-
-
-## ---------------------- 유저 정보 찾기 관련 API ------------------------
-### 16. 로그인한 유저의 정보 가져오기 : GET /api/user
-GET	{{host}}/api/user/
-
-
-### 17. 고유 id로 유저 정보 찾기 : GET /api/user/:user_id
-GET {{host}}/api/user/6312ad8b5057863778c220ca
-
-
+GET {{host}}/api/search/videos/youtube?keyword=축구
 
 
 
 ## ---------------------- 영상 관련 API  ------------------------
 ### 18. 특정 id 컬렉션에 포함되어 있는 영상들의 리스트 : GET /api/videos/:collection_id
-GET	{{host}}/api/videos/6319e2bb9dbc9f0427279e97?offset=0&limit=5
+GET	{{host}}/api/videos/63291a3edcc97f368cc4fe70?offset=0&limit=2
 
 
 ### 19. 특정 id 영상의 더 상세한 정보 불러오기 : GET /api/videos/detail/:video_id
@@ -131,3 +199,25 @@ GET	https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpW
 
 ### 22. 영상 아이디를 하나 넣으면 그 채널 전체의 재생목록 영상을 검색가능하게 함
 POST {{host}}/api/videos/add/XQGE6C8btv4
+
+### 
+GET https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBJg1gJLZT0As7NGbFDHpWFLO_mi4JDw0c&part=snippet&regionCode=kr&id=lLgy8r6fl7A,22Gguht_plk
+
+
+
+###
+GET https://www.googleapis.com/oauth2/v2/userinfo
+Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2wwbOf6w7oUstMxDt5kDRX19nRDPc0Uus0Ybs6PbJIUbymnq74HgOKKalAvUYO7YtjcuDfFo2XxdaKxfsAi1VA_X7L-QyXfWnz5dULcaI7YaCgYKATASARMSFQE65dr8XCcfN26UcSMirEyHBM_1PA0163
+
+
+### 컬렉션 담기
+PUT {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 컬렉션 담기 취소(삭제)
+DELETE {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+
+### 내가 담은 컬렉션 확인
+GET {{host}}/api/user/keep
+
+### 이 컬렉션이 담긴 유저 확인
+GET {{host}}/api/collections/whokeep/:collection_id

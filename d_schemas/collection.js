@@ -23,10 +23,20 @@ const CollectionSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
+  ytVideos: {
+    type: Array,
+    required: true,
+    default: [],
+  },
   likes: {
     type: Number,
     required: true,
     default: 0,
+  },
+  keptBy: {
+    type: Array,
+    required: true,
+    default: [],
   },
   createdAt: {
     type: Date,

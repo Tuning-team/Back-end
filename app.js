@@ -1,12 +1,9 @@
 require("dotenv").config(); // 환경변수 적용
-const dev = process.env.NODE_ENV !== "production";
-const path = require("path");
 const createError = require("http-errors");
 const logger = require("morgan");
 
 const express = require("express");
 const cors = require("cors");
-
 const cookieParser = require("cookie-parser");
 
 const mongoose = require("mongoose");
@@ -32,21 +29,16 @@ console.log("Passport & GoogleStrategy _ 설정 완료!");
 // express 객체인 app은, CORS와 세션을 사용
 const app = express();
 
-app.use(logger("dev"));
+app.use(logger("dev")); // 로그 보여주는 방식에 관한
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
-
-// if (dev) {
-//   const webpackDev = require("./dev");
-//   app.use(webpackDev.comp).use(webpackDev.hot);
-// }
-
-// app.use(express.static(path.join(__dirname, "client", "dist")));
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-// });
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(
   session({
@@ -54,6 +46,12 @@ app.use(
     store: store,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 5300000,
+      secure: true,
+    },
   })
 );
 
@@ -66,9 +64,11 @@ const routes = require("./a_routes/index.js");
 app.use("/api", routes);
 
 // view engine setup
+const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+// express-generator
 
 app.get("/", async (req, res, next) => {
   res.render("index", { title: "Express" });
@@ -91,5 +91,3 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-
-// 레거시 코드---

@@ -1,10 +1,16 @@
 const Category = require("../d_schemas/category");
+const User = require("../d_schemas/user");
 
 class CategoryRepository {
   // 카테고리 전체 조회
   getAllCategories = async (_id) => {
     const Categories = await Category.find({ _id });
     return Categories;
+  };
+
+  getCategoryInfo = async (_id) => {
+    const CategoryInfo = await Category.findOne({ _id });
+    return CategoryInfo;
   };
 
   // 활성화된(isVisible = True) 카테고리 전체 조회
@@ -31,11 +37,8 @@ class CategoryRepository {
   };
 
   // 카테고리 이름 수정. return 수정된 카테고리 이름
-  updateCategory = async (categoryName) => {
-    const updateCategory = await Category.updateOne(
-      { _id },
-      { $set: { categoryName } }
-    );
+  updateCategory = async (_id, categoryName) => {
+    const updateCategory = await Category.updateOne({ _id }, { $set: { categoryName } });
     return updateCategory;
   };
 
@@ -43,6 +46,34 @@ class CategoryRepository {
   deleteCategory = async (_id) => {
     const deleteCategory = await Category.deleteOne({ _id });
     return deleteCategory;
+  };
+
+  // 유저가 관심있는 카테고리 리스트
+  getAllInterestOnCategoryArray = async (myInterestingCategories) => {
+    const allCategoriesUserInterested = await User.find({
+      myInterestingCategories,
+    });
+    return allCategoriesUserInterested;
+  };
+
+  // 해당 카테고리가 관심받은 리스트
+  getAllInteretOnCategoryId = async (category_id) => {
+    const interests = await Category.find({ category_id });
+
+    return interests;
+  };
+
+  // _id에 해당하는 카테고리의 관심을 1개 올린다.
+  likeCollection = async (_id) => {
+    const interestCategory = await Collection.findOneAndUpdate({ _id }, { $inc: { interest: +1 } });
+
+    return interestCategory.likes;
+  };
+
+  // _id에 해당하는 카테고리의 관심을 1개 내린다.
+  disLikeCollection = async (_id) => {
+    const interestCategory = await Collection.findOneAndUpdate({ _id }, { $inc: { interest: -1 } });
+    return interestCategory.likes;
   };
 }
 

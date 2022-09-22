@@ -19,25 +19,40 @@ const Users = new mongoose.Schema({
   lastName: {
     type: String,
   },
+  displayName: {
+    type: String,
+    required: true,
+  },
   profilePicUrl: {
     type: String,
     required: true,
     default:
       "https://t4.ftcdn.net/jpg/03/40/12/49/360_F_340124934_bz3pQTLrdFpH92ekknuaTHy8JuXgG7fi.jpg",
   },
-  myCollectionsArr: {
+  myCollections: {
     type: Array,
     required: true,
     default: [],
   },
-  likedCollectionsArr: {
+  myLikingCollections: {
     type: Array,
     required: true,
     default: [],
   },
-  displayName: {
-    type: String,
+  myInterestingCategories: {
+    type: Array,
     required: true,
+    default: [],
+  },
+  myKeepingCollections: {
+    type: Array,
+    required: true,
+    default: [],
+  },
+  followings: {
+    type: Array,
+    required: true,
+    default: [],
   },
   createdAt: {
     type: Date, // 이건 날짜 형태로 받을게요~!
