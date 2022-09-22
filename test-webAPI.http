@@ -23,7 +23,6 @@ GET	{{host}}/api/categories
 ### 16. 로그인한 유저의 정보 가져오기 : GET /api/user
 GET	{{host}}/api/user/
 
-
 ### 17. 고유 id로 유저 정보 찾기 : GET /api/user/:user_id
 GET {{host}}/api/user/632919bf0c70d67f1b92e0e3
 
@@ -79,7 +78,7 @@ Content-Type: application/json
 GET	{{host}}/api/collections/63291a3fdcc97f368cc4fe92
 
 
-### 4. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
+### 24. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
 PUT {{host}}/api/collections/6319e2bb9dbc9f0427279e97
 Content-Type: application/json
 
