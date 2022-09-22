@@ -1,6 +1,6 @@
-# @host = https://api.tube-tuning.com
+@host = https://api.tube-tuning.com
 # @host = https://tube-tuning.com
-@host = http://localhost:4000
+# @host = http://localhost:4000
 
 
 ### 오늘의 메인 추천 리셋하기

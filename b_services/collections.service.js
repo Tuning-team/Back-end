@@ -67,8 +67,8 @@ class CollectionsService {
   // 내가 만든 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsUserLikes = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       const { offset, limit } = req.query;
 
