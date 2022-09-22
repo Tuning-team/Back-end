@@ -59,7 +59,7 @@ GET {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
 ### 2. 컬렉션 생성 : POST /api/collections
 POST {{host}}/api/collections
 Content-Type: application/json
-3000ms -> 
+
 {
     "category_id": "6319aeebd1e330e86bbade88",
     "collectionTitle": "생성 테스트하기",
