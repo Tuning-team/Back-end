@@ -76,7 +76,7 @@ describe("전체 통합테스트", () => {
   // });
   it("10	GET	/api/comments/:collection_id", async () => {
     const response = await request(app).get("/api/comments/:collection_id") 
-
+  });
   it("24	PUT	/api/collections/:collection_id : 컬렉션 수정", async () => {
     // 내가 쓴 글의 id 하나를 찾는다.
     const { _id } = await Collections.findOne({ user_id: "63299408fd1d6c2ac41d64c5" });
@@ -202,23 +202,29 @@ describe("전체 통합테스트", () => {
     expect(response.statusCode).toBe(200);
     expect(videos_after[0]).not.toEqual(videos[0]);
   });
-  it("11 POST /api/comments/:collection_id", async () => {        
+  it("11 POST /api/comments/:collection_id", async () => {    
+    const { _id } = await Collections.findOne({ user_id: "63299408fd1d6c2ac41d64c5" });
+    const { myKeepingCollections } = await Users.findOne({ _id: "63299408fd1d6c2ac41d64c5" });    
     const response = await request(app)
-    .get("/api/comments/:collection_id").set("authorization", authorizationCode)
-    .send(commentsToInsert)    
+    .post(`/api/comments/${myKeepingCollections[0]}`).set("authorization", authorizationCode)
+    .send({
+      comments: "또 들를게요!",
+    })         
     expect(response.statusCode).toBe(200);
   });
   it("12 PUT /api/comments/:comment_id", async () => {
-    res.locals.user_id ="63299408fd1d6c2ac41d64c5"
-    req.body = {
-      "comment" : "레알 진짜 짱 좋아요 짱짱짱 !"
-      }
-    const response = await request(app).get("/api/comments/:comment_id").set("authorization", authorizationCode)    
+    const { _id } = await Comments.findOne({ user_id: "63299408fd1d6c2ac41d64c5" });  
+
+    const response = await request(app).put(`/api/comments/${_id}`)
+    .set("authorization", authorizationCode)
+    .send({
+      comments: "또 들를게요!",
+    })     
     expect(response.statusCode).toBe(200);
   });
-  it("13 DELETE	/api/comments/:comment_id", async () => {
-    res.locals.user_id ="63299408fd1d6c2ac41d64c5"
-    const response = await request(app).get("/api/comments/:comment_id").set("authorization", authorizationCode)    
+  it("13 DELETE	/api/comments/:comment_id", async () => {    
+    const response = await request(app).delete("/api/comments/6319e5c5743fb04adf12533a")
+    .set("authorization", authorizationCode)    
     expect(response.statusCode).toBe(200);
   });
   // it("14 GET /api/search/videos/db?keyword=", async () => {
@@ -229,17 +235,18 @@ describe("전체 통합테스트", () => {
   //   const response = await request(app).get("/api/search/videos/youtube?keyword=");
   //   expect(response.statusCode).toBe(200);
   // });
-  it("16 GET /api/user", async () => {
-    res.locals.user_id ="63299408fd1d6c2ac41d64c5"
-    const response = await request(app).get("/api/user").set("authorization", authorizationCode)    
+  it("16 GET /api/user", async () => {    
+    const response = await request(app).get("/api/user")
+    .set("authorization", authorizationCode)    
     expect(response.statusCode).toBe(200);
   });
   it("17 GET /api/user/:user_id", async () => {
-    const response = await request(app).get("/api/user/:user_id");
+    const response = await request(app).get("/api/user/63299408fd1d6c2ac41d64c5");
     expect(response.statusCode).toBe(200);
   });
   it("18 GET /api/videos/:collection_id", async () => {
-    const response = await request(app).get("/api/videos/:collection_id");
+    const { myKeepingCollections } = await Users.findOne({ _id: "63299408fd1d6c2ac41d64c5" });
+    const response = await request(app).get("/api/videos/myKeepingCollections[0]");
     expect(response.statusCode).toBe(200);
   });
   it("19 GET /api/videos/detail/:video_id", async () => {
@@ -283,3 +290,4 @@ afterAll(async () => {
     );
   }
 });
+
