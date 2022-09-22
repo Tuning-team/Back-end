@@ -1,7 +1,7 @@
 require("dotenv").config(); // 환경변수 적용
-const mongoose = require("mongoose");
-const connect = require("../d_schemas/index.js");
-connect();
+// const mongoose = require("mongoose");
+// const connect = require("../d_schemas/index.js");
+// connect();
 
 const Collections = require("../d_schemas/collection");
 const Users = require("../d_schemas/user");
@@ -128,7 +128,7 @@ class DatabaseInitializer {
       const collections = await Collections.find();
       const collection_ids = collections.map((e) => e._id);
 
-      for (let i = 0; i < collection_ids.length * 7; i++) {
+      for (let i = 0; i < collection_ids.length; i++) {
         const user_id = user_ids[i % user_ids.length]; // 반복
         const collection_id = collection_ids[(i + 2) % collection_ids.length]; // 반복
 
