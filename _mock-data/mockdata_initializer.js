@@ -43,174 +43,159 @@ const axios = require("axios");
 
 // ----------------------- 함수 정의 -----------------------------
 
-const createCollections = async (newVideosSources) => {
-  try {
-    const users = await Users.find();
-    const user_ids = users.map((e) => e._id);
-    console.log("user_ids", user_ids);
+class DatabaseInitializer {
+  createCollections = async (newVideosSources) => {
+    try {
+      const users = await Users.find();
+      const user_ids = users.map((e) => e._id);
 
-    let category_id, collectionTitle, description, videos, user_id;
+      let category_id, collectionTitle, description, videos, user_id;
 
-    for (let i = 0; i < newVideosSources.length; i++) {
-      category_id = newVideosSources[i].category_id;
-      collectionTitle = `${newVideosSources[i].keyword} 영상 모음`;
-      description = `${newVideosSources[i].keyword} 영상을 모아봤어요. ${newVideosSources[i].addDescription}`;
+      for (let i = 0; i < newVideosSources.length; i++) {
+        category_id = newVideosSources[i].category_id;
+        collectionTitle = `${newVideosSources[i].keyword} 영상 모음`;
+        description = `${newVideosSources[i].keyword} 영상을 모아봤어요. ${newVideosSources[i].addDescription}`;
 
-      let videosList = await axios.get(encodeURI(`http://3.34.136.55:8080/api/search?q=${newVideosSources[i].keyword}`));
+        let videosList = await axios.get(encodeURI(`http://3.34.136.55:8080/api/search?q=${newVideosSources[i].keyword}`));
 
-      console.log("videosList", videosList.data.results);
+        videos = videosList.data.results
+          .map((e) => {
+            return e.video ? e.video.id : null;
+          })
+          .slice(0, newVideosSources[i].howmanyVideos);
 
-      videos = videosList.data.results
-        .map((e) => {
-          console.log("e.video", e.video);
-          return e.video ? e.video.id : null;
-        })
-        .slice(0, newVideosSources[i].howmanyVideos);
+        const createdVideos = await videoRepository.createVideosByIds(videos);
+        category_id = [category_id];
 
-      console.log("videos", videos);
+        const video_ids = Array.from(new Set(createdVideos.map((e) => e._id.toString())));
 
-      const createdVideos = await videoRepository.createVideosByIds(videos);
-      category_id = [category_id];
+        user_id = user_ids[i % user_ids.length]; // 반복
 
-      const video_ids = Array.from(new Set(createdVideos.map((e) => e._id.toString())));
+        const returnCollection = await collectionsRepository.createCollection(
+          user_id,
+          category_id,
+          collectionTitle,
+          description,
+          video_ids // ["",""]
+        );
 
-      user_id = user_ids[i % user_ids.length]; // 반복
+        // mycollections 배열에도 collection_id 추가
+        let { myCollections } = await Users.findOne({ _id: user_id });
 
-      const returnCollection = await collectionsRepository.createCollection(
-        user_id,
-        category_id,
-        collectionTitle,
-        description,
-        video_ids // ["",""]
-      );
+        myCollections.push(returnCollection._id.toString());
+        myCollections = Array.from(new Set(myCollections));
 
-      // mycollections 배열에도 collection_id 추가
-      let { myCollections } = await Users.findOne({ _id: user_id });
-
-      console.log("returnCollection", returnCollection);
-      myCollections.push(returnCollection._id.toString());
-      myCollections = Array.from(new Set(myCollections));
-      console.log("myCollections", myCollections);
-
-      let updatedUser = await Users.findOneAndUpdate({ _id: user_id }, { $set: { myCollections } });
-
-      console.log("updatedUser", updatedUser);
-      console.log({
-        success: true,
-        message: "컬렉션을 생성하였습니다.",
-        data: returnCollection,
-      });
-    }
-  } catch (error) {
-    console.log(`${error.message}`);
-  }
-};
-
-const userCommentsOnCollections = async (commentsToInsert) => {
-  try {
-    const users = await Users.find();
-    const user_ids = users.map((e) => e._id);
-    console.log("user_ids", user_ids);
-
-    const collections = await Collections.find();
-    const collection_ids = collections.map((e) => e._id);
-    console.log("collection_ids", collection_ids);
-
-    commentsToInsert = [...commentsToInsert, ...commentsToInsert];
-    console.log("commentsToInsert", commentsToInsert);
-
-    for (let i = 0; i < commentsToInsert.length; i++) {
-      const comment = commentsToInsert[i].comments;
-      const user_id = user_ids[i % user_ids.length]; // 반복
-      const collection_id = collection_ids[i % collection_ids.length]; // 반복
-
-      const createdComment = await commentsRepository.createComment(user_id, collection_id, comment);
-      console.log("createdComment", createdComment);
-    }
-  } catch (error) {
-    console.log(`${error.message}`);
-  }
-};
-
-const userlikesCollections = async () => {
-  try {
-    const users = await Users.find();
-    const user_ids = users.map((e) => e._id);
-    console.log("user_ids", user_ids);
-
-    const collections = await Collections.find();
-    const collection_ids = collections.map((e) => e._id);
-    console.log("collection_ids", collection_ids);
-
-    for (let i = 0; i < collection_ids.length * 7; i++) {
-      const user_id = user_ids[i % user_ids.length]; // 반복
-      const collection_id = collection_ids[(i + 2) % collection_ids.length]; // 반복
-
-      const { myLikingCollections } = await usersRepository.getUserById(user_id);
-
-      console.log("usersRepository", myLikingCollections);
-
-      if (!myLikingCollections.includes(collection_id)) {
-        await collectionsRepository.likeCollection(collection_id.toString());
-        await usersRepository.likeCollection(user_id, collection_id.toString());
-      }
-
-      console.log(`${user_id}가 ${collection_id} 좋아함`);
-    }
-  } catch (error) {
-    console.log(`${error.message}`);
-  }
-};
-
-const userfollowsUsers = async () => {
-  try {
-    const users = await Users.find();
-    const user_ids = users.map((e) => e._id);
-    console.log("user_ids", user_ids);
-
-    for (let i = 0; i < user_ids.length * 7; i++) {
-      const user_id = user_ids[i % user_ids.length];
-      const user_id_2 = user_ids[((i + 3) * 2) % user_ids.length];
-
-      const user = await usersRepository.getUserById(user_id);
-      console.log("user.followings", user.followings);
-
-      if (!user.followings.includes(user_id_2) && user_id !== user_id_2) {
-        //팔로우
-        await usersRepository.followUser(user_id, user_id_2);
+        await Users.findOneAndUpdate({ _id: user_id }, { $set: { myCollections } });
 
         console.log({
           success: true,
-          message: `${user_id}가 ${user_id_2}를 팔로우합니다.`,
-        });
-      } else {
-        //언팔로우
-        await usersRepository.unfollowUser(user_id, user_id_2);
-
-        console.log({
-          success: true,
-          message: `${user_id}가 ${user_id_2}팔로우를 취소했습니다.`,
+          message: "컬렉션을 생성하였습니다.",
+          // data: returnCollection,
         });
       }
+    } catch (error) {
+      console.log(`${error.message}`);
     }
-  } catch (error) {
-    console.log(`${error.message}`);
-  }
-};
+  };
 
-const ytVideosSetter = async () => {
-  // 모든 컬렉션 하나씩 돌면서,
-  const allCollections = await collectionsRepository.getAllCollections();
+  userCommentsOnCollections = async (commentsToInsert) => {
+    try {
+      const users = await Users.find();
+      const user_ids = users.map((e) => e._id);
 
-  for (let i = 0; i < allCollections.length; i++) {
-    let array = [];
-    for (let j = 0; j < allCollections[i].videos.length; j++) {
-      const { videoId } = await videoRepository.getVideoById(allCollections[i].videos[j]);
-      array.push(videoId);
+      const collections = await Collections.find();
+      const collection_ids = collections.map((e) => e._id);
+
+      commentsToInsert = [...commentsToInsert, ...commentsToInsert];
+
+      for (let i = 0; i < commentsToInsert.length; i++) {
+        const comment = commentsToInsert[i].comments;
+        const user_id = user_ids[i % user_ids.length]; // 반복
+        const collection_id = collection_ids[i % collection_ids.length]; // 반복
+
+        const createdComment = await commentsRepository.createComment(user_id, collection_id, comment);
+      }
+    } catch (error) {
+      console.log(`${error.message}`);
     }
-    await Collections.findOneAndUpdate({ _id: allCollections[i]._id.toString() }, { $set: { ytVideos: array } });
-  }
+  };
 
-  // videos id 활용해서 youtube videos를 찾음
-  // 그 배열을 다시 그 컬렉션에 넣음
-};
+  userlikesCollections = async () => {
+    try {
+      const users = await Users.find();
+      const user_ids = users.map((e) => e._id);
+
+      const collections = await Collections.find();
+      const collection_ids = collections.map((e) => e._id);
+
+      for (let i = 0; i < collection_ids.length * 7; i++) {
+        const user_id = user_ids[i % user_ids.length]; // 반복
+        const collection_id = collection_ids[(i + 2) % collection_ids.length]; // 반복
+
+        const { myLikingCollections } = await usersRepository.getUserById(user_id);
+
+        if (!myLikingCollections.includes(collection_id)) {
+          await collectionsRepository.likeCollection(collection_id.toString());
+          await usersRepository.likeCollection(user_id, collection_id.toString());
+        }
+
+        console.log(`${user_id}가 ${collection_id} 좋아함`);
+      }
+    } catch (error) {
+      console.log(`${error.message}`);
+    }
+  };
+
+  userfollowsUsers = async () => {
+    try {
+      const users = await Users.find();
+      const user_ids = users.map((e) => e._id);
+
+      for (let i = 0; i < user_ids.length * 7; i++) {
+        const user_id = user_ids[i % user_ids.length];
+        const user_id_2 = user_ids[((i + 3) * 2) % user_ids.length];
+
+        const user = await usersRepository.getUserById(user_id);
+
+        if (!user.followings.includes(user_id_2) && user_id !== user_id_2) {
+          //팔로우
+          await usersRepository.followUser(user_id, user_id_2);
+
+          console.log({
+            success: true,
+            message: `${user_id}가 ${user_id_2}를 팔로우합니다.`,
+          });
+        } else {
+          //언팔로우
+          await usersRepository.unfollowUser(user_id, user_id_2);
+
+          console.log({
+            success: true,
+            message: `${user_id}가 ${user_id_2}팔로우를 취소했습니다.`,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(`${error.message}`);
+    }
+  };
+
+  ytVideosSetter = async () => {
+    // 모든 컬렉션 하나씩 돌면서,
+    const allCollections = await collectionsRepository.getAllCollections();
+
+    for (let i = 0; i < allCollections.length; i++) {
+      let array = [];
+      for (let j = 0; j < allCollections[i].videos.length; j++) {
+        const { videoId } = await videoRepository.getVideoById(allCollections[i].videos[j]);
+        array.push(videoId);
+      }
+      await Collections.findOneAndUpdate({ _id: allCollections[i]._id.toString() }, { $set: { ytVideos: array } });
+    }
+
+    // videos id 활용해서 youtube videos를 찾음
+    // 그 배열을 다시 그 컬렉션에 넣음
+  };
+}
+
+module.exports = DatabaseInitializer;
