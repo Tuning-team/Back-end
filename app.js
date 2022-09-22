@@ -20,6 +20,8 @@ store.on("error", function (error) {
   console.log(error);
 });
 
+console.log(process);
+
 // 패스포트를 사용하겠음
 const passport = require("passport");
 const passportConfig = require("./passport/index.js"); // passportIndex

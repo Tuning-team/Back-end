@@ -59,7 +59,7 @@ GET {{host}}/api/user/follow/632919bf0c70d67f1b92e0e3
 ### 2. 컬렉션 생성 : POST /api/collections
 POST {{host}}/api/collections
 Content-Type: application/json
-3000ms -> 
+
 {
     "category_id": "6319aeebd1e330e86bbade88",
     "collectionTitle": "생성 테스트하기",
@@ -106,9 +106,17 @@ Content-Type: application/json
 PUT	{{host}}/api/collections/like/6329359ca9166c6eab1a37a0
 Content-Type: application/json
 
+### 7. 내가 좋아한 컬렉션 리스트 : GET /api/collections/mylikes
+GET	{{host}}/api/collections/mylikes?offset=0&limit=5
+Content-Type: application/json
+
+### 7. 내가 담은 컬렉션 리스트 : GET /api/collections/mykeeps
+GET	{{host}}/api/collections/mykeeps?offset=0&limit=5
+Content-Type: application/json
+
 
 ### 7. 내가 생성한 컬렉션 리스트 : GET /api/collections/mine
-GET	{{host}}/api/collections/mine?offset=0&limit=3
+GET	{{host}}/api/collections/mine?offset=0&limit=5
 Content-Type: application/json
 
 

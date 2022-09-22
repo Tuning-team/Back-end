@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20.27% </span>
+                <span class="strong">25.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/143</span>
+                <span class='fraction'>36/142</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">4% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/25</span>
+                <span class='fraction'>1/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.32% </span>
+                <span class="strong">25.92% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/136</span>
+                <span class='fraction'>35/135</span>
             </div>
         
             
@@ -459,9 +459,7 @@
 <a name='L394'></a><a href='#L394'>394</a>
 <a name='L395'></a><a href='#L395'>395</a>
 <a name='L396'></a><a href='#L396'>396</a>
-<a name='L397'></a><a href='#L397'>397</a>
-<a name='L398'></a><a href='#L398'>398</a>
-<a name='L399'></a><a href='#L399'>399</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L397'></a><a href='#L397'>397</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -562,15 +560,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">193x</span>
+<span class="cline-any cline-yes">193x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -578,7 +574,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -959,16 +955,14 @@ class CollectionRepository {
   };
 &nbsp;
   // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
-  createCollection = <span class="fstat-no" title="function not covered" >as</span>ync (user_id, category_id, collectionTitle, description, videos) =&gt; {
-    let ytVideos = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; videos.length; i++) {</span>
-      const { videoId } = <span class="cstat-no" title="statement not covered" >await this.videoRepository.getVideoById(videos[i]);</span>
-<span class="cstat-no" title="statement not covered" >      ytVideos.push(videoId);</span>
+  createCollection = async (user_id, category_id, collectionTitle, description, videos) =&gt; {
+    let ytVideos = [];
+    for (let i = 0; i &lt; videos.length; i++) {
+      const { videoId } = await this.videoRepository.getVideoById(videos[i]);
+      ytVideos.push(videoId);
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    console.log("ytVideos", ytVideos);</span>
-&nbsp;
-    const collection = <span class="cstat-no" title="statement not covered" >await Collection.create({</span>
+    const collection = await Collection.create({
       user_id,
       category_id,
       collectionTitle,
@@ -976,7 +970,7 @@ class CollectionRepository {
       videos,
       ytVideos,
     });
-<span class="cstat-no" title="statement not covered" >    return collection;</span>
+    return collection;
   };
 &nbsp;
   // _id에 해당하는 컬렉션에 영상 추가. returns 영상 추가된 컬렉션 정보
@@ -1264,7 +1258,7 @@ module.exports = CollectionRepository;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-21T13:14:38.604Z
+                at 2022-09-21T23:09:04.728Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

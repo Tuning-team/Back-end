@@ -10,6 +10,8 @@ const { authMiddleware } = new Auth();
 router.post("/", authMiddleware, collectionsService.createCollection); // 컬렉션 생성
 router.get("/search", collectionsService.getCollectionsBySearch); // 검색어에 맞는 컬렉션 리스트
 router.get("/", collectionsService.getAllCollectionsByCategoryId); // 카테고리에 포함된 컬렉션 목록 조회
+router.get("/mykeeps", authMiddleware, collectionsService.getAllCollectionsUserKeeps); // 내가 좋아한 컬렉션 목록 조회
+router.get("/mylikes", authMiddleware, collectionsService.getAllCollectionsUserLikes); // 내가 좋아한 컬렉션 목록 조회
 router.get("/mine", authMiddleware, collectionsService.getAllCollectionsByUserId); // 내가 모은 컬렉션 목록 조회
 router.post("/recommendation", collectionsService.getAllCollectionsByCategories); // 추천 카테고리 한번에
 router.put("/today", collectionsService.giveTodaysPopularCategories); // 컬렉션 좋아요 내림차순 10개까지 조회
