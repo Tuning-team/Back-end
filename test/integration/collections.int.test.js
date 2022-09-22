@@ -90,8 +90,6 @@ describe("전체 통합테스트", () => {
 
     const { myKeepingCollections } = await Users.findOne({ _id: "63299408fd1d6c2ac41d64c5" });
 
-    console.log(myKeepingCollections);
-
     expect(response.statusCode).toBe(200);
     expect(myKeepingCollections[0] + "").toEqual(_id + "");
   });
@@ -104,7 +102,6 @@ describe("전체 통합테스트", () => {
 
     const { myKeepingCollections: myKeepingCollections_after } = await Users.findOne({ _id: "63299408fd1d6c2ac41d64c5" });
 
-    console.log("myKeepingCollections_after", myKeepingCollections_after);
     expect(response.statusCode).toBe(200);
     expect(myKeepingCollections_after).not.toContain(myKeepingCollections[0]);
   });
