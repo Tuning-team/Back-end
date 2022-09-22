@@ -155,6 +155,14 @@ const newVideosSources = [
     category_id: "6319aeebd1e330e86bbade95",
     howmanyVideos: 10,
   },
+
+  {
+    keyword: "토스PO",
+    addDescription: "재밌게 봐주세요.",
+    category_id: "6319aeebd1e330e86bbade80",
+    howmanyVideos: 12,
+  },
+
 ];
 
 const commentsToInsert = [

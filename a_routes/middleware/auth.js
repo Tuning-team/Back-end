@@ -5,9 +5,7 @@ class Auth {
     console.log("------ 🤔 Authorization Checking ------");
 
     try {
-      const user_id = req.session.passport
-        ? req.session.passport.user.user._id
-        : process.env.TEMP_USER_ID;
+      const user_id = req.session.passport ? req.session.passport.user.user._id : process.env.TEMP_USER_ID;
 
       console.log("use_id", user_id);
 
