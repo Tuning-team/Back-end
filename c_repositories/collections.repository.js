@@ -63,6 +63,27 @@ class CollectionRepository {
 
     return { userDataAll, totalContents, hasNext };
   };
+  // user_id를 받아 유저가 담은 모든 컬렉션 조회 (페이지네이션 필요한 경우)
+  getAllCollectionsUserKeepsWithPaging = async (_id, offset, limit) => {
+    const { myKeepingCollections } = await User.findOne({ _id });
+
+    const callForCount = await Collection.find({ _id: myKeepingCollections }).sort({
+      createdAt: -1,
+    });
+
+    const totalContents = callForCount.length;
+    const hasNext = totalContents - offset - limit > 0 ? true : false;
+
+    // offset : "0",1,2 / "3",4,5 /
+    const userDataAll = await Collection.find({ _id: myKeepingCollections })
+      .sort({
+        createdAt: -1,
+      })
+      .skip(offset) // 검색 시 포함하지 않을 데이터 수
+      .limit(limit);
+
+    return { userDataAll, totalContents, hasNext };
+  };
 
   // category_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollectionsByCategoryId = async (category_id) => {

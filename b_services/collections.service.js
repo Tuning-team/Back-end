@@ -18,6 +18,7 @@ class CollectionsService {
   // 내가 만든 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsByUserId = async (req, res) => {
     try {
+      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
       const { offset, limit } = req.query;
 
@@ -64,7 +65,7 @@ class CollectionsService {
       res.status(400).json({ success: false, message: "컬렉션 조회에 실패하였습니다." });
     }
   };
-  // 내가 만든 컬렉션 목록 조회 with Pagenation ↔
+  // 내가 좋아한 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsUserLikes = async (req, res) => {
     try {
       // const user_id = process.env.TEMP_USER_ID;
@@ -73,6 +74,57 @@ class CollectionsService {
       const { offset, limit } = req.query;
 
       const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsUserLikesWithPaging(
+        user_id,
+        offset,
+        limit
+      );
+
+      if (!userDataAll) {
+        res.status(400).json({ success: false, message: "조회된 컬렉션이 없습니다." });
+
+        return;
+      }
+
+      const resultData = [];
+
+      for (let i = 0; i < userDataAll.length; i++) {
+        let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
+        let commentNum = collectionComments.length;
+
+        resultData.push({
+          _id: userDataAll[i]._id,
+          user_id: userDataAll[i].user_id,
+          category_id: userDataAll[i].category_id[0],
+          collectionTitle: userDataAll[i].collectionTitle,
+          description: userDataAll[i].description,
+          videos: userDataAll[i].videos,
+          ytVideos: userDataAll[i].ytVideos,
+          thumbnails: userDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
+          commentNum: commentNum,
+          likes: userDataAll[i].likes,
+          createdAt: userDataAll[i].createdAt,
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: resultData,
+        pageInfo: { totalContents, hasNext },
+      });
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res.status(400).json({ success: false, message: "컬렉션 조회에 실패하였습니다." });
+    }
+  };
+  // 내가 담은 컬렉션 목록 조회 with Pagenation ↔
+  getAllCollectionsUserKeeps = async (req, res) => {
+    try {
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
+
+      const { offset, limit } = req.query;
+
+      const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsUserKeepsWithPaging(
         user_id,
         offset,
         limit
