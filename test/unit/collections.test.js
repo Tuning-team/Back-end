@@ -459,4 +459,24 @@ describe("CollectionsService 단위테스트 진행", () => {
       expect(res.statusCode).toBe(200);
     });
   });
+  describe("removeVideoFromCollection 테스트 : 컬렉션 영상 제거 예외처리", () => {
+    beforeEach(() => {});
+
+    it("정상 상황에 대한 테스트 ", async () => {
+      // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
+      res.locals.user_id = "6329197069d8145d2cb4a2c9";//다른 유저아이디가 들어왔을때
+      req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
+
+      collectionsService.collectionRepository.getCollectionById = jest.fn();
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.removeVideoFromCollection = jest.fn();
+      collectionsService.collectionRepository.removeVideoFromCollection.mockReturnValue(videosListFromDB);
+
+      // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
+      await collectionsService.removeVideoFromCollection(req, res);
+
+      // 메소드가 반환하는 Response의 statusCode : 400이 되어야 한다.
+      expect(res.statusCode).toBe(400);
+    });
+  });
 });
