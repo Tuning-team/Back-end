@@ -1,0 +1,17 @@
+name: CITest
+
+on:
+  push:
+    branches: [ "feature" ]
+  pull_request:
+    branches: [ "feature" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 디렉토리 출력
+        run: ls -al
