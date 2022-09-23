@@ -31,18 +31,26 @@ describe("CollectionsService 단위테스트 진행", () => {
     it("정상 상황에 대한 테스트 ", async () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
 
-      collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging = jest.fn();
-      collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging.mockReturnValue({
-        userDataAll: collectionsListFromDB,
-        totalContents: 30,
-        hasNext: true,
-      });
+      collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging =
+        jest.fn();
+      collectionsService.collectionRepository.getAllCollectionsByUserIdWithPaging.mockReturnValue(
+        {
+          userDataAll: collectionsListFromDB,
+          totalContents: 30,
+          hasNext: true,
+        }
+      );
 
-      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
-      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+      collectionsService.commentRepository.getAllCommentsOnCollectionId =
+        jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(
+        commentsToInsert
+      );
 
       collectionsService.videoRepository.getVideoById = jest.fn();
-      collectionsService.videoRepository.getVideoById.mockReturnValue(videosListFromDB);
+      collectionsService.videoRepository.getVideoById.mockReturnValue(
+        videosListFromDB
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getAllCollectionsByUserId(req, res);
@@ -78,13 +86,23 @@ describe("CollectionsService 단위테스트 진행", () => {
       // category_id: "6319aeebd1e330e86bbade88",
       collectionTitle: "생성 테스트하기",
       description: "ㅇㅇ",
-      videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+      videos: [
+        "_VE04NqHNqc",
+        "P1UZTj1h1a0",
+        "hKfb-rudyWA",
+        "JdHyjfVcN9Y",
+        "rRhowWJ6r_4",
+      ],
     };
     collectionsService.videoRepository.createVideosByIds = jest.fn();
     collectionsService.collectionRepository.createCollection = jest.fn();
     collectionsService.userRepository.createMyCollection = jest.fn();
-    collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
-    collectionsService.collectionRepository.createCollection.mockReturnValue(collectionsListFromDB[0]);
+    collectionsService.videoRepository.createVideosByIds.mockReturnValue(
+      videosListFromDB
+    );
+    collectionsService.collectionRepository.createCollection.mockReturnValue(
+      collectionsListFromDB[0]
+    );
     expect(res.statusCode).toBe(400);
   });
 
@@ -93,20 +111,32 @@ describe("CollectionsService 단위테스트 진행", () => {
 
     it("정상 상황에 대한 테스트 ", async () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
-      req.query = { category_id: "6319aeebd1e330e86bbade7c", offset: 0, limit: 5 };
+      req.query = {
+        category_id: "6319aeebd1e330e86bbade7c",
+        offset: 0,
+        limit: 5,
+      };
 
-      collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging = jest.fn();
-      collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging.mockReturnValue({
-        categoryDataAll: collectionDataList,
-        totalContents: 30,
-        hasNext: true,
-      });
+      collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging =
+        jest.fn();
+      collectionsService.collectionRepository.getAllCollectionsByCategoryIdWithPaging.mockReturnValue(
+        {
+          categoryDataAll: collectionDataList,
+          totalContents: 30,
+          hasNext: true,
+        }
+      );
 
       collectionsService.categoryRepository.getAllCategories = jest.fn();
-      collectionsService.categoryRepository.getAllCategories.mockReturnValue(getAllCategories);
+      collectionsService.categoryRepository.getAllCategories.mockReturnValue(
+        getAllCategories
+      );
 
-      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
-      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+      collectionsService.commentRepository.getAllCommentsOnCollectionId =
+        jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(
+        commentsToInsert
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getAllCollectionsByCategoryId(req, res);
@@ -131,8 +161,11 @@ describe("CollectionsService 단위테스트 진행", () => {
         ],
       };
 
-      collectionsService.collectionRepository.getAllCollectionsByCategoryId = jest.fn();
-      collectionsService.collectionRepository.getAllCollectionsByCategoryId.mockReturnValue(collectionDataList);
+      collectionsService.collectionRepository.getAllCollectionsByCategoryId =
+        jest.fn();
+      collectionsService.collectionRepository.getAllCollectionsByCategoryId.mockReturnValue(
+        collectionDataList
+      );
 
       collectionsService.categoryRepository.getCategoryInfo = jest.fn();
       collectionsService.categoryRepository.getCategoryInfo.mockReturnValue({
@@ -144,8 +177,11 @@ describe("CollectionsService 단위테스트 진행", () => {
         __v: 0,
       });
 
-      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
-      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+      collectionsService.commentRepository.getAllCommentsOnCollectionId =
+        jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(
+        commentsToInsert
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getAllCollectionsByCategories(req, res);
@@ -163,13 +199,20 @@ describe("CollectionsService 단위테스트 진행", () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
       req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
       collectionsService.collectionRepository.getCollectionById = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
 
-      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
-      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+      collectionsService.commentRepository.getAllCommentsOnCollectionId =
+        jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(
+        commentsToInsert
+      );
 
       collectionsService.videoRepository.getVideoById = jest.fn();
-      collectionsService.videoRepository.getVideoById.mockReturnValue(videosListFromDB[0]);
+      collectionsService.videoRepository.getVideoById.mockReturnValue(
+        videosListFromDB[0]
+      );
 
       collectionsService.userRepository.getUserById = jest.fn();
       collectionsService.userRepository.getUserById.mockReturnValue(users[0]);
@@ -192,13 +235,23 @@ describe("CollectionsService 단위테스트 진행", () => {
         category_id: "6319aeebd1e330e86bbade88",
         collectionTitle: "생성 테스트하기",
         description: "ㅇㅇ",
-        videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+        videos: [
+          "_VE04NqHNqc",
+          "P1UZTj1h1a0",
+          "hKfb-rudyWA",
+          "JdHyjfVcN9Y",
+          "rRhowWJ6r_4",
+        ],
       };
       collectionsService.videoRepository.createVideosByIds = jest.fn();
       collectionsService.collectionRepository.createCollection = jest.fn();
       collectionsService.userRepository.createMyCollection = jest.fn();
-      collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
-      collectionsService.collectionRepository.createCollection.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.videoRepository.createVideosByIds.mockReturnValue(
+        videosListFromDB
+      );
+      collectionsService.collectionRepository.createCollection.mockReturnValue(
+        collectionsListFromDB[0]
+      );
       // collectionsService.userRepository.createMyCollection.mockReturnValue(null);
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
@@ -220,15 +273,27 @@ describe("CollectionsService 단위테스트 진행", () => {
         category_id: "6319aeebd1e330e86bbade88",
         collectionTitle: "생성 테스트하기",
         description: "ㅇㅇ",
-        videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+        videos: [
+          "_VE04NqHNqc",
+          "P1UZTj1h1a0",
+          "hKfb-rudyWA",
+          "JdHyjfVcN9Y",
+          "rRhowWJ6r_4",
+        ],
       };
 
       collectionsService.collectionRepository.getCollectionById = jest.fn();
       collectionsService.videoRepository.createVideosByIds = jest.fn();
       collectionsService.collectionRepository.editCollection = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
-      collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
-      collectionsService.collectionRepository.editCollection.mockReturnValue("updated");
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
+      collectionsService.videoRepository.createVideosByIds.mockReturnValue(
+        videosListFromDB
+      );
+      collectionsService.collectionRepository.editCollection.mockReturnValue(
+        "updated"
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.editCollection(req, res);
@@ -247,11 +312,17 @@ describe("CollectionsService 단위테스트 진행", () => {
       req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
 
       collectionsService.collectionRepository.getCollectionById = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
       collectionsService.collectionRepository.deleteCollection = jest.fn();
-      collectionsService.collectionRepository.deleteCollection.mockReturnValue("done");
+      collectionsService.collectionRepository.deleteCollection.mockReturnValue(
+        "done"
+      );
       collectionsService.userRepository.deleteMyCollection = jest.fn();
-      collectionsService.userRepository.deleteMyCollection.mockReturnValue("done");
+      collectionsService.userRepository.deleteMyCollection.mockReturnValue(
+        "done"
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.deleteCollection(req, res);
@@ -270,17 +341,25 @@ describe("CollectionsService 단위테스트 진행", () => {
       req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
 
       collectionsService.collectionRepository.getCollectionById = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
       collectionsService.userRepository.getUserById = jest.fn();
       collectionsService.userRepository.getUserById.mockReturnValue(users[0]);
       collectionsService.collectionRepository.likeCollection = jest.fn();
-      collectionsService.collectionRepository.likeCollection.mockReturnValue("liked");
+      collectionsService.collectionRepository.likeCollection.mockReturnValue(
+        "liked"
+      );
       collectionsService.userRepository.likeCollection = jest.fn();
       collectionsService.userRepository.likeCollection.mockReturnValue("liked");
       collectionsService.collectionRepository.disLikeCollection = jest.fn();
-      collectionsService.collectionRepository.disLikeCollection.mockReturnValue("disliked");
+      collectionsService.collectionRepository.disLikeCollection.mockReturnValue(
+        "disliked"
+      );
       collectionsService.userRepository.disLikeCollection = jest.fn();
-      collectionsService.userRepository.disLikeCollection.mockReturnValue("disliked");
+      collectionsService.userRepository.disLikeCollection.mockReturnValue(
+        "disliked"
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.likeCollection(req, res);
@@ -297,16 +376,24 @@ describe("CollectionsService 단위테스트 진행", () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
       req.query = { keyword: "운동", offset: 0, limit: 3 };
 
-      collectionsService.collectionRepository.getCollectionsBySearchWithPaging = jest.fn();
-      collectionsService.collectionRepository.getCollectionsBySearchWithPaging.mockReturnValue({
-        resultBySearch: collectionsListFromDB,
-        totalContents: 30,
-        hasNext: true,
-      });
-      collectionsService.commentRepository.getAllCommentsOnCollectionId = jest.fn();
-      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(commentsToInsert);
+      collectionsService.collectionRepository.getCollectionsBySearchWithPaging =
+        jest.fn();
+      collectionsService.collectionRepository.getCollectionsBySearchWithPaging.mockReturnValue(
+        {
+          resultBySearch: collectionsListFromDB,
+          totalContents: 30,
+          hasNext: true,
+        }
+      );
+      collectionsService.commentRepository.getAllCommentsOnCollectionId =
+        jest.fn();
+      collectionsService.commentRepository.getAllCommentsOnCollectionId.mockReturnValue(
+        commentsToInsert
+      );
       collectionsService.videoRepository.getVideoById = jest.fn();
-      collectionsService.videoRepository.getVideoById.mockReturnValue(newVideosSources);
+      collectionsService.videoRepository.getVideoById.mockReturnValue(
+        newVideosSources
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getCollectionsBySearch(req, res);
@@ -326,9 +413,13 @@ describe("CollectionsService 단위테스트 진행", () => {
       req.body = { videos: videosListFromDB };
 
       collectionsService.collectionRepository.getCollectionById = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
       collectionsService.collectionRepository.addVideoOnCollection = jest.fn();
-      collectionsService.collectionRepository.addVideoOnCollection.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.addVideoOnCollection.mockReturnValue(
+        collectionsListFromDB[0]
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.addVideoOnCollection(req, res);
@@ -347,9 +438,14 @@ describe("CollectionsService 단위테스트 진행", () => {
       req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
 
       collectionsService.collectionRepository.getCollectionById = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
-      collectionsService.collectionRepository.removeVideoFromCollection = jest.fn();
-      collectionsService.collectionRepository.removeVideoFromCollection.mockReturnValue(videosListFromDB);
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
+      collectionsService.collectionRepository.removeVideoFromCollection =
+        jest.fn();
+      collectionsService.collectionRepository.removeVideoFromCollection.mockReturnValue(
+        videosListFromDB
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.removeVideoFromCollection(req, res);
@@ -367,7 +463,9 @@ describe("CollectionsService 단위테스트 진행", () => {
       req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
 
       collectionsService.collectionRepository.getCollectionById = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.whoKeepCollection(req, res);
@@ -384,10 +482,15 @@ describe("CollectionsService 단위테스트 진행", () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
 
       collectionsService.collectionRepository.getLidOfCategory = jest.fn();
-      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("6319aeebd1e330e86bbade9f");
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue(
+        "6319aeebd1e330e86bbade9f"
+      );
 
-      collectionsService.collectionRepository.giveCategoryIdOnLikeTop10 = jest.fn();
-      collectionsService.collectionRepository.giveCategoryIdOnLikeTop10.mockReturnValue(getTop10);
+      collectionsService.collectionRepository.giveCategoryIdOnLikeTop10 =
+        jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnLikeTop10.mockReturnValue(
+        getTop10
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getLikeTop10(req, res);
@@ -404,10 +507,15 @@ describe("CollectionsService 단위테스트 진행", () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
 
       collectionsService.collectionRepository.getLidOfCategory = jest.fn();
-      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a964");
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue(
+        "631e7d7a4ae4c133c405a964"
+      );
 
-      collectionsService.collectionRepository.giveCategoryIdOnLatestTop10 = jest.fn();
-      collectionsService.collectionRepository.giveCategoryIdOnLatestTop10.mockReturnValue(getTop10);
+      collectionsService.collectionRepository.giveCategoryIdOnLatestTop10 =
+        jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnLatestTop10.mockReturnValue(
+        getTop10
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getLatestTop10(req, res);
@@ -424,10 +532,15 @@ describe("CollectionsService 단위테스트 진행", () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
 
       collectionsService.collectionRepository.getLidOfCategory = jest.fn();
-      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a966");
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue(
+        "631e7d7a4ae4c133c405a966"
+      );
 
-      collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation = jest.fn();
-      collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation.mockReturnValue(getTop10);
+      collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation =
+        jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnTimeRecommendation.mockReturnValue(
+        getTop10
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getTimeRecommend10(req, res);
@@ -444,13 +557,20 @@ describe("CollectionsService 단위테스트 진행", () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
 
       collectionsService.collectionRepository.getLidOfCategory = jest.fn();
-      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue("631e7d7a4ae4c133c405a965");
+      collectionsService.collectionRepository.getLidOfCategory.mockReturnValue(
+        "631e7d7a4ae4c133c405a965"
+      );
 
-      collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation = jest.fn();
-      collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation.mockReturnValue(getTop10);
+      collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation =
+        jest.fn();
+      collectionsService.collectionRepository.giveCategoryIdOnWeatherRecommendation.mockReturnValue(
+        getTop10
+      );
 
       collectionsService.categoryRepository.updateCategory = jest.fn();
-      collectionsService.categoryRepository.updateCategory.mockReturnValue("631e7d7a4ae4c133c405a96521");
+      collectionsService.categoryRepository.updateCategory.mockReturnValue(
+        "631e7d7a4ae4c133c405a96521"
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.getWeatherRecommend10(req, res);
@@ -464,13 +584,18 @@ describe("CollectionsService 단위테스트 진행", () => {
 
     it("정상 상황에 대한 테스트 ", async () => {
       // 클래스 안에서 사용하는 메소드들도 정상적인 답을 내어주고 있다고 치자.
-      res.locals.user_id = "6329197069d8145d2cb4a2c9";//다른 유저아이디가 들어왔을때
+      res.locals.user_id = "6329197069d8145d2cb4a2c9"; //다른 유저아이디가 들어왔을때
       req.params = { collection_id: "63291a2bdcc97f368cc4fcaa" };
 
       collectionsService.collectionRepository.getCollectionById = jest.fn();
-      collectionsService.collectionRepository.getCollectionById.mockReturnValue(collectionsListFromDB[0]);
-      collectionsService.collectionRepository.removeVideoFromCollection = jest.fn();
-      collectionsService.collectionRepository.removeVideoFromCollection.mockReturnValue(videosListFromDB);
+      collectionsService.collectionRepository.getCollectionById.mockReturnValue(
+        collectionsListFromDB[0]
+      );
+      collectionsService.collectionRepository.removeVideoFromCollection =
+        jest.fn();
+      collectionsService.collectionRepository.removeVideoFromCollection.mockReturnValue(
+        videosListFromDB
+      );
 
       // 이때 이 단위테스트에서 테스트하는 메소드를 거치면,
       await collectionsService.removeVideoFromCollection(req, res);

@@ -18,9 +18,7 @@ const Videos = require("../../d_schemas/video");
 const Users = require("../../d_schemas/user");
 const { urlencoded } = require("express");
 const authorizationCode =
-"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0xvZ2luIjp0cnVlLCJ1c2VyX2lkIjoiNjMyOTk0MDhmZDFkNmMyYWM0MWQ2NGM1IiwiaWF0IjoxNjYzODMxMzA5LCJleHAiOjE2NjM5MTc3MDl9.8jHH1MKclb1pW0vuvbbynM_47EQlrDsMbXqbk8Xd8pw";
-
-
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0xvZ2luIjp0cnVlLCJ1c2VyX2lkIjoiNjMyOTk0MDhmZDFkNmMyYWM0MWQ2NGM1IiwiaWF0IjoxNjYzODMxMzA5LCJleHAiOjE2NjM5MTc3MDl9.8jHH1MKclb1pW0vuvbbynM_47EQlrDsMbXqbk8Xd8pw";
 
 // before All, DB 초기화 : 검증에 필요한 초기데이터를 DB에 넣고 시작
 beforeAll(async () => {
@@ -41,7 +39,7 @@ beforeAll(async () => {
 
 // --------------- 여기서부터 검증(Test) 시작 -------------- //
 describe("전체 통합테스트", () => {
-  beforeEach(async () => {});  
+  beforeEach(async () => {});
 
   it("1	GET	/api/categories 카테고리 리스트 조회 테스트", async () => {
     const response = await request(app).get("/api/categories");
@@ -169,9 +167,85 @@ describe("전체 통합테스트", () => {
     );
     expect(response.statusCode).toBe(200);
   });
-  
+
   it("10	GET	/api/comments/:collection_id", async () => {
-    const response = await request(app).get("/api/comments/:collection_id") 
+    const { _id } = await Collections.findOne({});
+    const response = await request(app).get(`/api/comments/${_id}`);
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("11 POST /api/comments/:collection_id", async () => {
+    const { _id } = await Collections.findOne({
+      user_id: "63299408fd1d6c2ac41d64c5",
+    });
+
+    const response = await request(app)
+      .post(`/api/comments/${_id}`)
+      .set("authorization", authorizationCode)
+      .send({
+        comment: "또 들를게요!",
+      });
+    expect(response.statusCode).toBe(201);
+  });
+
+  it("12 PUT /api/comments/:comment_id", async () => {
+    const { _id } = await Comments.findOne({
+      user_id: "63299408fd1d6c2ac41d64c5",
+    });
+
+    const response = await request(app)
+      .put(`/api/comments/${_id}`)
+      .set("authorization", authorizationCode)
+      .send({
+        comment: "또 들를게요!",
+      });
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("13 DELETE	/api/comments/:comment_id", async () => {
+    const { _id } = await Comments.findOne({
+      user_id: "63299408fd1d6c2ac41d64c5",
+    });
+    const response = await request(app)
+      .delete(`/api/comments/${_id}`)
+      .set("authorization", authorizationCode);
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("16 GET /api/user", async () => {
+    const response = await request(app)
+      .get("/api/user")
+      .set("authorization", authorizationCode);
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("17 GET /api/user/:user_id", async () => {
+    const response = await request(app).get(
+      "/api/user/63299408fd1d6c2ac41d64c5"
+    );
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("18 GET /api/videos/:collection_id", async () => {
+    // 아무런 컬렉션이나 가져다가
+    const collection = await Collections.findOne({});
+
+    console.log(collection);
+    const _id = collection._id;
+    const response = await request(app).get(
+      `/api/videos/${_id.toString()}?offset=0&limit=3`
+    );
+    console.log(response);
+
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("19 GET /api/videos/detail/:video_id", async () => {
+    // 아무런 영상이나 가져다가
+    const { _id } = await Videos.findOne({});
+
+    const response = await request(app).get(`/api/videos/detail/${_id}`);
+    expect(response.statusCode).toBe(200);
   });
 
   it("24	PUT	/api/collections/:collection_id : 컬렉션 수정", async () => {
@@ -325,78 +399,13 @@ describe("전체 통합테스트", () => {
       .delete(`/api/collections/remove/${_id}?video_id=${videos[0]}`)
       .set("authorization", authorizationCode);
 
-
     const { videos: videos_after } = await Collections.findOne({
       user_id: "63299408fd1d6c2ac41d64c5",
     });
 
-
     expect(response.statusCode).toBe(200);
     expect(videos_after[0]).not.toEqual(videos[0]);
   });
-  it("11 POST /api/comments/:collection_id", async () => {    
-    const { _id } = await Collections.findOne({ user_id: "63299408fd1d6c2ac41d64c5" });
-    const { myKeepingCollections } = await Users.findOne({ _id: "63299408fd1d6c2ac41d64c5" });    
-    const response = await request(app)
-    .post(`/api/comments/${myKeepingCollections[0]}`).set("authorization", authorizationCode)
-    .send({
-      comments: "또 들를게요!",
-    })         
-    expect(response.statusCode).toBe(200);
-  });
-  it("12 PUT /api/comments/:comment_id", async () => {
-    const { _id } = await Comments.findOne({ user_id: "63299408fd1d6c2ac41d64c5" });  
-
-    const response = await request(app).put(`/api/comments/${_id}`)
-    .set("authorization", authorizationCode)
-    .send({
-      comments: "또 들를게요!",
-    })     
-    expect(response.statusCode).toBe(200);
-  });
-  it("13 DELETE	/api/comments/:comment_id", async () => {    
-    const response = await request(app).delete("/api/comments/6319e5c5743fb04adf12533a")
-    .set("authorization", authorizationCode)    
-    expect(response.statusCode).toBe(200);
-  });
-  // it("14 GET /api/search/videos/db?keyword=", async () => {
-  //   const response = await request(app).get("/api/search/videos/db?keyword=");
-  //   expect(response.statusCode).toBe(200);
-  // });
-  // it("15 GET /api/search/videos/youtube?keyword=", async () => {
-  //   const response = await request(app).get("/api/search/videos/youtube?keyword=");
-  //   expect(response.statusCode).toBe(200);
-  // });
-  it("16 GET /api/user", async () => {    
-    const response = await request(app).get("/api/user")
-    .set("authorization", authorizationCode)    
-    expect(response.statusCode).toBe(200);
-  });
-  it("17 GET /api/user/:user_id", async () => {
-    const response = await request(app).get("/api/user/63299408fd1d6c2ac41d64c5");
-    expect(response.statusCode).toBe(200);
-  });
-  it("18 GET /api/videos/:collection_id", async () => {
-    const { myKeepingCollections } = await Users.findOne({ _id: "63299408fd1d6c2ac41d64c5" });
-    const response = await request(app).get("/api/videos/myKeepingCollections[0]");
-    expect(response.statusCode).toBe(200);
-  });
-  it("19 GET /api/videos/detail/:video_id", async () => {
-    const response = await request(app).get("/api/videos/detail/:video_id");
-    expect(response.statusCode).toBe(200);
-  });
-  // it("20 GET /api/comments/:collection_id", async () => {
-  //   const response = await request(app).get("/api/comments/:collection_id");
-  //   expect(response.statusCode).toBe(200);
-  // });
-  // it("21 GET https://i.ytimg.com/vi/${유튜브 영상ID}/default.jpg", async () => {
-  //   const response = await request(app).get("/https://i.ytimg.com/vi/${유튜브 영상ID}/default.jpg");
-  //   expect(response.statusCode).toBe(200);
-  // });
-  // it("22 POST /api/videos/add/KefKOFGy5I0,Lux8xJMQH-k", async () => {
-  //   const response = await request(app).get("/api/videos/add/KefKOFGy5I0,Lux8xJMQH-k");
-  //   expect(response.statusCode).toBe(200);
-  // });
 });
 
 // 테스트가 끝난 후 데이터베이스 강제 초기화 (아무 데이터도 없는 상태로 만들기)
@@ -422,4 +431,3 @@ afterAll(async () => {
     );
   }
 });
-
