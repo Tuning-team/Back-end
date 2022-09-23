@@ -15,3 +15,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: 디렉토리 출력
         run: ls -al
+      - name: 패키지 설치
+        run: npm ci
+      - name: 테스트 진행
+        run: npm test
