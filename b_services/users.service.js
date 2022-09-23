@@ -28,13 +28,15 @@ class UserService {
       let { category_id } = req.params;
       let category_ids = category_id.split(",").map((e) => e.trim()); // 배열
 
+      console.log("category_ids", category_ids);
+
       const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
 
-      let { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
-      myInterestingCategories = Array.from(new Set([...myInterestingCategories, ...category_ids]));
+      // let { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
+      // myInterestingCategories = Array.from(new Set([...category_ids]));
 
-      await this.usersRepository.setInterestCategories(user_id, myInterestingCategories);
+      await this.usersRepository.setInterestCategories(user_id, category_ids);
 
       let categories = await this.categoryRepository.getAllCategories(category_ids);
 
@@ -64,7 +66,7 @@ class UserService {
       const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
 
-      // user_id를
+      // user_id
       const { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
 
       console.log("myInterestingCategories", myInterestingCategories);
