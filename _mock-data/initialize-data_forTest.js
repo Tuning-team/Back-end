@@ -304,8 +304,72 @@ const commentsToInsert = [
   },
 ];
 
+const createCollection = {
+  category_id: "6319aeebd1e330e86bbade95",
+  collectionTitle: "코미디 영상 모음",
+  description: "코미디 영상을 모아봤어요. 너무너무 좋아요",
+  videos: [
+    "63291a43dcc97f368cc4ff04",
+    "63291a43dcc97f368cc4fefc",
+    "63291a43dcc97f368cc4fef8",
+    "63291a43dcc97f368cc4ff02",
+    "63291a43dcc97f368cc4fefa",
+    "63291a43dcc97f368cc4ff00",
+    "63291a43dcc97f368cc4fefe",
+  ],
+};
+
+const collectionDetail = {
+  _id: "632b1bd8cb2ecb2661cd33e0",
+  user_id: "6329192569d8145d2cb49b6b",
+  writerName: "Bohyeon Kim",
+  category_id: ["6319aeebd1e330e86bbade7c"],
+  collectionTitle: "카카오 영상 모음",
+  description: "카카오 영상을 모아봤어요. 모두 함께 해요.",
+  videos: [
+    "632b1a1bfbf662b8277ee74c",
+    "63291a48dcc97f368cc4ff88",
+    "632b1a1bfbf662b8277ee74e",
+    "63291a48dcc97f368cc4ff86",
+    "632b1a1bfbf662b8277ee750",
+    "632b1a1bfbf662b8277ee752",
+    "632b1a1bfbf662b8277ee754",
+    "632b1bd8cb2ecb2661cd33d6",
+  ],
+  ytVideos: [
+    "6FWFKr1nYz0",
+    "AEQGYLIDIjA",
+    "_xzKYwmjWpA",
+    "DX3TkIrFfcU",
+    "IAYF_FF0LgA",
+    "IW84UKXYw3E",
+    "vTK2kd-0AHs",
+    "mv6saHkdk9Q",
+  ],
+  thumbnails: [
+    "https://i.ytimg.com/vi/6FWFKr1nYz0/mqdefault.jpg",
+    "https://i.ytimg.com/vi/AEQGYLIDIjA/mqdefault.jpg",
+    "https://i.ytimg.com/vi/_xzKYwmjWpA/mqdefault.jpg",
+    "https://i.ytimg.com/vi/DX3TkIrFfcU/mqdefault.jpg",
+    "https://i.ytimg.com/vi/IAYF_FF0LgA/mqdefault.jpg",
+    "https://i.ytimg.com/vi/IW84UKXYw3E/mqdefault.jpg",
+    "https://i.ytimg.com/vi/vTK2kd-0AHs/mqdefault.jpg",
+    "https://i.ytimg.com/vi/mv6saHkdk9Q/mqdefault.jpg",
+  ],
+  commentNum: 0,
+  likes: 6,
+  createdAt: "2022-09-21T14:12:40.999Z",
+};
+
+const addvideos = {
+  videos: ["6312c7b4d3084a7cb866bb8f", "6312c7b4d3084a7cb866bb95"],
+};
+
 module.exports = {
   users,
   newVideosSources,
   commentsToInsert,
+  createCollection,
+  addvideos,
+  collectionDetail,
 };
