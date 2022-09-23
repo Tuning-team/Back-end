@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1663841755957" clover="3.2.0">
-  <project timestamp="1663841755957" name="All files">
-    <metrics statements="1196" coveredstatements="739" conditionals="125" coveredconditionals="38" methods="159" coveredmethods="76" elements="1480" coveredelements="853" complexity="0" loc="1196" ncloc="1196" packages="9" files="36" classes="36"/>
+<coverage generated="1663891915729" clover="3.2.0">
+  <project timestamp="1663891915729" name="All files">
+    <metrics statements="1199" coveredstatements="813" conditionals="125" coveredconditionals="49" methods="159" coveredmethods="87" elements="1483" coveredelements="949" complexity="0" loc="1199" ncloc="1199" packages="9" files="36" classes="36"/>
     <package name="tuning-backend">
       <metrics statements="43" coveredstatements="36" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
-      <file name="app.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/app.js">
+      <file name="app.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/app.js">
         <metrics statements="43" coveredstatements="36" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -51,9 +51,8 @@
         <line num="93" count="1" type="stmt"/>
       </file>
     </package>
-
     <package name="tuning-backend._mock-data">
-      <metrics statements="94" coveredstatements="83" conditionals="8" coveredconditionals="7" methods="13" coveredmethods="12"/>
+      <metrics statements="97" coveredstatements="86" conditionals="8" coveredconditionals="7" methods="13" coveredmethods="12"/>
       <file name="initialize-data.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/_mock-data/initialize-data.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -62,11 +61,14 @@
         <line num="466" count="1" type="stmt"/>
       </file>
       <file name="initialize-data_forTest.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/_mock-data/initialize-data_forTest.js">
-        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="121" count="1" type="stmt"/>
         <line num="166" count="1" type="stmt"/>
         <line num="307" count="1" type="stmt"/>
+        <line num="322" count="1" type="stmt"/>
+        <line num="364" count="1" type="stmt"/>
+        <line num="368" count="1" type="stmt"/>
       </file>
       <file name="mockdata_initializer.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/_mock-data/mockdata_initializer.js">
         <metrics statements="86" coveredstatements="75" conditionals="8" coveredconditionals="7" methods="13" coveredmethods="12"/>
@@ -96,7 +98,7 @@
         <line num="63" count="140" type="cond" truecount="2" falsecount="0"/>
         <line num="67" count="7" type="stmt"/>
         <line num="68" count="7" type="stmt"/>
-        <line num="70" count="55" type="stmt"/>
+        <line num="70" count="56" type="stmt"/>
         <line num="72" count="7" type="stmt"/>
         <line num="74" count="7" type="stmt"/>
         <line num="83" count="7" type="stmt"/>
@@ -203,7 +205,7 @@
         <line num="101" count="1" type="stmt"/>
         <line num="103" count="1" type="stmt"/>
       </file>
-      <file name="categories.routes.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/a_routes/categories.routes.js">
+      <file name="categories.routes.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/a_routes/categories.routes.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -237,7 +239,7 @@
         <line num="24" count="1" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
       </file>
-      <file name="comments.routes.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/a_routes/comments.routes.js">
+      <file name="comments.routes.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/a_routes/comments.routes.js">
         <metrics statements="11" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -251,7 +253,7 @@
         <line num="13" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
       </file>
-      <file name="index.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/a_routes/index.js">
+      <file name="index.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/a_routes/index.js">
         <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -271,7 +273,7 @@
         <line num="18" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
       </file>
-      <file name="search.routes.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/a_routes/search.routes.js">
+      <file name="search.routes.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/a_routes/search.routes.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -283,7 +285,7 @@
         <line num="11" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
       </file>
-      <file name="users.routes.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/a_routes/users.routes.js">
+      <file name="users.routes.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/a_routes/users.routes.js">
         <metrics statements="21" coveredstatements="21" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -307,7 +309,7 @@
         <line num="24" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
       </file>
-      <file name="videos.routes.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/a_routes/videos.routes.js">
+      <file name="videos.routes.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/a_routes/videos.routes.js">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -337,41 +339,41 @@
         <line num="23" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
         <line num="30" count="5" type="stmt"/>
-        <line num="31" count="9" type="stmt"/>
-        <line num="33" count="9" type="stmt"/>
-        <line num="34" count="9" type="stmt"/>
-        <line num="35" count="9" type="stmt"/>
-        <line num="37" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="31" count="17" type="stmt"/>
+        <line num="33" count="17" type="stmt"/>
+        <line num="34" count="17" type="stmt"/>
+        <line num="35" count="17" type="stmt"/>
+        <line num="37" count="17" type="cond" truecount="1" falsecount="1"/>
         <line num="38" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
-        <line num="45" count="9" type="stmt"/>
-        <line num="47" count="9" type="stmt"/>
-        <line num="48" count="9" type="stmt"/>
-        <line num="49" count="9" type="stmt"/>
+        <line num="45" count="17" type="stmt"/>
+        <line num="47" count="17" type="stmt"/>
+        <line num="48" count="17" type="stmt"/>
+        <line num="49" count="17" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
         <line num="60" count="1" type="stmt"/>
       </file>
     </package>
     <package name="tuning-backend.b_services">
-      <metrics statements="529" coveredstatements="302" conditionals="74" coveredconditionals="26" methods="56" coveredmethods="38"/>
+      <metrics statements="529" coveredstatements="343" conditionals="74" coveredconditionals="33" methods="56" coveredmethods="42"/>
       <file name="categories.service.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/b_services/categories.service.js">
-        <metrics statements="12" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="12" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="5" count="2" type="stmt"/>
         <line num="6" count="2" type="stmt"/>
         <line num="9" count="2" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
       </file>
       <file name="collections.service.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/b_services/collections.service.js">
-        <metrics statements="291" coveredstatements="180" conditionals="46" coveredconditionals="20" methods="30" coveredmethods="24"/>
+        <metrics statements="291" coveredstatements="217" conditionals="46" coveredconditionals="27" methods="30" coveredmethods="27"/>
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
@@ -386,72 +388,72 @@
         <line num="15" count="2" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="31" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="31" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="32" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="40" count="3" type="stmt"/>
-        <line num="41" count="3" type="stmt"/>
-        <line num="43" count="3" type="stmt"/>
-        <line num="51" count="25" type="stmt"/>
-        <line num="58" count="1" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="40" count="6" type="stmt"/>
+        <line num="41" count="6" type="stmt"/>
+        <line num="43" count="6" type="stmt"/>
+        <line num="51" count="37" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
         <line num="64" count="0" type="stmt"/>
         <line num="65" count="0" type="stmt"/>
         <line num="69" count="2" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="82" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="82" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="83" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
-        <line num="88" count="0" type="stmt"/>
-        <line num="90" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="109" count="0" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="92" count="1" type="stmt"/>
+        <line num="94" count="1" type="stmt"/>
+        <line num="102" count="5" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
         <line num="115" count="0" type="stmt"/>
         <line num="116" count="0" type="stmt"/>
         <line num="120" count="2" type="stmt"/>
-        <line num="121" count="0" type="stmt"/>
-        <line num="123" count="0" type="stmt"/>
-        <line num="125" count="0" type="stmt"/>
-        <line num="127" count="0" type="stmt"/>
-        <line num="133" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="121" count="1" type="stmt"/>
+        <line num="123" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
+        <line num="127" count="1" type="stmt"/>
+        <line num="133" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="134" count="0" type="stmt"/>
         <line num="136" count="0" type="stmt"/>
-        <line num="139" count="0" type="stmt"/>
-        <line num="141" count="0" type="stmt"/>
+        <line num="139" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
         <line num="142" count="0" type="stmt"/>
         <line num="143" count="0" type="stmt"/>
         <line num="145" count="0" type="stmt"/>
         <line num="153" count="0" type="stmt"/>
-        <line num="160" count="0" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
         <line num="166" count="0" type="stmt"/>
         <line num="167" count="0" type="stmt"/>
         <line num="171" count="2" type="stmt"/>
-        <line num="172" count="1" type="stmt"/>
-        <line num="173" count="1" type="stmt"/>
-        <line num="174" count="1" type="stmt"/>
-        <line num="180" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="172" count="2" type="stmt"/>
+        <line num="173" count="2" type="stmt"/>
+        <line num="174" count="2" type="stmt"/>
+        <line num="180" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="181" count="0" type="stmt"/>
-        <line num="184" count="1" type="stmt"/>
-        <line num="185" count="1" type="stmt"/>
-        <line num="187" count="1" type="stmt"/>
-        <line num="189" count="1" type="stmt"/>
+        <line num="184" count="2" type="stmt"/>
+        <line num="185" count="2" type="stmt"/>
+        <line num="187" count="2" type="stmt"/>
+        <line num="189" count="2" type="stmt"/>
         <line num="190" count="3" type="stmt"/>
         <line num="191" count="3" type="stmt"/>
         <line num="193" count="3" type="stmt"/>
         <line num="201" count="22" type="stmt"/>
-        <line num="207" count="1" type="stmt"/>
-        <line num="212" count="1" type="stmt"/>
+        <line num="207" count="2" type="stmt"/>
+        <line num="212" count="2" type="stmt"/>
         <line num="214" count="0" type="stmt"/>
         <line num="215" count="0" type="stmt"/>
         <line num="218" count="2" type="stmt"/>
@@ -474,14 +476,14 @@
         <line num="262" count="0" type="stmt"/>
         <line num="263" count="0" type="stmt"/>
         <line num="267" count="2" type="stmt"/>
-        <line num="268" count="1" type="stmt"/>
-        <line num="269" count="1" type="stmt"/>
-        <line num="271" count="1" type="stmt"/>
-        <line num="273" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="274" count="0" type="stmt"/>
-        <line num="277" count="1" type="stmt"/>
-        <line num="279" count="1" type="stmt"/>
-        <line num="280" count="1" type="stmt"/>
+        <line num="268" count="2" type="stmt"/>
+        <line num="269" count="2" type="stmt"/>
+        <line num="271" count="2" type="stmt"/>
+        <line num="273" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="274" count="1" type="stmt"/>
+        <line num="277" count="2" type="stmt"/>
+        <line num="279" count="2" type="stmt"/>
+        <line num="280" count="2" type="stmt"/>
         <line num="282" count="7" type="stmt"/>
         <line num="284" count="7" type="cond" truecount="1" falsecount="1"/>
         <line num="285" count="0" type="stmt"/>
@@ -489,22 +491,22 @@
         <line num="292" count="1" type="stmt"/>
         <line num="294" count="1" type="stmt"/>
         <line num="311" count="1" type="stmt"/>
-        <line num="313" count="0" type="stmt"/>
-        <line num="314" count="0" type="stmt"/>
+        <line num="313" count="1" type="stmt"/>
+        <line num="314" count="1" type="stmt"/>
         <line num="318" count="2" type="stmt"/>
-        <line num="319" count="1" type="stmt"/>
-        <line num="320" count="1" type="stmt"/>
-        <line num="328" count="1" type="stmt"/>
-        <line num="330" count="1" type="cond" truecount="5" falsecount="1"/>
+        <line num="319" count="3" type="stmt"/>
+        <line num="320" count="3" type="stmt"/>
+        <line num="328" count="3" type="stmt"/>
+        <line num="330" count="3" type="cond" truecount="5" falsecount="1"/>
         <line num="331" count="0" type="stmt"/>
         <line num="332" count="0" type="stmt"/>
-        <line num="335" count="1" type="stmt"/>
-        <line num="337" count="1" type="stmt"/>
-        <line num="339" count="2" type="stmt"/>
-        <line num="341" count="1" type="stmt"/>
-        <line num="349" count="1" type="stmt"/>
-        <line num="350" count="1" type="stmt"/>
-        <line num="352" count="1" type="stmt"/>
+        <line num="335" count="3" type="stmt"/>
+        <line num="337" count="3" type="stmt"/>
+        <line num="339" count="3" type="stmt"/>
+        <line num="341" count="3" type="stmt"/>
+        <line num="349" count="3" type="stmt"/>
+        <line num="350" count="3" type="stmt"/>
+        <line num="352" count="3" type="stmt"/>
         <line num="358" count="0" type="stmt"/>
         <line num="359" count="0" type="stmt"/>
         <line num="363" count="2" type="stmt"/>
@@ -525,12 +527,12 @@
         <line num="399" count="0" type="stmt"/>
         <line num="400" count="0" type="stmt"/>
         <line num="404" count="2" type="stmt"/>
-        <line num="405" count="1" type="stmt"/>
-        <line num="406" count="1" type="stmt"/>
-        <line num="408" count="1" type="stmt"/>
-        <line num="410" count="1" type="stmt"/>
-        <line num="412" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="413" count="0" type="stmt"/>
+        <line num="405" count="2" type="stmt"/>
+        <line num="406" count="2" type="stmt"/>
+        <line num="408" count="2" type="stmt"/>
+        <line num="410" count="2" type="stmt"/>
+        <line num="412" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="413" count="1" type="stmt"/>
         <line num="414" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="415" count="0" type="stmt"/>
         <line num="417" count="1" type="stmt"/>
@@ -539,13 +541,13 @@
         <line num="422" count="0" type="stmt"/>
         <line num="423" count="0" type="stmt"/>
         <line num="427" count="2" type="stmt"/>
-        <line num="428" count="1" type="stmt"/>
-        <line num="429" count="1" type="stmt"/>
-        <line num="430" count="1" type="stmt"/>
-        <line num="433" count="1" type="stmt"/>
-        <line num="435" count="1" type="stmt"/>
-        <line num="437" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="438" count="0" type="stmt"/>
+        <line num="428" count="3" type="stmt"/>
+        <line num="429" count="3" type="stmt"/>
+        <line num="430" count="3" type="stmt"/>
+        <line num="433" count="3" type="stmt"/>
+        <line num="435" count="3" type="stmt"/>
+        <line num="437" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="438" count="2" type="stmt"/>
         <line num="439" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="440" count="1" type="stmt"/>
         <line num="441" count="1" type="stmt"/>
@@ -632,22 +634,22 @@
         <line num="669" count="0" type="stmt"/>
         <line num="673" count="2" type="stmt"/>
         <line num="674" count="1" type="stmt"/>
-        <line num="675" count="0" type="stmt"/>
-        <line num="676" count="0" type="stmt"/>
-        <line num="677" count="0" type="stmt"/>
-        <line num="679" count="0" type="stmt"/>
-        <line num="681" count="0" type="stmt"/>
-        <line num="685" count="0" type="stmt"/>
-        <line num="687" count="0" type="stmt"/>
-        <line num="688" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="675" count="1" type="stmt"/>
+        <line num="676" count="1" type="stmt"/>
+        <line num="677" count="1" type="stmt"/>
+        <line num="679" count="1" type="stmt"/>
+        <line num="681" count="1" type="stmt"/>
+        <line num="685" count="1" type="stmt"/>
+        <line num="687" count="1" type="stmt"/>
+        <line num="688" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="689" count="0" type="stmt"/>
-        <line num="690" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="691" count="0" type="stmt"/>
+        <line num="690" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="691" count="1" type="stmt"/>
         <line num="692" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="693" count="0" type="stmt"/>
         <line num="695" count="0" type="stmt"/>
-        <line num="698" count="0" type="stmt"/>
-        <line num="700" count="0" type="stmt"/>
+        <line num="698" count="1" type="stmt"/>
+        <line num="700" count="1" type="stmt"/>
         <line num="706" count="0" type="stmt"/>
         <line num="707" count="0" type="stmt"/>
         <line num="711" count="2" type="stmt"/>
@@ -664,7 +666,7 @@
         <line num="728" count="0" type="stmt"/>
         <line num="733" count="2" type="stmt"/>
       </file>
-      <file name="comments.service.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/b_services/comments.service.js">
+      <file name="comments.service.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/b_services/comments.service.js">
         <metrics statements="60" coveredstatements="12" conditionals="12" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -727,7 +729,7 @@
         <line num="161" count="0" type="stmt"/>
         <line num="168" count="1" type="stmt"/>
       </file>
-      <file name="search.Service.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/b_services/search.Service.js">
+      <file name="search.Service.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/b_services/search.Service.js">
         <metrics statements="23" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -868,7 +870,7 @@
         <line num="281" count="0" type="stmt"/>
         <line num="288" count="2" type="stmt"/>
       </file>
-      <file name="videos.service.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/b_services/videos.service.js">
+      <file name="videos.service.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/b_services/videos.service.js">
         <metrics statements="31" coveredstatements="9" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -904,14 +906,14 @@
       </file>
     </package>
     <package name="tuning-backend.c_repositories">
-      <metrics statements="295" coveredstatements="139" conditionals="25" coveredconditionals="3" methods="69" coveredmethods="22"/>
+      <metrics statements="295" coveredstatements="169" conditionals="25" coveredconditionals="7" methods="69" coveredmethods="29"/>
       <file name="categories.repository.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/c_repositories/categories.repository.js">
-        <metrics statements="36" coveredstatements="18" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="2"/>
+        <metrics statements="36" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="3"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="6" count="6" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
         <line num="11" count="6" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
         <line num="13" count="2" type="stmt"/>
@@ -945,7 +947,7 @@
         <line num="80" count="3" type="stmt"/>
       </file>
       <file name="collections.repository.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/c_repositories/collections.repository.js">
-        <metrics statements="149" coveredstatements="51" conditionals="20" coveredconditionals="0" methods="27" coveredmethods="7"/>
+        <metrics statements="149" coveredstatements="73" conditionals="20" coveredconditionals="4" methods="27" coveredmethods="11"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -963,31 +965,31 @@
         <line num="35" count="1" type="stmt"/>
         <line num="42" count="1" type="stmt"/>
         <line num="46" count="7" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="54" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
         <line num="67" count="7" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="75" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
         <line num="89" count="7" type="stmt"/>
         <line num="90" count="2" type="stmt"/>
         <line num="94" count="2" type="stmt"/>
         <line num="98" count="7" type="stmt"/>
-        <line num="103" count="0" type="stmt"/>
-        <line num="109" count="0" type="stmt"/>
-        <line num="110" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="112" count="0" type="stmt"/>
-        <line num="119" count="0" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="110" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
         <line num="123" count="7" type="stmt"/>
-        <line num="124" count="5" type="stmt"/>
-        <line num="125" count="5" type="stmt"/>
+        <line num="124" count="9" type="stmt"/>
+        <line num="125" count="9" type="stmt"/>
         <line num="129" count="7" type="stmt"/>
         <line num="130" count="0" type="stmt"/>
         <line num="132" count="0" type="stmt"/>
@@ -995,12 +997,12 @@
         <line num="135" count="0" type="stmt"/>
         <line num="140" count="0" type="stmt"/>
         <line num="144" count="7" type="stmt"/>
-        <line num="145" count="7" type="stmt"/>
-        <line num="146" count="7" type="stmt"/>
-        <line num="147" count="55" type="stmt"/>
-        <line num="148" count="55" type="stmt"/>
-        <line num="151" count="7" type="stmt"/>
-        <line num="159" count="7" type="stmt"/>
+        <line num="145" count="9" type="stmt"/>
+        <line num="146" count="9" type="stmt"/>
+        <line num="147" count="56" type="stmt"/>
+        <line num="148" count="56" type="stmt"/>
+        <line num="151" count="9" type="stmt"/>
+        <line num="159" count="9" type="stmt"/>
         <line num="163" count="7" type="stmt"/>
         <line num="164" count="0" type="stmt"/>
         <line num="165" count="0" type="stmt"/>
@@ -1097,11 +1099,11 @@
         <line num="439" count="3" type="stmt"/>
       </file>
       <file name="comments.repository.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/c_repositories/comments.repository.js">
-        <metrics statements="17" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="1"/>
+        <metrics statements="17" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="2"/>
         <line num="1" count="2" type="stmt"/>
         <line num="5" count="4" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
         <line num="14" count="4" type="stmt"/>
         <line num="15" count="92" type="stmt"/>
         <line num="21" count="92" type="stmt"/>
@@ -1117,11 +1119,11 @@
         <line num="46" count="2" type="stmt"/>
       </file>
       <file name="users.repository.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/c_repositories/users.repository.js">
-        <metrics statements="53" coveredstatements="35" conditionals="0" coveredconditionals="0" methods="16" coveredmethods="8"/>
+        <metrics statements="53" coveredstatements="39" conditionals="0" coveredconditionals="0" methods="16" coveredmethods="9"/>
         <line num="1" count="3" type="stmt"/>
         <line num="5" count="10" type="stmt"/>
-        <line num="6" count="71" type="stmt"/>
-        <line num="7" count="71" type="stmt"/>
+        <line num="6" count="73" type="stmt"/>
+        <line num="7" count="73" type="stmt"/>
         <line num="11" count="10" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
@@ -1145,10 +1147,10 @@
         <line num="56" count="0" type="stmt"/>
         <line num="57" count="0" type="stmt"/>
         <line num="60" count="10" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
+        <line num="62" count="2" type="stmt"/>
+        <line num="65" count="2" type="stmt"/>
+        <line num="68" count="2" type="stmt"/>
+        <line num="69" count="2" type="stmt"/>
         <line num="73" count="10" type="stmt"/>
         <line num="74" count="1" type="stmt"/>
         <line num="75" count="1" type="stmt"/>
@@ -1177,8 +1179,8 @@
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="6" count="11" type="stmt"/>
-        <line num="7" count="55" type="stmt"/>
-        <line num="8" count="55" type="stmt"/>
+        <line num="7" count="56" type="stmt"/>
+        <line num="8" count="56" type="stmt"/>
         <line num="12" count="11" type="cond" truecount="0" falsecount="1"/>
         <line num="13" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
@@ -1186,25 +1188,25 @@
         <line num="22" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="34" count="11" type="stmt"/>
-        <line num="35" count="8" type="stmt"/>
-        <line num="36" count="8" type="stmt"/>
-        <line num="40" count="8" type="stmt"/>
-        <line num="41" count="57" type="stmt"/>
-        <line num="52" count="8" type="stmt"/>
-        <line num="54" count="57" type="stmt"/>
-        <line num="55" count="57" type="cond" truecount="1" falsecount="1"/>
+        <line num="35" count="10" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
+        <line num="41" count="58" type="stmt"/>
+        <line num="52" count="10" type="stmt"/>
+        <line num="54" count="58" type="stmt"/>
+        <line num="55" count="58" type="cond" truecount="1" falsecount="1"/>
         <line num="56" count="0" type="stmt"/>
-        <line num="58" count="57" type="stmt"/>
-        <line num="59" count="57" type="stmt"/>
-        <line num="64" count="8" type="stmt"/>
-        <line num="65" count="8" type="stmt"/>
+        <line num="58" count="58" type="stmt"/>
+        <line num="59" count="58" type="stmt"/>
+        <line num="64" count="10" type="stmt"/>
+        <line num="65" count="10" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
         <line num="89" count="11" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
         <line num="92" count="0" type="stmt"/>
         <line num="96" count="3" type="stmt"/>
       </file>
-      <file name="videosSearch.repository.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/c_repositories/videosSearch.repository.js">
+      <file name="videosSearch.repository.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/c_repositories/videosSearch.repository.js">
         <metrics statements="11" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -1219,27 +1221,27 @@
         <line num="28" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="hanghae99-s8team5-Tunning.d_schemas">
+    <package name="tuning-backend.d_schemas">
       <metrics statements="25" coveredstatements="24" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="1"/>
-      <file name="category.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/d_schemas/category.js">
+      <file name="category.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/d_schemas/category.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
         <line num="22" count="3" type="stmt"/>
       </file>
-      <file name="collection.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/d_schemas/collection.js">
+      <file name="collection.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/d_schemas/collection.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
         <line num="50" count="3" type="stmt"/>
       </file>
-      <file name="comment.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/d_schemas/comment.js">
+      <file name="comment.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/d_schemas/comment.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="23" count="2" type="stmt"/>
       </file>
-      <file name="index.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/d_schemas/index.js">
+      <file name="index.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/d_schemas/index.js">
         <metrics statements="7" coveredstatements="6" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="1"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="1"/>
@@ -1249,28 +1251,28 @@
         <line num="12" count="0" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
       </file>
-      <file name="user.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/d_schemas/user.js">
+      <file name="user.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/d_schemas/user.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>
         <line num="65" count="3" type="stmt"/>
       </file>
-      <file name="video.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/d_schemas/video.js">
+      <file name="video.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/d_schemas/video.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
         <line num="41" count="3" type="stmt"/>
       </file>
-      <file name="videoSearch.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/d_schemas/videoSearch.js">
+      <file name="videoSearch.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/d_schemas/videoSearch.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="hanghae99-s8team5-Tunning.passport">
+    <package name="tuning-backend.passport">
       <metrics statements="31" coveredstatements="15" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="2"/>
-      <file name="googleStrategy.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/passport/googleStrategy.js">
+      <file name="googleStrategy.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/passport/googleStrategy.js">
         <metrics statements="17" coveredstatements="7" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1290,7 +1292,7 @@
         <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
       </file>
-      <file name="index.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/passport/index.js">
+      <file name="index.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/passport/index.js">
         <metrics statements="14" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -1308,9 +1310,9 @@
         <line num="25" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="hanghae99-s8team5-Tunning.test.data">
+    <package name="tuning-backend.test.data">
       <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="collection-data-in.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/test/data/collection-data-in.js">
+      <file name="collection-data-in.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/test/data/collection-data-in.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="121" count="1" type="stmt"/>
@@ -1322,7 +1324,7 @@
         <line num="880" count="1" type="stmt"/>
         <line num="895" count="1" type="stmt"/>
       </file>
-      <file name="user-data-in.js" path="/Users/hyemi/Desktop/nodejs/hanghae99-s8team5-Tunning/test/data/user-data-in.js">
+      <file name="user-data-in.js" path="/Users/bohyeonkim/Desktop/Act4_asDev/SpartaCoding/mainWeek/start-here/tuning-backend/test/data/user-data-in.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="121" count="1" type="stmt"/>
