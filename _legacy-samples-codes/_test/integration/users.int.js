@@ -14,9 +14,7 @@ beforeAll(async () => {
 // --------------- 여기서부터 검증(Test) 시작 -------------- //
 describe("POST /api/signup", () => {
   test("모두 기입 시 회원가입 수행", async () => {
-    const response = await request(app)
-      .post("/api/signup")
-      .send(userDataIn.signUpReq);
+    const response = await request(app).post("/api/signup").send(userDataIn.signUpReq);
     expect(response.statusCode).toBe(200);
 
     // db에 잘 들어갔는지 확인
@@ -24,7 +22,6 @@ describe("POST /api/signup", () => {
       where: { nickname: userDataIn.signUpReq.nickname },
     });
 
-    console.log(userInfo);
     expect(userInfo).toBeTruthy();
   });
 
@@ -76,9 +73,7 @@ describe("POST /api/login", () => {
     await request(app).post("/api/signup").send(userDataIn.signUpReq);
   });
   test("모두 정상 기입 시 로그인 수행 (응답코드와 쿠키 확인)", async () => {
-    const response = await request(app)
-      .post("/api/login")
-      .send(userDataIn.loginpReq);
+    const response = await request(app).post("/api/login").send(userDataIn.loginpReq);
     expect(response.statusCode).toBe(200); // 정상 응답
     expect(response.headers["set-cookie"]).toBeTruthy(); // 로그인 해서 받은 쿠키가 있음
   });
