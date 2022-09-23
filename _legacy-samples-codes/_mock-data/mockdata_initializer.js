@@ -17,12 +17,6 @@ const Comments = require("../d_schemas/comment");
 // const Categories = require("../d_schemas/category");
 // const Videos = require("../d_schemas/video");
 
-// console.log("users", users);
-// console.log("collections", collections);
-// console.log("comments", comments);
-// console.log("categories", categories);
-// console.log("videos", videos);
-
 try {
   // Collections.create(collections).then((e) => console.log(e)); // 완료
   Comments.create(comments).then((e) => console.log(e));

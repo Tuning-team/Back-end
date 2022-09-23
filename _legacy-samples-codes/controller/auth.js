@@ -35,20 +35,13 @@ exports.registerDirect = async (req, res) => {
     EMAIL: Joi.string().email().required(),
     PASSWORD: Joi.string().min(5).max(12).alphanum().required(),
     CONFIRM: Joi.string().min(5).max(12).alphanum().required(),
-    FIRST_NAME: Joi.string()
-      .max(20)
-      .pattern(new RegExp(hangulAcceptRegX))
-      .required(),
-    LAST_NAME: Joi.string()
-      .max(20)
-      .pattern(new RegExp(hangulAcceptRegX))
-      .required(),
+    FIRST_NAME: Joi.string().max(20).pattern(new RegExp(hangulAcceptRegX)).required(),
+    LAST_NAME: Joi.string().max(20).pattern(new RegExp(hangulAcceptRegX)).required(),
   });
 
   try {
     // joi 객체의 스키마를 잘 통과했는지 확인
-    const { EMAIL, PASSWORD, CONFIRM, FIRST_NAME, LAST_NAME } =
-      await signupSchema.validateAsync(req.body);
+    const { EMAIL, PASSWORD, CONFIRM, FIRST_NAME, LAST_NAME } = await signupSchema.validateAsync(req.body);
 
     // 기타 확인
     if (PASSWORD !== CONFIRM) {
@@ -117,9 +110,7 @@ exports.logIn = async (req, res) => {
       );
       return res.status(200).send({ token, message: "로그인 성공" });
     } else {
-      return res
-        .status(403)
-        .send({ message: "아이디 또는 비밀번호가 틀렸습니다." });
+      return res.status(403).send({ message: "아이디 또는 비밀번호가 틀렸습니다." });
     }
   } catch (error) {
     return res.status(403).send({ message: "로그인 실패" });
@@ -133,7 +124,7 @@ exports.googleCallback = (req, res, next) => {
       if (error) {
         return next(error);
       }
-      console.log(user);
+
       const { EMAIL, DISPLAY_NAME } = user;
       const token = jwt.sign({ EMAIL }, process.env.TOKEN_KEY, {
         expiresIn: "24h",
