@@ -12,7 +12,7 @@ module.exports = () => {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: `${process.env.REDIRECT_PATH}/api/google_callback`,
-        scope: ["https://www.googleapis.com/auth/youtube", "profile", "email"],
+        scope: ["profile", "email"],
         passReqToCallback: false,
       },
       // 누군가 로그인을 했을 때 실행되는 콜백 함수
