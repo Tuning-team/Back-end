@@ -27,7 +27,7 @@ GET	{{host}}/api/user/
 GET {{host}}/api/user/632919bf0c70d67f1b92e0e3
 
 ### 25. PUT	/api/user/interest/:category_id  _ 관심사 카테고리 선택
-PUT {{host}}/api/user/interest/6319aeebd1e330e86bbade7c,6319aeebd1e330e86bbade7b,6319aeebd1e330e86bbade80
+PUT {{host}}/api/user/interest/6319aeebd1e330e86bbade7c,6319aeebd1e330e86bbade8a,6319aeebd1e330e86bbade80,6319aeebd1e330e86bbade89
 
 ### 26. GET	/api/user/interest/  _ 관심사 카테고리 불러오기 (로그인유저)
 GET {{host}}/api/user/interest
