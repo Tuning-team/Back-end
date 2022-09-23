@@ -52,6 +52,42 @@ describe("CollectionsService 단위테스트 진행", () => {
     });
   });
 
+  it("예외 상황에 대한 테스트1 - 유저 정보 없음", async () => {
+    res.locals.user_id = undefined;
+
+    if ((res.locals.user_id = undefined)) {
+      throw Error("로그인 후 이용해 주세요.");
+    }
+    // req.body = {
+    //   category_id: "6319aeebd1e330e86bbade88",
+    //   collectionTitle: "생성 테스트하기",
+    //   description: "ㅇㅇ",
+    //   videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+    // };
+    // collectionsService.videoRepository.createVideosByIds = jest.fn();
+    // collectionsService.collectionRepository.createCollection = jest.fn();
+    // collectionsService.userRepository.createMyCollection = jest.fn();
+    // collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
+    // collectionsService.collectionRepository.createCollection.mockReturnValue(collectionsListFromDB[0]);
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("예외 상황에 대한 테스트2 - body값에 누락된 항목 발생", async () => {
+    res.locals.user_id = "6329192569d8145d2cb49b6b";
+    req.body = {
+      // category_id: "6319aeebd1e330e86bbade88",
+      collectionTitle: "생성 테스트하기",
+      description: "ㅇㅇ",
+      videos: ["_VE04NqHNqc", "P1UZTj1h1a0", "hKfb-rudyWA", "JdHyjfVcN9Y", "rRhowWJ6r_4"],
+    };
+    collectionsService.videoRepository.createVideosByIds = jest.fn();
+    collectionsService.collectionRepository.createCollection = jest.fn();
+    collectionsService.userRepository.createMyCollection = jest.fn();
+    collectionsService.videoRepository.createVideosByIds.mockReturnValue(videosListFromDB);
+    collectionsService.collectionRepository.createCollection.mockReturnValue(collectionsListFromDB[0]);
+    expect(res.statusCode).toBe(400);
+  });
+
   describe("getAllCollectionsByCategoryId 테스트 : 카테고리에 해당하는 컬렉션 리스트", () => {
     beforeEach(() => {});
 
