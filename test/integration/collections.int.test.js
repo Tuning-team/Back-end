@@ -37,11 +37,7 @@ beforeAll(async () => {
 
 // --------------- 여기서부터 검증(Test) 시작 -------------- //
 describe("전체 통합테스트", () => {
-  beforeEach(async () => {});
-
-  it("10	GET	/api/comments/:collection_id", async () => {
-    const response = await request(app).get("/api/comments/:collection_id") 
-  });
+  beforeEach(async () => {});  
 
   it("1	GET	/api/categories 카테고리 리스트 조회 테스트", async () => {
     const response = await request(app).get("/api/categories");
@@ -133,6 +129,10 @@ describe("전체 통합테스트", () => {
   it("9	GET	/api/collections?keyword=검색어&offset=0&limit=3 검색어에 맞는 컬렉션 리스트 조회 테스트", async () => {
     const response = await request(app).get("/api/collections?keyword=음악&offset=0&limit=3");
     expect(response.statusCode).toBe(200);
+  });
+  
+  it("10	GET	/api/comments/:collection_id", async () => {
+    const response = await request(app).get("/api/comments/:collection_id") 
   });
 
   it("24	PUT	/api/collections/:collection_id : 컬렉션 수정", async () => {
