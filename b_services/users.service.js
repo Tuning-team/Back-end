@@ -28,6 +28,8 @@ class UserService {
       let { category_id } = req.params;
       let category_ids = category_id.split(",").map((e) => e.trim()); // 배열
 
+      console.log("category_ids", category_ids);
+
       const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
 
@@ -64,7 +66,7 @@ class UserService {
       const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
 
-      // user_id를
+      // user_id
       const { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
 
       console.log("myInterestingCategories", myInterestingCategories);
