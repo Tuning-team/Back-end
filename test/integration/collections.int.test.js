@@ -30,11 +30,11 @@ beforeAll(async () => {
   // 5. Users_follows_Users
   await databaseInitializer.userfollowsUsers();
   // 6.
-  await request(app).post("/api/collections").set("authorization", authorizationCode).send(createCollection); // postId : 1을 부여받음
+  await request(app).post("/api/collections").set("authorization", authorizationCode).send(createCollection);
 }, 500000);
 
 // --------------- 여기서부터 검증(Test) 시작 -------------- //
-describe("#1 /api/collections 컬렉션 테스트", () => {
+describe("전체 통합테스트", () => {
   beforeEach(async () => {});
 
   it("1	GET	/api/categories 카테고리 리스트 조회 테스트", async () => {
@@ -44,7 +44,6 @@ describe("#1 /api/collections 컬렉션 테스트", () => {
 
   it("2	POST /api/collections 컬렉션 생성 테스트", async () => {
     const response = await request(app).post("/api/collections").set("authorization", authorizationCode).send(createCollection);
-    console.log("createCollection", createCollection);
     expect(response.statusCode).toEqual(201);
 
     const collectionInfo = await Collections.findOne({
@@ -113,24 +112,22 @@ describe("#1 /api/collections 컬렉션 테스트", () => {
   it("7-2	GET	/api/collections/mykeeps?offset=0&limit=3 내가 담은 컬렉션 조회 테스트", async () => {
     const response = await request(app).get("/api/collections/mykeeps?offset=0&limit=3").set("authorization", authorizationCode);
     expect(response.statusCode).toBe(200);
+  });
 
-    it("7-3	GET	/api/collections/mine?offset=0&limit=3 내가 모은 컬렉션 조회 테스트", async () => {
-      const response = await request(app).get("/api/collections/mine?offset=0&limit=3").set("authorization", authorizationCode);
-      expect(response.statusCode).toBe(200);
-    });
-  
-    it("8	GET	/api/collections?category_id=####&offset=0&limit=3 카테고리에 포함된 컬렉션 리스트 조회 테스트", async () => {
-      const response = await request(app).get("/api/collections?category_id=6319aeebd1e330e86bbade7c&offset=0&limit=3");
-      expect(response.statusCode).toBe(200);
-    });
-  
-    it("9	GET	/api/collections?keyword=검색어&offset=0&limit=3 검색어에 맞는 컬렉션 리스트 조회 테스트", async () => {
-      const response = await request(app).get("/api/collections?keyword=음악&offset=0&limit=3");
-  
+  it("7-3	GET	/api/collections/mine?offset=0&limit=3 내가 모은 컬렉션 조회 테스트", async () => {
+    const response = await request(app).get("/api/collections/mine?offset=0&limit=3").set("authorization", authorizationCode);
+    expect(response.statusCode).toBe(200);
+  });
 
-// --------------- 여기서부터 검증(Test) 시작 -------------- //
-describe("전체 통합테스트", () => {
-  beforeEach(async () => {});
+  it("8	GET	/api/collections?category_id=####&offset=0&limit=3 카테고리에 포함된 컬렉션 리스트 조회 테스트", async () => {
+    const response = await request(app).get("/api/collections?category_id=6319aeebd1e330e86bbade7c&offset=0&limit=3");
+    expect(response.statusCode).toBe(200);
+  });
+
+  it("9	GET	/api/collections?keyword=검색어&offset=0&limit=3 검색어에 맞는 컬렉션 리스트 조회 테스트", async () => {
+    const response = await request(app).get("/api/collections?keyword=음악&offset=0&limit=3");
+    expect(response.statusCode).toBe(200);
+  });
 
   it("24	PUT	/api/collections/:collection_id : 컬렉션 수정", async () => {
     // 내가 쓴 글의 id 하나를 찾는다.
