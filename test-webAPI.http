@@ -211,7 +211,7 @@ Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2w
 
 
 ### 컬렉션 담기
-PUT {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
+PUT {{host}}/api/collections/keep/63291a3fdcc97f368cc4fe92
 
 ### 컬렉션 담기 취소(삭제)
 DELETE {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92

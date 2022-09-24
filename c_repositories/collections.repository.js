@@ -206,14 +206,18 @@ class CollectionRepository {
   };
 
   // _id에 해당하는 컬렉션의 담은 수를 1개 올린다. return 컬렉션의 현재 담은 수
-  keepCollection = async (_id) => {
-    const keepCollection = await Collection.findOneAndUpdate({ _id }, { $inc: { keptBy: +1 } });
-    return keepCollection.keptBy;
+  keepCollection = async (_id, addKeepCollection) => {
+    const { keptBy } = await this.getCollectionById(_id);
+    keptBy = [...keptBy, ...addKeepCollection];
+
+    await Collection.findOneAndUpdate({ _id }, { $set: { keptBy } });
+    const updatedCollection = await Collection.findOne({ _id });
+    return updatedCollection;
   };
 
   // _id에 해당하는 컬렉션의 담은 수를 1개 내린다. returns 담기 취소한 컬렉션의 현재 담은 수
   notKeepCollection = async (_id) => {
-    const notKeepCollection = await Collection.findOneAndUpdate({ _id }, { $inc: { keptBy: -1 } });
+    const notKeepCollection = await Collection.findOneAndUpdate({ _id }, { $pull: { keptBy } });
     return notKeepCollection.keptBy;
   };
 

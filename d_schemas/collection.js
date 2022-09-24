@@ -34,9 +34,9 @@ const CollectionSchema = new mongoose.Schema({
     default: 0,
   },
   keptBy: {
-    type: Number,
+    type: Array,
     required: true,
-    default: 0,
+    default: [],
   },
   createdAt: {
     type: Date,
