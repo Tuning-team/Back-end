@@ -20,15 +20,21 @@ class UsersRepository {
   };
 
   // 담기
-  keepCollection = async (_id, myKeepingCollections) => {
-    const updateDatail = await User.updateOne({ _id }, { myKeepingCollections });
+  keepCollection = async (user_id, collection_id) => {
+    const { myKeepingCollections } = await User.findOne({ _id: user_id });
+    myKeepingCollections.push(collection_id);
+
+    const updateDatail = await User.updateOne({ _id: user_id }, { myKeepingCollections: myKeepingCollections });
     return updateDatail;
   };
 
-  // 유저가 보유한 담기 리스트
-  getCollectionsByKeepingArray = async (keepCollectionsArr) => {
-    const allCollectionsUserKept = await User.find({ keepCollectionsArr });
-    return allCollectionsUserKept;
+  // 담기 취소
+  notKeepCollection = async (user_id, collection_id) => {
+    const { myKeepingCollections } = await User.findOne({ _id: user_id });
+    const filteredArr = myKeepingCollections.filter((e) => e !== collection_id);
+
+    const updatedDetail = await User.updateOne({ _id: user_id }, { myKeepingCollections: filteredArr });
+    return updatedDetail;
   };
 
   // 좋아요
@@ -58,7 +64,6 @@ class UsersRepository {
   };
 
   createMyCollection = async (user_id, collection_id) => {
-    // 기존 likedArr 찾아서,
     const { myCollections } = await User.findOne({ _id: user_id });
 
     // 새로 생성한 컬렉션 하나 넣어서
