@@ -483,7 +483,7 @@ class CollectionsService {
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
       } else if (!myKeepingCollections.includes(collection_id)) {
-        await this.collectionRepository.keepCollection(_id, user_id);
+        await this.collectionRepository.keepCollection(collection_id, user_id);
         await this.userRepository.keepCollection(user_id, collection_id);
         res.status(200).json({
           success: true,
