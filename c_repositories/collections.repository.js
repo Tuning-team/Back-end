@@ -205,20 +205,22 @@ class CollectionRepository {
     return keptBy;
   };
 
-  // _id에 해당하는 컬렉션의 담은 수를 1개 올린다. return 컬렉션의 현재 담은 수
-  keepCollection = async (_id, addKeepCollection) => {
-    const { keptBy } = await this.getCollectionById(_id);
-    keptBy = [...keptBy, ...addKeepCollection];
+  // _id에 해당하는 컬렉션의 담은 유저를 추가한다.
+  keepCollection = async (_id, user_id) => {
+    const { keptBy } = await Collection({ _id });
+    keptBy.push(user_id);
 
-    await Collection.findOneAndUpdate({ _id }, { $set: { keptBy } });
-    const updatedCollection = await Collection.findOne({ _id });
+    const updatedCollection = await Collection.updateOne({ _id }, { keptBy: keptBy });
     return updatedCollection;
   };
 
-  // _id에 해당하는 컬렉션의 담은 수를 1개 내린다. returns 담기 취소한 컬렉션의 현재 담은 수
-  notKeepCollection = async (_id) => {
-    const notKeepCollection = await Collection.findOneAndUpdate({ _id }, { $pull: { keptBy } });
-    return notKeepCollection.keptBy;
+  // _id에 해당하는 컬렉션의 담은 유저를 제거한다.
+  notKeepCollection = async (_id, user_id) => {
+    const { keptBy } = await Collection({ _id });
+    const filteredArr = keptBy.filter((e) => e !== user_id);
+
+    const updatedCollection = await Collection.updateOne({ _id }, { keptBy: filteredArr });
+    return updatedCollection;
   };
 
   // 유저가 보유한 좋아요 리스트
