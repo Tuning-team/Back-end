@@ -51,6 +51,7 @@ class CollectionsService {
           thumbnails: userDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
           commentNum: commentNum,
           likes: userDataAll[i].likes,
+          keptBy: userDataAll[i].keptBy,
           createdAt: userDataAll[i].createdAt,
         });
       }
@@ -102,6 +103,7 @@ class CollectionsService {
           thumbnails: userDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
           commentNum: commentNum,
           likes: userDataAll[i].likes,
+          keptBy: userDataAll[i].keptBy,
           createdAt: userDataAll[i].createdAt,
         });
       }
@@ -153,6 +155,7 @@ class CollectionsService {
           thumbnails: userDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
           commentNum: commentNum,
           likes: userDataAll[i].likes,
+          keptBy: userDataAll[i].keptBy,
           createdAt: userDataAll[i].createdAt,
         });
       }
@@ -201,6 +204,7 @@ class CollectionsService {
           thumbnails: categoryDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
           commentNum: commentNum,
           likes: categoryDataAll[i].likes,
+          keptBy: categoryDataAll[i].keptBy,
           createdAt: categoryDataAll[i].createdAt,
         });
       }
@@ -238,6 +242,7 @@ class CollectionsService {
             thumbnails: categoryData[j].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
             commentNum: commentNum,
             likes: categoryData[j].likes,
+            keptBy: categoryDataAll[i].keptBy,
             createdAt: categoryData[j].createdAt,
           });
         }
@@ -304,6 +309,7 @@ class CollectionsService {
           thumbnails: thumbnailsArr,
           commentNum: commentNum,
           likes: collection.likes,
+          keptBy: collection.keptBy,
           createdAt: collection.createdAt,
         },
       ];
