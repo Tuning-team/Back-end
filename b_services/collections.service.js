@@ -242,7 +242,7 @@ class CollectionsService {
             thumbnails: categoryData[j].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
             commentNum: commentNum,
             likes: categoryData[j].likes,
-            keptBy: categoryDataAll[i].keptBy,
+            keptBy: categoryData[i].keptBy,
             createdAt: categoryData[j].createdAt,
           });
         }
