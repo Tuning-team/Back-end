@@ -472,8 +472,8 @@ class CollectionsService {
   keepCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 담은 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -491,7 +491,7 @@ class CollectionsService {
           message: "컬렉션을 담았습니다.",
         });
       } else {
-        await this.collectionRepository.notKeepCollection(_id, user_id);
+        await this.collectionRepository.notKeepCollection(collection_id, user_id);
         await this.userRepository.notKeepCollection(user_id, collection_id);
         res.status(200).json({
           success: true,
