@@ -461,6 +461,47 @@ class CollectionsService {
       });
     }
   };
+
+  // 컬렉션 담기
+  keepCollection = async (req, res) => {
+    try {
+      const { collection_id } = req.params;
+      const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
+
+      // DB에서 현재 컬렉션의 정보와 유저가 지금까지 담은 Array 획득
+      const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
+
+      const { myKeepingCollections } = await this.userRepository.getUserById(user_id);
+
+      if (!thisCollection) {
+        res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
+      } else if (!myKeepingCollections.includes(collection_id)) {
+        await this.collectionRepository.keepCollection(collection_id);
+        await this.userRepository.keepCollection(user_id, collection_id);
+        res.status(200).json({
+          success: true,
+          data: "keep",
+          message: "컬렉션을 담았습니다.",
+        });
+      } else {
+        await this.collectionRepository.notKeepCollection(collection_id);
+        await this.userRepository.notKeepCollection(user_id, collection_id);
+        res.status(200).json({
+          success: true,
+          data: "remove",
+          message: "컬렉션 담기를 취소하였습니다.",
+        });
+      }
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res.status(400).json({
+        success: false,
+        message: "컬렉션 담기/취소 기능에 실패하였습니다.",
+      });
+    }
+  };
+
   // 검색어와 내용, 제목 일부 일치하는 컬렉션 찾기 ↔
   getCollectionsBySearch = async (req, res) => {
     try {
