@@ -24,7 +24,7 @@ class UsersRepository {
     const { myKeepingCollections } = await User.findOne({ _id: user_id });
     myKeepingCollections.push(collection_id);
 
-    const updateDatail = await User.updateOne({ _id: user_id }, { myKeepingCollections });
+    const updateDatail = await User.updateOne({ _id: user_id }, { myKeepingCollections: myKeepingCollections });
     return updateDatail;
   };
 
