@@ -180,9 +180,16 @@ class CollectionRepository {
   // _id에 해당하는 컬렉션 수정. return 수정된 컬렉션 정보
   editCollection = async (user_id, category_id, collectionTitle, description, videos, _id) => {
     console.log("_id, videos", _id, videos);
+
+    let ytVideos = [];
+    for (let i = 0; i < videos.length; i++) {
+      const { videoId } = await this.videoRepository.getVideoById(videos[i]);
+      ytVideos.push(videoId);
+    }
+
     const editCollection = await Collection.updateOne(
       { _id: _id },
-      { $set: { user_id, category_id, collectionTitle, description, videos } }
+      { $set: { user_id, category_id, collectionTitle, description, videos, ytVideos } }
     );
     return editCollection;
   };
