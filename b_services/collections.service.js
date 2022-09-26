@@ -88,7 +88,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < userDataAll.length; i++) {
+      for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
 
