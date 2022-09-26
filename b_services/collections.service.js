@@ -352,8 +352,8 @@ class CollectionsService {
         video_ids // ["",""]
       );
 
-      // const collection_id = returnCollection._id.toString();
-      // const updatedUser = await this.userRepository.createMyCollection(user_id, collection_id);
+      const collection_id = returnCollection._id.toString();
+      await this.userRepository.createMyCollection(user_id, collection_id);
 
       res.status(201).json({
         success: true,
