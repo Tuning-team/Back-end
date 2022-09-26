@@ -1,1 +1,0 @@
-ALTER TABLE Users ALTER likedPosts SET DEFAULT (JSON_ARRAY());
