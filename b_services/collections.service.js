@@ -36,7 +36,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < userDataAll.length; i++) {
+      for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -88,7 +88,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < userDataAll.length; i++) {
+      for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -140,7 +140,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < userDataAll.length; i++) {
+      for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -189,7 +189,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < categoryDataAll.length; i++) {
+      for (let i in categoryDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -223,13 +223,13 @@ class CollectionsService {
     try {
       const { category_ids } = req.body;
       const resultData = [];
-      for (let i = 0; i < category_ids.length; i++) {
+      for (let i in category_ids) {
         const categoryData = await this.collectionRepository.getAllCollectionsByCategoryId(category_ids[i]);
         const { categoryName } = await this.categoryRepository.getCategoryInfo(category_ids[i]);
 
         console.log(categoryName);
         let data = [];
-        for (let j = 0; j < categoryData.length; j++) {
+        for (let j in categoryData) {
           let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryData[j]._id);
           let commentNum = collectionComments.length;
 
@@ -323,8 +323,8 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
 
       let {
         category_id, //
@@ -521,7 +521,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < resultBySearch.length; i++) {
+      for (let i in resultBySearch) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(resultBySearch[i]._id);
 
         let commentNum = collectionComments.length;
