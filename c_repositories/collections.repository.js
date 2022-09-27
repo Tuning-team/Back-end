@@ -87,6 +87,7 @@ class CollectionRepository {
 
   // category_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollectionsByCategoryId = async (category_id) => {
+    console.log("collectionRep:category_id", category_id);
     const collections = await Collection.find({ category_id }).sort({
       createdAt: -1,
     });
