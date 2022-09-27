@@ -1,6 +1,8 @@
 require("dotenv").config(); // 환경변수 적용
 const createError = require("http-errors");
 const logger = require("morgan");
+const fs = require("fs");
+const path = require("path");
 
 const express = require("express");
 const cors = require("cors");
@@ -29,7 +31,15 @@ console.log("Passport & GoogleStrategy _ 설정 완료!");
 // express 객체인 app은, CORS와 세션을 사용
 const app = express();
 
-app.use(logger("dev")); // 로그 보여주는 방식에 관한
+logger.format(
+  "myFormat",
+  ':remote-addr - [:date[iso]] ":method :url" :status :response-time ms :res[content-length] ":referrer" ":user-agent"'
+);
+
+const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs", "access.log"), { flags: "a" });
+app.use(logger("myFormat", { stream: accessLogStream }));
+
+// app.use(logger("dev")); // 로그 보여주는 방식에 관한
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
@@ -64,7 +74,6 @@ const routes = require("./a_routes/index.js");
 app.use("/api", routes);
 
 // view engine setup
-const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
