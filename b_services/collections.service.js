@@ -249,7 +249,7 @@ class CollectionsService {
         }
 
         resultData.push({
-          [`res${i + 1}`]: {
+          [`res${Number(i) + 1}`]: {
             categoryInfo: {
               category_id: category_ids[i],
               category_name: categoryName,
