@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.05% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.05% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -114,11 +114,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -127,30 +144,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,12 +159,12 @@
 &nbsp;
 class CommentRepository {
   // 모든 댓글 조회 (기본값 날짜 내림차순)
-  getAllCommentsOnCollectionId = <span class="fstat-no" title="function not covered" >as</span>ync (collection_id) =&gt; {
-    const comments = <span class="cstat-no" title="statement not covered" >await Comment.find({ collection_id }).sort({</span>
+  getAllCommentsOnCollectionId = async (collection_id) =&gt; {
+    const comments = await Comment.find({ collection_id }).sort({
       createdAt: -1,
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return comments;</span>
+    return comments;
   };
 &nbsp;
   // collection_id에 해당하는 컬렉션에 댓글 작성
@@ -175,28 +175,28 @@ class CommentRepository {
       comment,
       // createdAt: new Date(),
     });
-<span class="cstat-no" title="statement not covered" >    return createComment;</span>
+    return createComment;
   };
 &nbsp;
   // _id에 해당하는 댓글을 불러옴
-  getCommentDetail = <span class="fstat-no" title="function not covered" >as</span>ync (comment_id) =&gt; {
-    const thisComment = <span class="cstat-no" title="statement not covered" >await Comment.findOne({ _id: comment_id });</span>
-<span class="cstat-no" title="statement not covered" >    return thisComment;</span>
+  getCommentDetail = async (comment_id) =&gt; {
+    const thisComment = await Comment.findOne({ _id: comment_id });
+    return thisComment;
   };
 &nbsp;
   // _id에 해당하는 댓글 수정
-  updateComment = <span class="fstat-no" title="function not covered" >as</span>ync (_id, comment) =&gt; {
-    const updateComment = <span class="cstat-no" title="statement not covered" >await Comment.updateOne(</span>
+  updateComment = async (_id, comment) =&gt; {
+    const updateComment = await Comment.updateOne(
       { _id },
       { $set: { comment } }
     );
-<span class="cstat-no" title="statement not covered" >    return updateComment;</span>
+    return updateComment;
   };
 &nbsp;
   // _id에 해당하는 댓글 삭제
-  deleteComment = <span class="fstat-no" title="function not covered" >as</span>ync (_id) =&gt; {
-    const deleteComment = <span class="cstat-no" title="statement not covered" >await Comment.deleteOne({ _id });</span>
-<span class="cstat-no" title="statement not covered" >    return deleteComment;</span>
+  deleteComment = async (_id) =&gt; {
+    const deleteComment = await Comment.deleteOne({ _id });
+    return deleteComment;
   };
 }
 &nbsp;
@@ -208,7 +208,7 @@ module.exports = CommentRepository;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-27T04:50:20.264Z
+                at 2022-09-27T06:15:29.286Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

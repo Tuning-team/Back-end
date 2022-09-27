@@ -263,7 +263,6 @@ class CollectionRepository {
       $or: [{ collectionTitle: new RegExp(keyword, "i") }, { description: new RegExp(keyword, "i") }],
     });
 
-    console.log(searchCollections);
     return searchCollections;
   };
 

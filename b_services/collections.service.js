@@ -224,11 +224,9 @@ class CollectionsService {
       const { category_ids } = req.body;
       const resultData = [];
       for (let i in category_ids) {
-        console.log(category_ids, i);
         const categoryData = await this.collectionRepository.getAllCollectionsByCategoryId(category_ids[i]);
         const { categoryName } = await this.categoryRepository.getCategoryInfo(category_ids[i]);
 
-        console.log(categoryName);
         let data = [];
         for (let j in categoryData) {
           let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryData[j]._id);
