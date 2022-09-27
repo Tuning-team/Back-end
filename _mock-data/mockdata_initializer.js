@@ -56,7 +56,7 @@ class DatabaseInitializer {
         collectionTitle = `${newVideosSources[i].keyword} 영상 모음`;
         description = `${newVideosSources[i].keyword} 영상을 모아봤어요. ${newVideosSources[i].addDescription}`;
 
-        let videosList = await axios.get(encodeURI(`http://3.34.136.55:8080/api/search?q=${newVideosSources[i].keyword}`));
+        let videosList = await axios.get(encodeURI(`https://api.tube-tuning.com/youtubesearch?q=${newVideosSources[i].keyword}`));
 
         videos = videosList.data.results
           .map((e) => {
