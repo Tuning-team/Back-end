@@ -3,6 +3,7 @@ const UserRepository = require("../c_repositories/users.repository");
 const CommentRepository = require("../c_repositories/comments.repository");
 const VideoRepository = require("../c_repositories/videos.repository");
 const CategoryRepository = require("../c_repositories/categories.repository");
+const CodeModule = require("./codeModule");
 
 const { collection } = require("../d_schemas/user");
 const axios = require("axios");
@@ -29,14 +30,14 @@ class CollectionsService {
       );
 
       if (!userDataAll) {
-        res.status(400).json({ success: false, message: "만들어진 컬렉션이 없습니다." });
+        res.status(400).json({ success: false, message: "조회된 컬렉션이 없습니다." });
 
         return;
       }
 
       const resultData = [];
 
-      for (let i = 0; i < userDataAll.length; i++) {
+      for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -71,7 +72,6 @@ class CollectionsService {
     try {
       // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
-
       const { offset, limit } = req.query;
 
       const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsUserLikesWithPaging(
@@ -88,7 +88,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < userDataAll.length; i++) {
+      for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -140,7 +140,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < userDataAll.length; i++) {
+      for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -181,7 +181,7 @@ class CollectionsService {
       );
 
       if (!categoryDataAll) {
-        res.status(400).json({ success: false, message: "만들어진 컬렉션이 없습니다." });
+        res.status(400).json({ success: false, message: "조회된 컬렉션이 없습니다." });
       }
 
       const categories = await this.categoryRepository.getAllCategories(category_id);
@@ -189,7 +189,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < categoryDataAll.length; i++) {
+      for (let i in categoryDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryDataAll[i]._id);
         let commentNum = collectionComments.length;
 
@@ -223,13 +223,13 @@ class CollectionsService {
     try {
       const { category_ids } = req.body;
       const resultData = [];
-      for (let i = 0; i < category_ids.length; i++) {
+      for (let i in category_ids) {
         const categoryData = await this.collectionRepository.getAllCollectionsByCategoryId(category_ids[i]);
         const { categoryName } = await this.categoryRepository.getCategoryInfo(category_ids[i]);
 
         console.log(categoryName);
         let data = [];
-        for (let j = 0; j < categoryData.length; j++) {
+        for (let j in categoryData) {
           let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryData[j]._id);
           let commentNum = collectionComments.length;
 
@@ -242,7 +242,7 @@ class CollectionsService {
             thumbnails: categoryData[j].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
             commentNum: commentNum,
             likes: categoryData[j].likes,
-            keptBy: categoryData[i].keptBy,
+            keptBy: categoryData[j].keptBy,
             createdAt: categoryData[j].createdAt,
           });
         }
@@ -276,7 +276,7 @@ class CollectionsService {
       let collection = await this.collectionRepository.getCollectionById(collection_id);
 
       if (!collection) {
-        res.status(400).json({ success: false, message: "컬렉션을 찾을 수 없습니다." });
+        res.status(400).json({ success: false, message: "조회된 컬렉션이 없습니다." });
       }
 
       let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(collection_id);
@@ -323,8 +323,8 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
 
       let {
         category_id, //
@@ -353,7 +353,7 @@ class CollectionsService {
       );
 
       const collection_id = returnCollection._id.toString();
-      const updatedUser = await this.userRepository.createMyCollection(user_id, collection_id);
+      await this.userRepository.createMyCollection(user_id, collection_id);
 
       res.status(201).json({
         success: true,
@@ -409,8 +409,8 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -521,7 +521,7 @@ class CollectionsService {
 
       const resultData = [];
 
-      for (let i = 0; i < resultBySearch.length; i++) {
+      for (let i in resultBySearch) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(resultBySearch[i]._id);
 
         let commentNum = collectionComments.length;
@@ -569,6 +569,7 @@ class CollectionsService {
   addVideoOnCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
+
       const { collection_id } = req.params;
       const { videos } = req.body; //
 

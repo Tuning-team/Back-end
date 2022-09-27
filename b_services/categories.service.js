@@ -10,8 +10,6 @@ class CategoryService {
     try {
       const resCategories = await this.categoryRepository.getAllCategoriesVisible();
 
-      console.log("카테고리 정보 조회!!!");
-
       res.status(200).json({ success: true, data: resCategories });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
