@@ -33,13 +33,13 @@ const app = express();
 
 logger.format(
   "myFormat",
-  ':remote-addr - [:date[iso]] ":method :url" :status :response-time ms :res[content-length] ":referrer" ":user-agent"'
+  ':remote-addr :remote-user - [:date[iso]] ":method :url" :status :response-time ms :res[content-length] ":referrer" ":user-agent"'
 );
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs", "access.log"), { flags: "a" });
 app.use(logger("myFormat", { stream: accessLogStream }));
+app.use(logger("dev"));
 
-// app.use(logger("dev")); // 로그 보여주는 방식에 관한
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
