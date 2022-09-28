@@ -53,6 +53,7 @@ class CollectionsService {
           commentNum: commentNum,
           likes: userDataAll[i].likes,
           keptBy: userDataAll[i].keptBy,
+          isVisible: userDataAll[i].isVisible,
           createdAt: userDataAll[i].createdAt,
         });
       }
@@ -337,9 +338,10 @@ class CollectionsService {
         collectionTitle,
         description,
         videos, // videoId (유튜브)
+        isVisible,
       } = req.body;
 
-      if (!category_id || !collectionTitle || !description || !videos) {
+      if (!category_id || !collectionTitle || !description || !videos || !isVisible) {
         res.status(400).json({ message: "누락된 항목이 있습니다." });
         return;
       }
@@ -355,7 +357,8 @@ class CollectionsService {
         category_id,
         collectionTitle,
         description,
-        video_ids // ["",""]
+        video_ids, // ["",""]
+        isVisible
       );
 
       const collection_id = returnCollection._id.toString();
@@ -378,7 +381,7 @@ class CollectionsService {
       const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-      let { category_id, collectionTitle, description, videos } = req.body;
+      let { category_id, collectionTitle, description, videos, isVisible } = req.body;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
 
@@ -400,7 +403,8 @@ class CollectionsService {
         collectionTitle,
         description,
         video_ids,
-        collection_id
+        collection_id,
+        isVisible
       );
 
       res.status(200).json({

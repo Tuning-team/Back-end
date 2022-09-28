@@ -212,5 +212,5 @@ GET https://www.googleapis.com/oauth2/v2/userinfo
 Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2wwbOf6w7oUstMxDt5kDRX19nRDPc0Uus0Ybs6PbJIUbymnq74HgOKKalAvUYO7YtjcuDfFo2XxdaKxfsAi1VA_X7L-QyXfWnz5dULcaI7YaCgYKATASARMSFQE65dr8XCcfN26UcSMirEyHBM_1PA0163
 
 
-### 6. 특정 id 컬렉션 비공개 설정 누르기 (이미 비공개이면 공개로 변경)
+### 특정 id 컬렉션 비공개 설정 누르기 (이미 비공개이면 공개로 변경)
 PUT	{{host}}/api/collections/visible/63326349993a78c1c2ca27dd
