@@ -316,6 +316,7 @@ class CollectionsService {
           commentNum: commentNum,
           likes: collection.likes,
           keptBy: collection.keptBy,
+          isVisible: collection.isVisible,
           createdAt: collection.createdAt,
         },
       ];
