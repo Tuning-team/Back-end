@@ -70,7 +70,8 @@ Content-Type: application/json
   "rRhowWJ6r_4",
   "8z_HtjtIdio",
   "lmmA-go5244",
-  "wunMxN8LTV8"]
+  "wunMxN8LTV8"],
+    "isVisible": "true"
 }
 
 
@@ -213,4 +214,9 @@ Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2w
 
 
 ### 특정 id 컬렉션 비공개 설정 누르기 (이미 비공개이면 공개로 변경)
-PUT	{{host}}/api/collections/visible/63326349993a78c1c2ca27dd
+PUT	{{host}}/api/collections/visible/63340c199de7258b72ad0538
+Content-Type: application/json
+
+{
+   "isVisible" : "true"
+}

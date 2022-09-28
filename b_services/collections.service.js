@@ -331,8 +331,8 @@ class CollectionsService {
   // 컬렉션 생성
   createCollection = async (req, res) => {
     try {
-      // const user_id = res.locals.user_id;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
 
       let {
         category_id, //
@@ -382,7 +382,7 @@ class CollectionsService {
       const user_id = res.locals.user_id;
       // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-      let { category_id, collectionTitle, description, videos, isVisible } = req.body;
+      let { category_id, collectionTitle, description, videos } = req.body;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
 
@@ -404,8 +404,7 @@ class CollectionsService {
         collectionTitle,
         description,
         video_ids,
-        collection_id,
-        isVisible
+        collection_id
       );
 
       res.status(200).json({
@@ -422,8 +421,8 @@ class CollectionsService {
   // 컬렉션 삭제
   deleteCollection = async (req, res) => {
     try {
-      // const user_id = res.locals.user_id;
-      const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -446,9 +445,10 @@ class CollectionsService {
   // 컬렉션 공개/비공개 설정
   visibleCollection = async (req, res) => {
     try {
+      const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-      // const user_id = res.locals.user_id;
-      const user_id = process.env.TEMP_USER_ID;
+      const { isVisible } = req.body;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
 
@@ -456,7 +456,7 @@ class CollectionsService {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
       } else if (user_id !== thisCollection.user_id) {
         res.status(400).json({ success: false, message: "권한이 없습니다." });
-      } else if (isVisible === true) {
+      } else if (isVisible === "true") {
         await this.collectionRepository.unvisibleCollection(collection_id);
         res.status(200).json({ success: true, data: "unvisible", message: "컬렉션을 비공개합니다." });
       } else {
