@@ -7,14 +7,14 @@ const commentService = new CommentService();
 const Auth = require("./middleware/auth");
 const { authMiddleware } = new Auth();
 // const authMiddleware = (req, res, next) => {
-//   res.locals.user_id = process.env.TEMP_USER_ID;
-//   next();
+// res.locals.user_id = process.env.TEMP_USER_ID;
+// next();
 // }; // dev-test용 authMiddleware
 
-router.post("/:collection_id", authMiddleware, commentService.leaveCommentOn); //댓글 작성
-router.get("/:collection_id", commentService.getCommentOn); //댓글 목록 조회
-router.put("/:comment_id", authMiddleware, commentService.updateComment); //댓글 수정
-router.delete("/:comment_id", authMiddleware, commentService.deleteComment); //댓글 삭제
-router.put("/like/:comment_id", authMiddleware, commentService.likeCommentOn); //댓글 좋아요
+router.post("/:collection_id", commentService.leaveCommentOn);
+router.get("/:collection_id", commentService.getCommentOn);
+router.put("/:comment_id", authMiddleware, commentService.updateComment);
+router.delete("/:comment_id", authMiddleware, commentService.deleteComment);
+router.put("/like/:comment_id", commentService.likeCommentOn);
 
 module.exports = router;

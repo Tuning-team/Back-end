@@ -103,9 +103,12 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/6332632d993a78c1c2ca24b9
 
-## authMiddleware,
+PUT	{{host}}/api/collections/like/63291a3fdcc97f368cc4fe92
+
+PUT	{{host}}/api/collections/like/6329191a69d8145d2cb4988a"
+Content-Type: application/json
+
 
 ### 6-1. 특정 id 댓글에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:comment_id
 PUT	{{host}}/api/comments/like/633267bca096ccc32f9af689

@@ -36,7 +36,6 @@ class VideoRepository {
       const axiosResult = await axios.get(
         `https://www.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_KEY}&part=snippet&regionCode=kr&id=${videos}`
       );
-
       const array = axiosResult.data.items.map((e) => {
         return {
           videoId: e.id,
@@ -48,7 +47,6 @@ class VideoRepository {
           description: e.snippet.description ? e.snippet.description : "-",
         };
       });
-
       let returnArr = await Promise.all(
         array.map(async (e) => {
           const foundVideo = await Video.findOne({ videoId: e.videoId });
@@ -61,14 +59,13 @@ class VideoRepository {
         })
       );
 
-      console.log("returnArr", returnArr);
       return returnArr;
     } catch (err) {
       console.log(err);
     }
   };
 
-  //수정
+  // 수정
   // updateVideo = async (
   //   video_id,
   //   videoTitle,
@@ -88,7 +85,6 @@ class VideoRepository {
   //삭제
   deleteVideo = async (_id) => {
     const deletedVideo = await Video.deleteOne({ _id: _id });
-
     return deletedVideo;
   };
 }
