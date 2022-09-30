@@ -11,7 +11,6 @@ const { authMiddleware } = new Auth();
 // next();
 // }; // dev-test용 authMiddleware
 
-
 router.post("/:collection_id", commentService.leaveCommentOn);
 router.get("/:collection_id", commentService.getCommentOn);
 router.put("/:comment_id", authMiddleware, commentService.updateComment);

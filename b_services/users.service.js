@@ -11,7 +11,6 @@ class UserService {
   getLoggedInUser = async (req, res) => {
     const user_id = res.locals.user_id;
     const user = await this.usersRepository.getUserById(user_id);
-
     res.status(200).json({ success: true, user });
   };
 
@@ -27,21 +26,10 @@ class UserService {
       // 재료
       let { category_id } = req.params;
       let category_ids = category_id.split(",").map((e) => e.trim()); // 배열
-
-      console.log("category_ids", category_ids);
-
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
-
-      // let { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
-      // myInterestingCategories = Array.from(new Set([...category_ids]));
 
       await this.usersRepository.setInterestCategories(user_id, category_ids);
-
       let categories = await this.categoryRepository.getAllCategories(category_ids);
-
-      // category_ids = categories.map((e) => e._id);
-      // const category_names = categories.map((e) => e.categoryName);
 
       res.status(200).json({
         success: true,
@@ -64,16 +52,10 @@ class UserService {
   getInterestCategories = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
-
-      // user_id
       const { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
 
       console.log("myInterestingCategories", myInterestingCategories);
       let categories = await this.categoryRepository.getAllCategories(myInterestingCategories);
-
-      // const category_ids = categories.map((e) => e._id);
-      // const category_names = categories.map((e) => e.categoryName);
 
       res.status(200).json({
         success: true,
@@ -96,16 +78,12 @@ class UserService {
   removeInterestCategories = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
       const { category_id } = req.params;
 
-      // user_id를
       const { myInterestingCategories } = await this.usersRepository.getUserById(user_id);
-      // [cid,]
       const filteredArr = myInterestingCategories.filter((e) => e !== category_id);
 
       const updatedUser = await this.usersRepository.updateUserInterest(user_id, filteredArr);
-      console.log("updatedUser", updatedUser);
 
       res.status(200).json({
         success: true,
@@ -124,8 +102,6 @@ class UserService {
   followUnfollow = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
-
       const user = await this.usersRepository.getUserById(user_id);
 
       if (user_id === req.params.user_id) {
@@ -139,7 +115,6 @@ class UserService {
       if (!user.followings.includes(req.params.user_id)) {
         //팔로우
         await this.usersRepository.followUser(user_id, req.params.user_id);
-
         res.status(200).json({
           success: true,
           message: `${user_id}가 ${req.params.user_id}를 팔로우합니다.`,
@@ -147,7 +122,6 @@ class UserService {
       } else {
         //언팔로우
         await this.usersRepository.unfollowUser(user_id, req.params.user_id);
-
         res.status(200).json({
           success: true,
           message: `${user_id}가 ${req.params.user_id}팔로우를 취소했습니다.`,
@@ -177,7 +151,6 @@ class UserService {
   keepCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -189,7 +162,7 @@ class UserService {
       }
 
       if (!myKeepingCollections.includes(collection_id)) {
-        const updatedArr = [...thisCollection.keptBy, user_id]; // Arr
+        const updatedArr = [...thisCollection.keptBy, user_id];
         await this.collectionRepository.keepCollection(collection_id, updatedArr);
 
         myKeepingCollections.push(collection_id);
@@ -222,7 +195,6 @@ class UserService {
   notKeepCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -258,8 +230,6 @@ class UserService {
   getCollectionsByKeepingArray = async (req, res) => {
     try {
       let user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
-
       let { myKeepingCollections } = await this.usersRepository.getUserById(user_id);
 
       let data = [];

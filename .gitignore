@@ -1,9 +1,13 @@
 /node_modules
 /ssl
 /public
+/_mock-data
+/coverage
+
 test.js
 .npm
 package-lock.json
+
 
 # ide
 .vscode/
