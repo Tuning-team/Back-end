@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 
@@ -5,24 +6,29 @@ const CollectionsService = require("../b_services/collections.service");
 const collectionsService = new CollectionsService();
 
 const Auth = require("./middleware/auth");
-const { authMiddleware } = new Auth();
 
-router.post("/", authMiddleware, collectionsService.createCollection); // 컬렉션 생성
-router.get("/search", collectionsService.getCollectionsBySearch); // 검색어에 맞는 컬렉션 리스트
-router.get("/", collectionsService.getAllCollectionsByCategoryId); // 카테고리에 포함된 컬렉션 목록 조회
-router.get("/mykeeps", authMiddleware, collectionsService.getAllCollectionsUserKeeps); // 내가 담은 컬렉션 목록 조회
-router.get("/mylikes", authMiddleware, collectionsService.getAllCollectionsUserLikes); // 내가 좋아한 컬렉션 목록 조회
-router.get("/mine", authMiddleware, collectionsService.getAllCollectionsByUserId); // 내가 만든 컬렉션 목록 조회
-router.post("/recommendation", collectionsService.getAllCollectionsByCategories); // 추천 카테고리 한번에
-router.put("/today", collectionsService.giveTodaysPopularCategories); // 컬렉션 좋아요 내림차순 10개까지 조회
-router.get("/:collection_id", collectionsService.getCollection); // 컬렉션 상세 조회
-router.put("/:collection_id", authMiddleware, collectionsService.editCollection); // 컬렉션 수정
-router.delete("/:collection_id", authMiddleware, collectionsService.deleteCollection); // 컬렉션 삭제
-router.put("/visible/:collection_id", authMiddleware, collectionsService.visibleCollection); // 컬렉션 공개 또는 비공개
-router.put("/like/:collection_id", authMiddleware, collectionsService.likeCollection); // 컬렉션 좋아요 또는 좋아요 취소
-router.put("/keep/:collection_id", authMiddleware, collectionsService.keepCollection); // 컬렉션 담기 또는 담기 취소
-router.put("/:collection_id", authMiddleware, collectionsService.addVideoOnCollection); // 컬렉션에 영상 추가,
-router.get("/whokeep/:collection_id", collectionsService.whoKeepCollection); // 컬렉션 담은 이용자 조회
-router.delete("/remove/:collection_id", authMiddleware, collectionsService.removeVideoFromCollection); // 컬렉션에서 영상 삭제
+// const { authMiddleware } = new Auth();
+const authMiddleware = (req, res, next) => {
+  res.locals.user_id = process.env.TEMP_USER_ID;
+  next();
+}; // dev-test용 authMiddleware
+
+router.post("/", authMiddleware, collectionsService.createCollection);
+router.get("/search", collectionsService.getCollectionsBySearch);
+router.get("/", collectionsService.getAllCollectionsByCategoryId);
+router.get("/mykeeps", authMiddleware, collectionsService.getAllCollectionsUserKeeps);
+router.get("/mylikes", authMiddleware, collectionsService.getAllCollectionsUserLikes);
+router.get("/mine", authMiddleware, collectionsService.getAllCollectionsByUserId);
+router.post("/recommendation", collectionsService.getAllCollectionsByCategories);
+router.put("/today", collectionsService.giveTodaysPopularCategories);
+router.get("/:collection_id", collectionsService.getCollection);
+router.put("/:collection_id", authMiddleware, collectionsService.editCollection);
+router.delete("/:collection_id", authMiddleware, collectionsService.deleteCollection);
+router.put("/visible/:collection_id", authMiddleware, collectionsService.visibleCollection);
+router.put("/like/:collection_id", authMiddleware, collectionsService.likeCollection);
+router.put("/keep/:collection_id", authMiddleware, collectionsService.keepCollection);
+router.put("/:collection_id", authMiddleware, collectionsService.addVideoOnCollection);
+router.get("/whokeep/:collection_id", collectionsService.whoKeepCollection);
+router.delete("/remove/:collection_id", authMiddleware, collectionsService.removeVideoFromCollection);
 
 module.exports = router;

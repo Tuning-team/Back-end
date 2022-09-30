@@ -111,7 +111,6 @@ PUT	{{host}}/api/collections/like/6332632d993a78c1c2ca24b9
 PUT	{{host}}/api/comments/like/633267bca096ccc32f9af689
 
 
-
 ### 6. 컬렉션 담기/담기 취소
 PUT {{host}}/api/collections/keep/6332632d993a78c1c2ca24b9
 

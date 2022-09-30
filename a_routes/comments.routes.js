@@ -6,6 +6,10 @@ const commentService = new CommentService();
 
 const Auth = require("./middleware/auth");
 const { authMiddleware } = new Auth();
+// const authMiddleware = (req, res, next) => {
+//   res.locals.user_id = process.env.TEMP_USER_ID;
+//   next();
+// }; // dev-test용 authMiddleware
 
 router.post("/:collection_id", authMiddleware, commentService.leaveCommentOn); //댓글 작성
 router.get("/:collection_id", commentService.getCommentOn); //댓글 목록 조회

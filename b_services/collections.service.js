@@ -4,12 +4,7 @@ const CommentRepository = require("../c_repositories/comments.repository");
 const VideoRepository = require("../c_repositories/videos.repository");
 const CategoryRepository = require("../c_repositories/categories.repository");
 const KeywordsRepository = require("../c_repositories/keywords.repository");
-const CodeModule = require("./codeModule");
-const mailer = require("../mail/commentEmail");
-
-const { collection } = require("../d_schemas/user");
-const axios = require("axios");
-const { Collection } = require("mongoose");
+// const mailer = require("./modules/mailSender"); // 현재 이메일 서비스 보류
 
 class CollectionsService {
   categoryRepository = new CategoryRepository();
@@ -19,13 +14,11 @@ class CollectionsService {
   videoRepository = new VideoRepository();
   keywordsRepository = new KeywordsRepository();
 
-  // 내가 만든 컬렉션 목록 조회 with Pagenation ↔
+  // 내가 만든 컬렉션 목록 조회
   getAllCollectionsByUserId = async (req, res) => {
     try {
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
       const { offset, limit } = req.query;
-
       const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsByUserIdWithPaging(
         user_id,
         offset,
@@ -34,16 +27,13 @@ class CollectionsService {
 
       if (!userDataAll) {
         res.status(400).json({ success: false, message: "조회된 컬렉션이 없습니다." });
-
         return;
       }
 
       const resultData = [];
-
       for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
-
         resultData.push({
           _id: userDataAll[i]._id,
           user_id: userDataAll[i].user_id,
@@ -52,7 +42,7 @@ class CollectionsService {
           description: userDataAll[i].description,
           videos: userDataAll[i].videos,
           ytVideos: userDataAll[i].ytVideos,
-          thumbnails: userDataAll[i].ytVideos.map((e) => `https://i.ytimg.com/vi/${e}/mqdefault.jpg`),
+          thumbnails: userDataAll[i].ytVideos.map((videoId) => `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`),
           commentNum: commentNum,
           likes: userDataAll[i].likes,
           keptBy: userDataAll[i].keptBy,
@@ -72,13 +62,11 @@ class CollectionsService {
     }
   };
 
-  // 내가 좋아한 컬렉션 목록 조회 with Pagenation ↔
+  // 내가 좋아한 컬렉션 목록 조회
   getAllCollectionsUserLikes = async (req, res) => {
     try {
-      // const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      const user_id = res.locals.user_id;
       const { offset, limit } = req.query;
-
       const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsUserLikesWithPaging(
         user_id,
         offset,
@@ -87,16 +75,13 @@ class CollectionsService {
 
       if (!userDataAll) {
         res.status(400).json({ success: false, message: "조회된 컬렉션이 없습니다." });
-
         return;
       }
 
       const resultData = [];
-
       for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
-
         resultData.push({
           _id: userDataAll[i]._id,
           user_id: userDataAll[i].user_id,
@@ -124,14 +109,11 @@ class CollectionsService {
     }
   };
 
-  // 내가 담은 컬렉션 목록 조회 with Pagenation ↔
+  // 내가 담은 컬렉션 목록 조회
   getAllCollectionsUserKeeps = async (req, res) => {
     try {
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
-
       const { offset, limit } = req.query;
-
       const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsUserKeepsWithPaging(
         user_id,
         offset,
@@ -140,16 +122,13 @@ class CollectionsService {
 
       if (!userDataAll) {
         res.status(400).json({ success: false, message: "조회된 컬렉션이 없습니다." });
-
         return;
       }
 
       const resultData = [];
-
       for (let i in userDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(userDataAll[i]._id);
         let commentNum = collectionComments.length;
-
         resultData.push({
           _id: userDataAll[i]._id,
           user_id: userDataAll[i].user_id,
@@ -177,7 +156,7 @@ class CollectionsService {
     }
   };
 
-  // 카테고리에 포함된 컬렉션 목록 조회 ↔
+  // 카테고리에 포함된 컬렉션 목록 조회
   getAllCollectionsByCategoryId = async (req, res) => {
     try {
       const { category_id, offset, limit } = req.query;
@@ -193,13 +172,11 @@ class CollectionsService {
 
       const categories = await this.categoryRepository.getAllCategories(category_id);
       const category_title = categories[0].categoryName;
-
       const resultData = [];
 
       for (let i in categoryDataAll) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryDataAll[i]._id);
         let commentNum = collectionComments.length;
-
         resultData.push({
           _id: categoryDataAll[i]._id,
           category_id: categoryDataAll[i].category_id[0],
@@ -239,7 +216,6 @@ class CollectionsService {
         for (let j in categoryData) {
           let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryData[j]._id);
           let commentNum = collectionComments.length;
-
           data.push({
             _id: categoryData[j]._id,
             collectionTitle: categoryData[j].collectionTitle,
@@ -280,7 +256,6 @@ class CollectionsService {
   getCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-
       let collection = await this.collectionRepository.getCollectionById(collection_id);
 
       if (!collection) {
@@ -288,7 +263,6 @@ class CollectionsService {
       }
 
       let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(collection_id);
-
       let commentNum = collectionComments.length;
       let thumbnailsArr = await Promise.all(
         collection.videos.map(async (id) => {
@@ -297,13 +271,12 @@ class CollectionsService {
           if (!thumbnails) {
             return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU";
           } else {
-            return thumbnails; // ["http:~~~ img",""]
+            return thumbnails;
           }
         })
       );
 
       const writerInfo = await this.userRepository.getUserById(collection.user_id);
-
       const returnCollection = [
         {
           _id: collection._id,
@@ -334,15 +307,7 @@ class CollectionsService {
   createCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
-
-      let {
-        category_id, //
-        collectionTitle,
-        description,
-        videos, // videoId (유튜브)
-        isVisible,
-      } = req.body;
+      let { category_id, collectionTitle, description, videos, isVisible } = req.body;
 
       if (!category_id || !collectionTitle || !description || !videos || !isVisible) {
         res.status(400).json({ message: "누락된 항목이 있습니다." });
@@ -352,7 +317,6 @@ class CollectionsService {
       const createdVideos = await this.videoRepository.createVideosByIds(videos);
 
       category_id = [category_id];
-
       const video_ids = Array.from(new Set(createdVideos.map((e) => e._id.toString())));
 
       const returnCollection = await this.collectionRepository.createCollection(
@@ -360,7 +324,7 @@ class CollectionsService {
         category_id,
         collectionTitle,
         description,
-        video_ids, // ["",""]
+        video_ids,
         isVisible
       );
 
@@ -382,7 +346,6 @@ class CollectionsService {
   editCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
       let { category_id, collectionTitle, description, videos } = req.body;
 
@@ -397,7 +360,6 @@ class CollectionsService {
       const createdVideos = await this.videoRepository.createVideosByIds(videos);
 
       category_id = [category_id];
-
       const video_ids = Array.from(new Set(createdVideos.map((e) => e._id.toString())));
 
       const returnCollection = await this.collectionRepository.editCollection(
@@ -424,9 +386,7 @@ class CollectionsService {
   deleteCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
 
       if (!thisCollection) {
@@ -448,12 +408,8 @@ class CollectionsService {
   visibleCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
-
-      console.log(thisCollection.isVisible);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
@@ -479,14 +435,10 @@ class CollectionsService {
   likeCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
 
-      // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
-
       const { myLikingCollections } = await this.userRepository.getUserById(user_id);
-      const { email, displayName } = await this.userRepository.getUserById(thisCollection.user_id);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
@@ -494,12 +446,12 @@ class CollectionsService {
         await this.collectionRepository.likeCollection(collection_id);
         await this.userRepository.likeCollection(user_id, collection_id);
 
+        // const { email, displayName } = await this.userRepository.getUserById(thisCollection.user_id);
         // const emailParam = {
         //   toEmail: email,
         //   subject: "회원님의 튜닝을 좋아하는 회원이 있습니다.",
         //   text: `${displayName} 회원님! 안녕하세요. ${thisCollection.collectionTitle} 튜닝에 좋아요가 추가되었습니다.`,
         // };
-
         // mailer.sendGmail(emailParam);
 
         res.status(200).json({
@@ -529,14 +481,10 @@ class CollectionsService {
   keepCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
-
-      // DB에서 현재 컬렉션의 정보와 유저가 지금까지 담은 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
 
       const { myKeepingCollections, displayName: keeperName } = await this.userRepository.getUserById(user_id);
-      const { email, displayName } = await this.userRepository.getUserById(thisCollection.user_id);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
@@ -544,12 +492,12 @@ class CollectionsService {
         await this.collectionRepository.keepCollection(collection_id, user_id);
         await this.userRepository.keepCollection(user_id, collection_id);
 
+        // const { email, displayName } = await this.userRepository.getUserById(thisCollection.user_id);
         // const emailParam = {
         //   toEmail: email,
         //   subject: "회원님의 튜닝을 담아간 회원이 있습니다.",
         //   text: `${displayName} 회원님! 안녕하세요. ${thisCollection.collectionTitle} 튜닝이 ${keeperName} 님에게 공유되었습니다. `,
         // };
-
         // mailer.sendGmail(emailParam);
 
         res.status(200).json({
@@ -575,36 +523,34 @@ class CollectionsService {
     }
   };
 
-  // 검색어와 내용, 제목 일부 일치하는 컬렉션 찾기 ↔
+  // 검색어와 내용, 제목 일부 일치하는 컬렉션 찾기
   getCollectionsBySearch = async (req, res) => {
     try {
       const { keyword, offset, limit } = req.query;
-
       const { resultBySearch, totalContents, hasNext } = await this.collectionRepository.getCollectionsBySearchWithPaging(
         keyword,
         offset,
         limit
       );
 
+      // 인기검색어 count
       if (offset === "0") {
-        // freq ++
         const count = await this.keywordsRepository.countKeyword(keyword, "collection");
         console.log(`${keyword} 개수가 ${count}가 되었습니다.`);
       }
 
       const resultData = [];
-
       for (let i in resultBySearch) {
         let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(resultBySearch[i]._id);
-
         let commentNum = collectionComments.length;
+
         let thumbnailsArr = await Promise.all(
           resultBySearch[i].videos.map(async (e) => {
             var { thumbnails } = await this.videoRepository.getVideoById(e);
             if (!thumbnails) {
               return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR3Mt8OJE2l6pY08_5MDa6bn9G1g0mTcbcCA&usqp=CAU";
             } else {
-              return thumbnails; // "http:~~~ img"
+              return thumbnails;
             }
           })
         );
@@ -643,7 +589,6 @@ class CollectionsService {
   addVideoOnCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-
       const { collection_id } = req.params;
       const { videos } = req.body; //
 
@@ -678,8 +623,6 @@ class CollectionsService {
   removeVideoFromCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
-
       const { collection_id } = req.params;
       const { video_id } = req.query; //
 
@@ -734,15 +677,11 @@ class CollectionsService {
     }
   };
 
-  // 컬렉션 좋아요 내림차순 10개까지 조회 ("인기 있는" 카테고리)
+  // "인기 있는" 카테고리 10개 부여 (6319aeebd1e330e86bbade9f)
   getLikeTop10 = async () => {
     try {
-      // 기존에 6319aeebd1e330e86bbade9f 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
-      await this.collectionRepository.getLidOfCategory("6319aeebd1e330e86bbade9f");
-
-      // 새로 "인기있는" 컬렉션들을 추려서, 6319aeebd1e330e86bbade9f 카테고리를 부여 (push)
-
-      const newPopularCollections = await this.collectionRepository.giveCategoryIdOnLikeTop10();
+      await this.collectionRepository.getLidOfCategory("6319aeebd1e330e86bbade9f"); // 초기화
+      const newPopularCollections = await this.collectionRepository.giveCategoryIdOnLikeTop10(); //신규
 
       return {
         success: true,
@@ -755,15 +694,11 @@ class CollectionsService {
     }
   };
 
-  // 가장 최근에 만들어진 컬렉션 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a964)
+  // "최근" 카테고리 10개에 부여 (631e7d7a4ae4c133c405a964)
   getLatestTop10 = async () => {
     try {
-      // 기존에 631e7d7a4ae4c133c405a964 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
-      await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a964");
-
-      // 새로 "최신" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a964 카테고리를 부여 (push)
-
-      const newLatestCollections = await this.collectionRepository.giveCategoryIdOnLatestTop10();
+      await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a964"); //초기화
+      const newLatestCollections = await this.collectionRepository.giveCategoryIdOnLatestTop10(); //신규
 
       return {
         success: true,
@@ -776,15 +711,11 @@ class CollectionsService {
     }
   };
 
-  // "시간대별 추천" 컬렉션들 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a966)
+  // "시간대 추천" 카테고리 10개 부여 (631e7d7a4ae4c133c405a966)
   getTimeRecommend10 = async () => {
     try {
-      // 기존에 631e7d7a4ae4c133c405a966 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
-      await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a966");
-
-      // 새로 "시간대별 추천" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a966 카테고리를 부여 (push)
-
-      const recommendCollections = await this.collectionRepository.giveCategoryIdOnTimeRecommendation();
+      await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a966"); //초기화
+      const recommendCollections = await this.collectionRepository.giveCategoryIdOnTimeRecommendation(); //신규
 
       return {
         success: true,
@@ -797,104 +728,56 @@ class CollectionsService {
     }
   };
 
-  // "날씨별 추천" 컬렉션들 10개에 카테고리 아이디 부여 (631e7d7a4ae4c133c405a965)
-  getWeatherRecommend10 = async () => {
-    const weatherApi = await axios.get("https://goweather.herokuapp.com/weather/seoul");
-    const string = weatherApi.data.description;
-    const weather = string.split(" ")[string.split(" ").length - 1];
-    console.log("string", string, "weather", weather);
-
-    try {
-      // 기존에 631e7d7a4ae4c133c405a965 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
-      await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a965");
-
-      // 새로 "날씨별 추천" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a965 카테고리를 부여 (push)
-
-      const recommendCollections = await this.collectionRepository.giveCategoryIdOnWeatherRecommendation(weather);
-
-      let collectionName = "";
-      if (weather.toLowerCase() === "rain") {
-        collectionName = "오늘처럼 비오는 날 보기 좋은";
-      } else if (weather.toLowerCase() === "cloudy") {
-        collectionName = "오늘처럼 흐린 날 보기 좋은";
-      } else if (weather.toLowerCase() === "sunny") {
-        collectionName = "오늘처럼 맑은 날 보기 좋은";
-      } else {
-        collectionName = "오늘같은 날 보기 좋은";
-      }
-
-      await this.categoryRepository.updateCategory("631e7d7a4ae4c133c405a965", collectionName);
-
-      return {
-        success: true,
-        message: `${recommendCollections.length}개의 컬렉션이 ${weather} 날씨에 추천할 카테고리가 되었습니다.`,
-        data: recommendCollections,
-      };
-    } catch (error) {
-      console.log(error);
-      return { success: false, message: "컬렉션 조회에 실패하였습니다." };
-    }
-  };
-
-  // getWeatherRecommend10 = async () => {
-  //   const weatherApi = await axios.get("https://goweather.herokuapp.com/weather/seoul");
-  //   const string = weatherApi.data.description;
-  //   const weather = string.split(" ")[string.split(" ").length - 1];
-  //   console.log("string", string, "weather", weather);
-
-  //   try {
-  //     // 기존에 631e7d7a4ae4c133c405a965 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
-  //     await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a965");
-
-  //     // 새로 "날씨별 추천" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a965 카테고리를 부여 (push)
-
-  //     const recommendCollections = await this.collectionRepository.giveCategoryIdOnWeatherRecommendation(weather);
-
-  //     let collectionName = "";
-  //     if (weather.toLowerCase() === "rain") {
-  //       collectionName = "오늘처럼 비오는 날 보기 좋은";
-  //     } else if (weather.toLowerCase() === "cloudy") {
-  //       collectionName = "오늘처럼 흐린 날 보기 좋은";
-  //     } else if (weather.toLowerCase() === "sunny") {
-  //       collectionName = "오늘처럼 맑은 날 보기 좋은";
-  //     } else {
-  //       collectionName = "오늘같은 날 보기 좋은";
-  //     }
-
-  //     await this.categoryRepository.updateCategory("631e7d7a4ae4c133c405a965", collectionName);
-
-  //     return {
-  //       success: true,
-  //       message: `${recommendCollections.length}개의 컬렉션이 ${weather} 날씨에 추천할 카테고리가 되었습니다.`,
-  //       data: recommendCollections,
-  //     };
-  //   } catch (error) {
-  //     console.log(error);
-  //     return { success: false, message: "컬렉션 조회에 실패하였습니다." };
-  //   }
-  // };
-
   // 카테고리 아이디를 새로 부여하는 함수들을 API로 실행
   giveTodaysPopularCategories = async (req, res) => {
     const result_1 = await this.getLikeTop10();
     const result_2 = await this.getLatestTop10();
     const result_3 = await this.getTimeRecommend10();
-    // const result_4 = await this.getWeatherRecommend10();
     res.status(200).json({
       top10: result_1,
       latest10: result_2,
       timeRecommend: result_3,
-      // weatherRecommend: result_4,
     });
 
     setInterval(async () => {
       await this.getLikeTop10();
       await this.getLatestTop10();
       await this.getTimeRecommend10();
-      // await this.getWeatherRecommend10();
       console.log("메인화면 추천리스트 재설정 완료 ---- !");
     }, 1000 * 60 * 60); // 1h;
   };
 }
 
 module.exports = CollectionsService;
+
+// ---- 코드아카이브 ---
+// // "날씨별 추천" 카테고리 10개 부여 (631e7d7a4ae4c133c405a965)
+// getWeatherRecommend10 = async () => {
+//   const weatherApi = await axios.get("https://goweather.herokuapp.com/weather/seoul");
+//   const string = weatherApi.data.description;
+//   const weather = string.split(" ")[string.split(" ").length - 1];
+//   console.log("string", string, "weather", weather);
+//   try {
+//     await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a965");
+//     const recommendCollections = await this.collectionRepository.giveCategoryIdOnWeatherRecommendation(weather);
+//     let collectionName = "";
+//     if (weather.toLowerCase() === "rain") {
+//       collectionName = "오늘처럼 비오는 날 보기 좋은";
+//     } else if (weather.toLowerCase() === "cloudy") {
+//       collectionName = "오늘처럼 흐린 날 보기 좋은";
+//     } else if (weather.toLowerCase() === "sunny") {
+//       collectionName = "오늘처럼 맑은 날 보기 좋은";
+//     } else {
+//       collectionName = "오늘같은 날 보기 좋은";
+//     }
+//     await this.categoryRepository.updateCategory("631e7d7a4ae4c133c405a965", collectionName);
+//     return {
+//       success: true,
+//       message: `${recommendCollections.length}개의 컬렉션이 ${weather} 날씨에 추천할 카테고리가 되었습니다.`,
+//       data: recommendCollections,
+//     };
+//   } catch (error) {
+//     console.log(error);
+//     return { success: false, message: "컬렉션 조회에 실패하였습니다." };
+//   }
+// };
