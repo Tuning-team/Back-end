@@ -39,6 +39,11 @@ const Users = new mongoose.Schema({
     required: true,
     default: [],
   },
+  myLikingComments: {
+    type: Array,
+    required: true,
+    default: [],
+  },
   myInterestingCategories: {
     type: Array,
     required: true,
