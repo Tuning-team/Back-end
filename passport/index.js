@@ -13,7 +13,6 @@ module.exports = () => {
   // 저장된 데이터를 가지고, 필요한 정보를 조회한다.
   passport.deserializeUser((data, done) => {
     console.log("--- deserializeUser 내부");
-    // console.log("data.user.googleId", data.user.googleId);
     Users.findOne({ googleId: data.user.googleId })
       .then((user) => {
         done(null, user);

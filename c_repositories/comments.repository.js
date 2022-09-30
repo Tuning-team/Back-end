@@ -29,10 +29,7 @@ class CommentRepository {
 
   // _id에 해당하는 댓글 수정
   updateComment = async (_id, comment) => {
-    const updateComment = await Comment.updateOne(
-      { _id },
-      { $set: { comment } }
-    );
+    const updateComment = await Comment.updateOne({ _id }, { $set: { comment } });
     return updateComment;
   };
 
@@ -40,6 +37,20 @@ class CommentRepository {
   deleteComment = async (_id) => {
     const deleteComment = await Comment.deleteOne({ _id });
     return deleteComment;
+  };
+
+  //_id에 해당하는 댓글의 좋아요를 1개 올린다. return 좋아한 댓글의 현재 좋아요 수
+  likeComment = async (_id) => {
+    const likeComment = await Comment.findOneAndUpdate({ _id }, { $inc: { likes: +1 } });
+
+    return likeComment.likes;
+  };
+
+  // _id에 해당하는 댓글의 좋아요를 1개 내린다. return 좋아요 취소한 댓글의 현재 좋아요 수
+  dislikeComment = async (_id) => {
+    const dislikeComment = await Comment.findOneAndUpdate({ _id }, { $inc: { likes: -1 } });
+
+    return dislikeComment.likes;
   };
 }
 

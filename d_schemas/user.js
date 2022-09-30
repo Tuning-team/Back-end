@@ -26,8 +26,7 @@ const Users = new mongoose.Schema({
   profilePicUrl: {
     type: String,
     required: true,
-    default:
-      "https://t4.ftcdn.net/jpg/03/40/12/49/360_F_340124934_bz3pQTLrdFpH92ekknuaTHy8JuXgG7fi.jpg",
+    default: "https://t4.ftcdn.net/jpg/03/40/12/49/360_F_340124934_bz3pQTLrdFpH92ekknuaTHy8JuXgG7fi.jpg",
   },
   myCollections: {
     type: Array,
@@ -35,6 +34,11 @@ const Users = new mongoose.Schema({
     default: [],
   },
   myLikingCollections: {
+    type: Array,
+    required: true,
+    default: [],
+  },
+  myLikingComments: {
     type: Array,
     required: true,
     default: [],

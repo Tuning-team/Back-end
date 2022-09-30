@@ -28,9 +28,9 @@ const googleCallback_jwt = (req, res, next) => {
         if (err) return next(err);
 
         const { _id, displayName, profilePicUrl, email } = user.user;
-        const { accessToken } = user;
+        const { accessToken, refreshToken } = user;
 
-        const token = jwt.sign({ isLogin: true, user_id: _id }, process.env.MY_SECRET_KEY, {
+        const token = jwt.sign({ isLogin: true, user_id: _id, accessToken, refreshToken }, process.env.MY_SECRET_KEY, {
           expiresIn: "24h",
         });
 

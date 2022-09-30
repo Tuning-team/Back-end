@@ -1,4 +1,4 @@
-require("dotenv").config(); // 환경변수 적용
+require("dotenv").config();
 const createError = require("http-errors");
 const logger = require("morgan");
 const fs = require("fs");
@@ -31,13 +31,14 @@ console.log("Passport & GoogleStrategy _ 설정 완료!");
 // express 객체인 app은, CORS와 세션을 사용
 const app = express();
 
-logger.format(
-  "myFormat",
-  ':remote-addr :remote-user - [:date[iso]] ":method :url" :status :response-time ms :res[content-length] ":referrer" ":user-agent"'
-);
+// logger.format(
+//   "myFormat",
+//   ':remote-addr :remote-user - [:date[iso]] ":method :url" :status :response-time ms :res[content-length] ":referrer" ":user-agent"'
+// );
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs", "access.log"), { flags: "a" });
-app.use(logger("myFormat", { stream: accessLogStream }));
+// const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs", "access.log"), { flags: "a" });
+// app.use(logger("myFormat", { stream: accessLogStream }));
+
 app.use(logger("dev"));
 
 app.use(express.urlencoded({ extended: false }));
@@ -58,9 +59,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: "none",
       maxAge: 5300000,
-      secure: true,
     },
   })
 );
