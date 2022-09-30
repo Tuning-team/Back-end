@@ -2,6 +2,9 @@ const CommentRepository = require("../c_repositories/comments.repository");
 const CollectionRepository = require("../c_repositories/collections.repository");
 const UserRepository = require("../c_repositories/users.repository");
 const { insertMany } = require("../d_schemas/videoSearch");
+const user = require("../d_schemas/user");
+const mailer = require("../mail/commentEmail");
+require('dotenv').config();
 
 class CommentService {
   commentRepository = new CommentRepository();
@@ -11,8 +14,8 @@ class CommentService {
   //댓글 작성
   leaveCommentOn = async (req, res) => {
     try {
-
-      const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
       const { collection_id } = req.params;
       const { comment } = req.body;
 
@@ -33,6 +36,13 @@ class CommentService {
           .status(201)
           .json({ success: true, message: "댓글을 생성 하였습니다." });
       }
+      const emailParam = {
+        toEmail: user.email,
+        subject: '당신의 컬렉션에 댓글이 추가되었습니다.',
+        text: `${user.displayName}회원님! 댓글이 추가되었습니다.`
+      };
+      mailer.sendGmail(emailParam);
+      return res.send({ result: true });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res.status(400).json({
@@ -163,6 +173,44 @@ class CommentService {
         .json({ success: false, message: "댓글 삭제에 실패하였습니다." });
     }
   };
+
+  //댓글 좋아요 누르기
+  likeCommentOn = async (req, res) => {
+    try{
+      const { comment_id } = req.params;
+      const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
+
+      //DB에서 현재 댓글의 정보와 유저가 지금까지 좋아한 Array 획득
+      const thisComment = await this.commentRepository.getCommentDetail(comment_id);
+
+      const { myLikingComments } = await this.userRepository.getUserById(user_id);
+
+      if (!thisComment) {
+        res.status(400).json({ success: false, message: "해당 댓글이 없습니다." });
+      } else if (!myLikingComments.includes(comment_id)) {
+        await this.commentRepository.likeComment(comment_id);
+        res.status(200).json({
+          success: true,
+          data: "like",
+          message: "댓글에 좋아요를 등록하였습니다.",
+        });        
+      } else {
+        await this.commentRepository.disLikeComment(comment_id);
+        res.status(200).json({
+          success: true,
+          data: "dislike",
+          message: "댓글에 좋아요를 취소하였습니다.",
+        });
+      }
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res.status(400).json({
+        success: false,
+        message: "댓글 좋아요/취소 기능에 실패하였습니다.",
+    });
+  }
+};
 }
 
 module.exports = CommentService;
