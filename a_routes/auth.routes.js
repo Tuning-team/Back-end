@@ -1,4 +1,4 @@
-require("dotenv").config(); // 환경변수 적용
+require("dotenv").config();
 
 const express = require("express");
 const router = express.Router();
@@ -13,7 +13,6 @@ const { authMiddleware } = new Auth();
 const jwt = require("jsonwebtoken");
 const qs = require("qs");
 
-// 구글에 사용자의 인증을 요청하는 API
 router.get("/google", passport.authenticate("google"));
 
 const googleCallback_jwt = (req, res, next) => {
