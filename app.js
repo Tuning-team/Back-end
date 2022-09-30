@@ -1,4 +1,4 @@
-require("dotenv").config(); // 환경변수 적용
+require("dotenv").config();
 const createError = require("http-errors");
 const logger = require("morgan");
 const fs = require("fs");
@@ -38,6 +38,7 @@ const app = express();
 
 // const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs", "access.log"), { flags: "a" });
 // app.use(logger("myFormat", { stream: accessLogStream }));
+
 app.use(logger("dev"));
 
 app.use(express.urlencoded({ extended: false }));
@@ -58,9 +59,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: "none",
       maxAge: 5300000,
-      secure: true,
     },
   })
 );

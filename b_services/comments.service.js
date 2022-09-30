@@ -31,7 +31,7 @@ class CommentService {
 
         const emailParam = {
           toEmail: email,
-          subject: "당신의 튜닝에 댓글이 추가되었습니다.",
+          subject: "회원님의 튜닝에 댓글이 추가되었습니다.",
           text: `${displayName}회원님! ${thisCollection.collectionTitle} 튜닝에 댓글이 추가되었습니다.`,
         };
         mailer.sendGmail(emailParam);
@@ -144,8 +144,8 @@ class CommentService {
   likeCommentOn = async (req, res) => {
     try {
       const { comment_id } = req.params;
-      const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       //DB에서 현재 댓글의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisComment = await this.commentRepository.getCommentDetail(comment_id);
