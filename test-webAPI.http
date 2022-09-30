@@ -110,8 +110,8 @@ PUT	{{host}}/api/collections/like/6329191a69d8145d2cb4988a"
 Content-Type: application/json
 
 ### 6-1. 특정 id 댓글에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:comment_id
-PUT	{{host}}/api/collections/heart/633267bca096ccc32f9af689
-Content-Type: application/json
+PUT	{{host}}/api/comments/like/633267bca096ccc32f9af689
+
 
 
 ### 6. 컬렉션 담기/담기 취소
@@ -136,7 +136,7 @@ GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7c&offset=0&limit
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
-GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=2
+GET	{{host}}/api/collections/search?keyword=BTS&offset=0&limit=2
 
 
 ### 35. 4가지 카테고리에 해당하는 컬렉션 정보 보내기
@@ -162,7 +162,7 @@ GET	{{host}}/api/comments/63291a3fdcc97f368cc4fe92
 
 
 ### 11. collection_id 컬렉션에 댓글 달기  : POST /api/comments/:collection_id
-POST {{host}}/api/comments/63291a3fdcc97f368cc4fe92
+POST {{host}}/api/comments/6332632d993a78c1c2ca24b9
 Content-Type: application/json
 
 {
@@ -170,7 +170,7 @@ Content-Type: application/json
 }
 
 ### 12. 특정 id를 가진 댓글을 수정하기  : PUT /api/comments/:collection_id
-PUT	{{host}}/api/comments/63314b1dd9344ecce0315110
+PUT	{{host}}/api/comments/6332632d993a78c1c2ca24b9
 Content-Type: application/json
 
 {
@@ -224,8 +224,3 @@ Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2w
 
 ### 특정 id 컬렉션 비공개 설정 누르기 (이미 비공개이면 공개로 변경)
 PUT	{{host}}/api/collections/visible/63340c199de7258b72ad0538
-Content-Type: application/json
-
-{
-   "isVisible" : "true"
-}

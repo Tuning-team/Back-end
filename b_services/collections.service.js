@@ -3,6 +3,7 @@ const UserRepository = require("../c_repositories/users.repository");
 const CommentRepository = require("../c_repositories/comments.repository");
 const VideoRepository = require("../c_repositories/videos.repository");
 const CategoryRepository = require("../c_repositories/categories.repository");
+const KeywordsRepository = require("../c_repositories/keywords.repository");
 const CodeModule = require("./codeModule");
 
 const { collection } = require("../d_schemas/user");
@@ -15,6 +16,7 @@ class CollectionsService {
   userRepository = new UserRepository();
   commentRepository = new CommentRepository();
   videoRepository = new VideoRepository();
+  keywordsRepository = new KeywordsRepository();
 
   // 내가 만든 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsByUserId = async (req, res) => {
@@ -444,20 +446,21 @@ class CollectionsService {
   // 컬렉션 공개/비공개 설정
   visibleCollection = async (req, res) => {
     try {
-      const user_id = res.locals.user_id;
-      // const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
       const { collection_id } = req.params;
-      const { isVisible } = req.body;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
+
+      console.log(thisCollection.isVisible);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
       } else if (user_id !== thisCollection.user_id) {
         res.status(400).json({ success: false, message: "권한이 없습니다." });
-      } else if (isVisible === "true") {
-        await this.collectionRepository.unvisibleCollection(collection_id);
-        res.status(200).json({ success: true, data: "unvisible", message: "컬렉션을 비공개합니다." });
+      } else if (thisCollection.isVisible === true) {
+        await this.collectionRepository.invisibleCollection(collection_id);
+        res.status(200).json({ success: true, data: "invisible", message: "컬렉션을 비공개합니다." });
       } else {
         await this.collectionRepository.visibleCollection(collection_id);
         res.status(200).json({ success: true, data: "visible", message: "컬렉션을 공개합니다." });
@@ -561,6 +564,12 @@ class CollectionsService {
         offset,
         limit
       );
+
+      if (offset === "0") {
+        // freq ++
+        const count = await this.keywordsRepository.countKeyword(keyword, "collection");
+        console.log(`${keyword} 개수가 ${count}가 되었습니다.`);
+      }
 
       const resultData = [];
 
@@ -843,6 +852,7 @@ class CollectionsService {
   //     return { success: false, message: "컬렉션 조회에 실패하였습니다." };
   //   }
   // };
+
   // 카테고리 아이디를 새로 부여하는 함수들을 API로 실행
   giveTodaysPopularCategories = async (req, res) => {
     const result_1 = await this.getLikeTop10();

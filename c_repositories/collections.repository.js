@@ -367,7 +367,7 @@ class CollectionRepository {
     const today = new Date();
     const collectionsToRecommend = await Collection.find({
       category_id: { $elemMatch: { $in: categoriesToRecommmend } },
-      createdAt: { $lt: new Date() },
+      createdAt: { $not: new Date() },
     })
       .sort({
         createdAt: -1,
@@ -474,7 +474,7 @@ class CollectionRepository {
   };
 
   // _id에 해당하는 컬렉션의 isVisible을 false로 바꾼다 (비공개)
-  unvisibleCollection = async (_id) => {
+  invisibleCollection = async (_id) => {
     const unvisibleCollection = await Collection.findOneAndUpdate({ _id }, { $set: { isVisible: false } });
     return unvisibleCollection;
   };
