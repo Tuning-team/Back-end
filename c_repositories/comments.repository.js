@@ -13,6 +13,7 @@ class CommentRepository {
       user_id,
       collection_id,
       comment,
+      likes: 0,
     });
     return createComment;
   };
