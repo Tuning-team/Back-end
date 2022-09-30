@@ -15,7 +15,7 @@ module.exports = () => {
         scope: ["profile", "email"],
         passReqToCallback: false,
       },
-      // 누군가 로그인을 했을 때 실행되는 콜백 함수
+      // 누군가 로그인에 성공했을 때 실행되는 콜백 함수
       async (accessToken, refreshToken, profile, done) => {
         console.log("GoogleStrategy 객체의 콜백함수 실행중 - 기존유저 또는 새로운 유저 -> 시리얼라이저로 보내서 세션을 만듬");
 
@@ -32,10 +32,10 @@ module.exports = () => {
           let user = await Users.findOne({ googleId: newUser.googleId });
 
           if (user) {
-            return done(null, { user, accessToken }); // 세션에 저장
+            return done(null, { user, accessToken, refreshToken }); // 세션에 저장
           } else {
             user = await Users.create(newUser);
-            return done(null, { user, accessToken });
+            return done(null, { user, accessToken, refreshToken });
           }
         } catch (error) {
           console.log(error);

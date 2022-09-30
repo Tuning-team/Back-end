@@ -1,4 +1,4 @@
-require("dotenv").config(); // 환경변수 적용
+require("dotenv").config();
 const createError = require("http-errors");
 const logger = require("morgan");
 const fs = require("fs");
@@ -59,9 +59,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      sameSite: "none",
       maxAge: 5300000,
-      secure: true,
     },
   })
 );
