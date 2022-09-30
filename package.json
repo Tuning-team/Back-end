@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "nodemon ./server/www",
     "test": "jest --coverage  --runInBand --detectOpenHandles",
     "build": "cross-env NODE_ENV=\"production\" webpack --config client/webpack.config.js -p",
     "dev": "cross-env NODE_ENV=\"development\" nodemon --ignore ./client/ index.js"
