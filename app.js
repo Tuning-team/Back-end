@@ -38,6 +38,7 @@ const app = express();
 
 // const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs", "access.log"), { flags: "a" });
 // app.use(logger("myFormat", { stream: accessLogStream }));
+
 app.use(logger("dev"));
 
 app.use(express.urlencoded({ extended: false }));

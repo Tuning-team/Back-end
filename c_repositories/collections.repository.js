@@ -312,7 +312,7 @@ class CollectionRepository {
     const today = new Date();
     const collectionsToRecommend = await Collection.find({
       category_id: { $elemMatch: { $in: categoriesToRecommmend } },
-      createdAt: { $not: new Date() },
+      createdAt: { $lt: new Date().toISOString().slice(0, 10) },
     })
       .sort({
         createdAt: -1,
@@ -347,6 +347,7 @@ class CollectionRepository {
     const unvisibleCollection = await Collection.findOneAndUpdate({ _id }, { $set: { isVisible: false } });
     return unvisibleCollection;
   };
+
 
   // 지금 시간대에 추천할만한 컬렉션 10개에 631e7d7a4ae4c133c405a966 부여
   // giveCategoryIdOnWeatherRecommendation = async (weather) => {
