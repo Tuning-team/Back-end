@@ -1,10 +1,7 @@
 const CommentRepository = require("../c_repositories/comments.repository");
 const CollectionRepository = require("../c_repositories/collections.repository");
 const UserRepository = require("../c_repositories/users.repository");
-const { insertMany } = require("../d_schemas/videoSearch");
-const user = require("../d_schemas/user");
-const mailer = require("../mail/commentEmail");
-require("dotenv").config();
+const mailer = require("./modules/mailSender");
 
 class CommentService {
   commentRepository = new CommentRepository();
@@ -14,30 +11,27 @@ class CommentService {
   //댓글 작성
   leaveCommentOn = async (req, res) => {
     try {
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
       const { collection_id } = req.params;
       const { comment } = req.body;
 
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
-
       const { email, displayName } = await this.userRepository.getUserById(thisCollection.user_id);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "컬렉션이 없습니다." });
-        //존재하면 DB에 코멘트 create
-      } else {
-        await this.commentRepository.createComment(user_id, collection_id, comment);
-
-        const emailParam = {
-          toEmail: email,
-          subject: "회원님의 튜닝에 댓글이 추가되었습니다.",
-          text: `${displayName}회원님! ${thisCollection.collectionTitle} 튜닝에 댓글이 추가되었습니다.`,
-        };
-        mailer.sendGmail(emailParam);
-
-        res.status(201).json({ success: true, message: "댓글을 생성 하였습니다." });
       }
+
+      await this.commentRepository.createComment(user_id, collection_id, comment);
+
+      const emailParam = {
+        toEmail: email,
+        subject: "회원님의 튜닝에 댓글이 추가되었습니다.",
+        text: `${displayName}회원님! ${thisCollection.collectionTitle} 튜닝에 댓글이 추가되었습니다.`,
+      };
+      mailer.sendGmail(emailParam);
+
+      res.status(201).json({ success: true, message: "댓글을 생성 하였습니다." });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res.status(400).json({
@@ -144,12 +138,9 @@ class CommentService {
   likeCommentOn = async (req, res) => {
     try {
       const { comment_id } = req.params;
-      // const user_id = process.env.TEMP_USER_ID;
       const user_id = res.locals.user_id;
 
-      //DB에서 현재 댓글의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisComment = await this.commentRepository.getCommentDetail(comment_id);
-
       const { myLikingComments } = await this.userRepository.getUserById(user_id);
 
       if (!thisComment) {

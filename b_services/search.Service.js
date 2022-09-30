@@ -1,5 +1,4 @@
 const VideosSearchRepository = require("../c_repositories/videosSearch.repository");
-
 const axios = require("axios");
 
 class SearchService {
@@ -40,19 +39,11 @@ class SearchService {
         };
       });
 
-      // ------------- DB에 저장 추가 필요 ----------
-
       res.status(200).json({ success: true, data: resultArr });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
       res.status(400).json({ success: false, message: "검색에 실패하였습니다." });
     }
-  };
-
-  // 인기 검색어 20개 반환
-  frequentSearch20 = async (req, res) => {
-    const { keyword } = req.query;
-    const returnSearchWord = await this.videosSearchRepository.getVideoSearchByKeyword(keyword);
   };
 }
 

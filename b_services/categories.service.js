@@ -9,7 +9,6 @@ class CategoryService {
   getCategoryOn = async (req, res) => {
     try {
       const resCategories = await this.categoryRepository.getAllCategoriesVisible();
-
       res.status(200).json({ success: true, data: resCategories });
     } catch (error) {
       console.log(`${req.method} ${req.originalUrl} : ${error.message}`);

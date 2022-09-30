@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+require("dotenv").config();
+const app = require("../app");
+const debug = require("debug")("backend:server");
+const Http = require("http");
+
+const port = process.env.HTTP_PORT;
+app.set("port", port);
+const server = Http.createServer(app);
+
+server.listen(port, () => {
+  console.log(`Server is Listening on ${port}`);
+});

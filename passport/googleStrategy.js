@@ -32,7 +32,7 @@ module.exports = () => {
           let user = await Users.findOne({ googleId: newUser.googleId });
 
           if (user) {
-            return done(null, { user, accessToken, refreshToken }); // 세션에 저장
+            return done(null, { user, accessToken, refreshToken });
           } else {
             user = await Users.create(newUser);
             return done(null, { user, accessToken, refreshToken });
