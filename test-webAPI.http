@@ -1,4 +1,4 @@
-# # @host = https://api.tube-tuning.com
+# @host = https://api.tube-tuning.com
 # @host = https://tube-tuning.com
 @host = http://localhost:4000
 
@@ -70,7 +70,8 @@ Content-Type: application/json
   "rRhowWJ6r_4",
   "8z_HtjtIdio",
   "lmmA-go5244",
-  "wunMxN8LTV8"]
+  "wunMxN8LTV8"],
+    "isVisible": "true"
 }
 
 
@@ -84,8 +85,8 @@ Content-Type: application/json
 
 {
     "category_id": "6319aeebd1e330e86bbade88",
-    "collectionTitle": "mbti",
-    "description": "mbti 신기행짱",
+    "collectionTitle": "mbti 수정",
+    "description": "mbti 신기행",
     "videos": ["5yiMd2lGQJo", "PmGs8I7qetY"]
 }
 
@@ -93,7 +94,7 @@ Content-Type: application/json
 DELETE {{host}}/api/collections/63314649f110a6e90341c232
 
 ### 5. DB에 올려진 특정 영상(id 배열)들을 받아 컬렉션에 추가하기 : PUT /api/collections/:collection_id
-PUT	{{host}}/api/collections/63314834d217a0d109dc376d
+PUT	{{host}}/api/collections/63314840ad4a58f54fe0c5af
 Content-Type: application/json
 
 {
@@ -102,12 +103,14 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/63326326993a78c1c2ca240d
+PUT	{{host}}/api/collections/like/63291a3fdcc97f368cc4fe92
+
+PUT	{{host}}/api/collections/like/6329191a69d8145d2cb4988a"
 Content-Type: application/json
 
-### 6-1. 특정 id 댓글에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/heart/:comment_id
+### 6-1. 특정 id 댓글에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:comment_id
 PUT	{{host}}/api/comments/like/633267bca096ccc32f9af689
-Content-Type: application/json
+
 
 ### 6. 컬렉션 담기/담기 취소
 PUT {{host}}/api/collections/keep/63291a3fdcc97f368cc4fe92
@@ -131,7 +134,7 @@ GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7c&offset=0&limit
 
 
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
-GET	{{host}}/api/collections/search?keyword=음악&offset=0&limit=2
+GET	{{host}}/api/collections/search?keyword=BTS&offset=0&limit=2
 
 
 ### 35. 4가지 카테고리에 해당하는 컬렉션 정보 보내기
@@ -144,7 +147,7 @@ Content-Type: application/json
 } 
 
 ### 35. 특정 컬렉션에서 영상을 제거하기
-DELETE	{{host}}/api/collections/remove/63291a3edcc97f368cc4fe70?video_id=63291a3edcc97f368cc4fe6c
+DELETE	{{host}}/api/collections/remove/63314840ad4a58f54fe0c5af?video_id=6312c7b4d3084a7cb866bb8f
 
 
 
@@ -157,7 +160,7 @@ GET	{{host}}/api/comments/63291a3fdcc97f368cc4fe92
 
 
 ### 11. collection_id 컬렉션에 댓글 달기  : POST /api/comments/:collection_id
-POST {{host}}/api/comments/63291a3fdcc97f368cc4fe92
+POST {{host}}/api/comments/6332632d993a78c1c2ca24b9
 Content-Type: application/json
 
 {
@@ -165,7 +168,7 @@ Content-Type: application/json
 }
 
 ### 12. 특정 id를 가진 댓글을 수정하기  : PUT /api/comments/:collection_id
-PUT	{{host}}/api/comments/63314b1dd9344ecce0315110
+PUT	{{host}}/api/comments/6332632d993a78c1c2ca24b9
 Content-Type: application/json
 
 {
@@ -217,15 +220,5 @@ GET https://www.googleapis.com/oauth2/v2/userinfo
 Authorization:	Bearer ya29.a0AVA9y1u5wrTXulfPEvR0PJUADiFAAh9TKzZz9We8KqHwllA2T2wwbOf6w7oUstMxDt5kDRX19nRDPc0Uus0Ybs6PbJIUbymnq74HgOKKalAvUYO7YtjcuDfFo2XxdaKxfsAi1VA_X7L-QyXfWnz5dULcaI7YaCgYKATASARMSFQE65dr8XCcfN26UcSMirEyHBM_1PA0163
 
 
-
-### 컬렉션 담기/취소
-PUT {{host}}/api/collections/keep/63291a3fdcc97f368cc4fe92
-
-### 컬렉션 담기 취소(삭제)
-DELETE {{host}}/api/user/keep/63291a3fdcc97f368cc4fe92
-
-### 내가 담은 컬렉션 확인
-GET {{host}}/api/user/keep
-
-### 이 컬렉션이 담긴 유저 확인
-GET {{host}}/api/collections/whokeep/:collection_id
+### 특정 id 컬렉션 비공개 설정 누르기 (이미 비공개이면 공개로 변경)
+PUT	{{host}}/api/collections/visible/63340c199de7258b72ad0538

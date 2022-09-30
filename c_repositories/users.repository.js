@@ -117,6 +117,32 @@ class UsersRepository {
     const allCollectionsUserLiked = await User.find({ likeCollectionsArr });
     return allCollectionsUserLiked;
   };
+
+  // 좋아요
+  likeComment = async (user_id, comment_id) => {
+    // 기존 likedArr 찾아서,
+    const { myLikingComments } = await User.findOne({ _id: user_id });
+
+    // 새로 좋아한 컬렉션 하나 넣어서
+    myLikingComments.push(comment_id);
+
+    // 업데이트
+    const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingComments });
+    return updatedDetail;
+  };
+
+  // 좋아요 취소
+  dislikeComment = async (user_id, comment_id) => {
+    // 기존 likedArr 찾아서,
+    const { myLikingComments } = await User.findOne({ _id: user_id });
+
+    // 새로 좋아한 컬렉션 하나 넣어서
+    const filteredArr = myLikingComments.filter((e) => e !== comment_id);
+
+    // 업데이트
+    const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingComments: filteredArr });
+    return updatedDetail;
+  };
 }
 
 module.exports = UsersRepository;
