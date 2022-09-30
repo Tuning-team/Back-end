@@ -18,7 +18,7 @@ router.put("/today", collectionsService.giveTodaysPopularCategories); // 컬렉�
 router.get("/:collection_id", collectionsService.getCollection); // 컬렉션 상세 조회
 router.put("/:collection_id", authMiddleware, collectionsService.editCollection); // 컬렉션 수정
 router.delete("/:collection_id", authMiddleware, collectionsService.deleteCollection); // 컬렉션 삭제
-router.put("/visible/:collection_id", collectionsService.visibleCollection); // 컬렉션 공개 또는 비공개
+router.put("/visible/:collection_id", authMiddleware, collectionsService.visibleCollection); // 컬렉션 공개 또는 비공개
 router.put("/like/:collection_id", authMiddleware, collectionsService.likeCollection); // 컬렉션 좋아요 또는 좋아요 취소
 router.put("/keep/:collection_id", authMiddleware, collectionsService.keepCollection); // 컬렉션 담기 또는 담기 취소
 router.put("/:collection_id", authMiddleware, collectionsService.addVideoOnCollection); // 컬렉션에 영상 추가,
