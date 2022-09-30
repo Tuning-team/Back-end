@@ -38,6 +38,10 @@ const CollectionSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
+  isVisible: {
+    type: Boolean,
+    default: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
