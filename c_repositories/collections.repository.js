@@ -367,7 +367,7 @@ class CollectionRepository {
     const today = new Date();
     const collectionsToRecommend = await Collection.find({
       category_id: { $elemMatch: { $in: categoriesToRecommmend } },
-      createdAt: { $not: new Date() },
+      createdAt: { $lt: new Date().toISOString().slice(0, 10) },
     })
       .sort({
         createdAt: -1,
