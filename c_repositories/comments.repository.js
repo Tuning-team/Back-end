@@ -3,10 +3,7 @@ const Comment = require("../d_schemas/comment");
 class CommentRepository {
   // 모든 댓글 조회 (기본값 날짜 내림차순)
   getAllCommentsOnCollectionId = async (collection_id) => {
-    const comments = await Comment.find({ collection_id }).sort({
-      createdAt: -1,
-    });
-
+    const comments = await Comment.find({ collection_id }).sort({ createdAt: -1 });
     return comments;
   };
 
@@ -16,7 +13,6 @@ class CommentRepository {
       user_id,
       collection_id,
       comment,
-      // createdAt: new Date(),
     });
     return createComment;
   };
@@ -42,14 +38,12 @@ class CommentRepository {
   //_id에 해당하는 댓글의 좋아요를 1개 올린다. return 좋아한 댓글의 현재 좋아요 수
   likeComment = async (_id) => {
     const likeComment = await Comment.findOneAndUpdate({ _id }, { $inc: { likes: +1 } });
-
     return likeComment.likes;
   };
 
   // _id에 해당하는 댓글의 좋아요를 1개 내린다. return 좋아요 취소한 댓글의 현재 좋아요 수
   dislikeComment = async (_id) => {
     const dislikeComment = await Comment.findOneAndUpdate({ _id }, { $inc: { likes: -1 } });
-
     return dislikeComment.likes;
   };
 }

@@ -11,6 +11,7 @@ const { authMiddleware } = new Auth();
 // next();
 // }; // dev-test용 authMiddleware
 
+
 router.post("/", authMiddleware, collectionsService.createCollection);
 router.get("/search", collectionsService.getCollectionsBySearch);
 router.get("/", collectionsService.getAllCollectionsByCategoryId);
@@ -28,5 +29,6 @@ router.put("/keep/:collection_id", authMiddleware, collectionsService.keepCollec
 router.put("/:collection_id", authMiddleware, collectionsService.addVideoOnCollection);
 router.get("/whokeep/:collection_id", collectionsService.whoKeepCollection);
 router.delete("/remove/:collection_id", authMiddleware, collectionsService.removeVideoFromCollection);
+
 
 module.exports = router;

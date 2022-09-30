@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
+const Users = require("../../d_schemas/user");
 
 class Auth {
   authMiddleware_session = (req, res, next) => {
@@ -42,7 +44,8 @@ class Auth {
         return;
       }
 
-      let { user_id } = jwt.verify(tokenValue, process.env.MY_SECRET_KEY);
+      let { user_id, accessToken, refreshToken } = jwt.verify(tokenValue, process.env.MY_SECRET_KEY);
+      console.log("accessToken,refreshToken", accessToken, refreshToken);
 
       console.log("------ ✅  Authorization Checked ------");
       res.locals.user_id = user_id;
