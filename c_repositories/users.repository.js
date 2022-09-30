@@ -15,7 +15,6 @@ class UsersRepository {
 
   updateUserInterest = async (user_id, myInterestingCategories) => {
     const updatedUser = await User.updateOne({ _id: user_id }, { myInterestingCategories });
-
     return updatedUser;
   };
 
@@ -23,8 +22,8 @@ class UsersRepository {
   keepCollection = async (user_id, collection_id) => {
     const { myKeepingCollections } = await User.findOne({ _id: user_id });
     myKeepingCollections.push(collection_id);
-
     const updateDatail = await User.updateOne({ _id: user_id }, { myKeepingCollections: myKeepingCollections });
+
     return updateDatail;
   };
 
@@ -32,45 +31,34 @@ class UsersRepository {
   notKeepCollection = async (user_id, collection_id) => {
     const { myKeepingCollections } = await User.findOne({ _id: user_id });
     const filteredArr = myKeepingCollections.filter((e) => e !== collection_id);
-
     const updatedDetail = await User.updateOne({ _id: user_id }, { myKeepingCollections: filteredArr });
+
     return updatedDetail;
   };
 
   // 좋아요
   likeCollection = async (user_id, collection_id) => {
-    // 기존 likedArr 찾아서,
     const { myLikingCollections } = await User.findOne({ _id: user_id });
-
-    // 새로 좋아한 컬렉션 하나 넣어서
     myLikingCollections.push(collection_id);
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingCollections: myLikingCollections });
+
     return updatedDetail;
   };
 
   // 좋아요 취소
   disLikeCollection = async (user_id, collection_id) => {
-    // 기존 likedArr 찾아서,
     const { myLikingCollections } = await User.findOne({ _id: user_id });
-
-    // 새로 좋아한 컬렉션 하나 넣어서
     const filteredArr = myLikingCollections.filter((e) => e !== collection_id);
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingCollections: filteredArr });
+
     return updatedDetail;
   };
 
   createMyCollection = async (user_id, collection_id) => {
     const { myCollections } = await User.findOne({ _id: user_id });
-
-    // 새로 생성한 컬렉션 하나 넣어서
     myCollections.push(collection_id);
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { myCollections: myCollections });
+
     return updatedDetail;
   };
 
@@ -81,34 +69,26 @@ class UsersRepository {
   };
 
   deleteMyCollection = async (user_id, collection_id) => {
-    // 기존 likedArr 찾아서,
     const { myCollections } = await User.findOne({ _id: user_id });
-
-    // 새로 좋아한 컬렉션 하나 넣어서
     const filteredArr = myCollections.filter((e) => e !== collection_id);
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { myCollections: filteredArr });
+
     return updatedDetail;
   };
 
   followUser = async (user_id, userToFollow) => {
     const { followings } = await User.findOne({ _id: user_id });
     followings.push(userToFollow.toString());
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { followings });
+
     return updatedDetail;
   };
 
   unfollowUser = async (user_id, userToFollow) => {
     const { followings } = await User.findOne({ _id: user_id });
-
-    // 새로 좋아한 컬렉션 하나 넣어서
     const filteredArr = followings.filter((e) => e !== userToFollow);
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { followings: filteredArr });
+
     return updatedDetail;
   };
 
@@ -118,29 +98,21 @@ class UsersRepository {
     return allCollectionsUserLiked;
   };
 
-  // 좋아요
+  // 댓글 좋아요
   likeComment = async (user_id, comment_id) => {
-    // 기존 likedArr 찾아서,
     const { myLikingComments } = await User.findOne({ _id: user_id });
-
-    // 새로 좋아한 컬렉션 하나 넣어서
     myLikingComments.push(comment_id);
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingComments });
+
     return updatedDetail;
   };
 
-  // 좋아요 취소
+  // 댓글 좋아요 취소
   dislikeComment = async (user_id, comment_id) => {
-    // 기존 likedArr 찾아서,
     const { myLikingComments } = await User.findOne({ _id: user_id });
-
-    // 새로 좋아한 컬렉션 하나 넣어서
     const filteredArr = myLikingComments.filter((e) => e !== comment_id);
-
-    // 업데이트
     const updatedDetail = await User.updateOne({ _id: user_id }, { myLikingComments: filteredArr });
+
     return updatedDetail;
   };
 }
