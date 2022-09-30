@@ -14,8 +14,8 @@ class CommentService {
   //댓글 작성
   leaveCommentOn = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
       const { collection_id } = req.params;
       const { comment } = req.body;
 

@@ -75,7 +75,7 @@ class CollectionsService {
   // 내가 좋아한 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsUserLikes = async (req, res) => {
     try {
-      const user_id = process.env.TEMP_USER_ID;
+      // const user_id = process.env.TEMP_USER_ID;
       // const user_id = res.locals.user_id;
       const { offset, limit } = req.query;
 
@@ -479,8 +479,8 @@ class CollectionsService {
   likeCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -494,13 +494,13 @@ class CollectionsService {
         await this.collectionRepository.likeCollection(collection_id);
         await this.userRepository.likeCollection(user_id, collection_id);
 
-        const emailParam = {
-          toEmail: email,
-          subject: "회원님의 튜닝을 좋아하는 회원이 있습니다.",
-          text: `${displayName} 회원님! 안녕하세요. ${thisCollection.collectionTitle} 튜닝에 좋아요가 추가되었습니다.`,
-        };
+        // const emailParam = {
+        //   toEmail: email,
+        //   subject: "회원님의 튜닝을 좋아하는 회원이 있습니다.",
+        //   text: `${displayName} 회원님! 안녕하세요. ${thisCollection.collectionTitle} 튜닝에 좋아요가 추가되었습니다.`,
+        // };
 
-        mailer.sendGmail(emailParam);
+        // mailer.sendGmail(emailParam);
 
         res.status(200).json({
           success: true,
@@ -529,8 +529,8 @@ class CollectionsService {
   keepCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      const user_id = process.env.TEMP_USER_ID;
-      // const user_id = res.locals.user_id;
+      // const user_id = process.env.TEMP_USER_ID;
+      const user_id = res.locals.user_id;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 담은 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -544,13 +544,13 @@ class CollectionsService {
         await this.collectionRepository.keepCollection(collection_id, user_id);
         await this.userRepository.keepCollection(user_id, collection_id);
 
-        const emailParam = {
-          toEmail: email,
-          subject: "회원님의 튜닝을 담아간 회원이 있습니다.",
-          text: `${displayName} 회원님! 안녕하세요. ${thisCollection.collectionTitle} 튜닝이 ${keeperName} 님에게 공유되었습니다. `,
-        };
+        // const emailParam = {
+        //   toEmail: email,
+        //   subject: "회원님의 튜닝을 담아간 회원이 있습니다.",
+        //   text: `${displayName} 회원님! 안녕하세요. ${thisCollection.collectionTitle} 튜닝이 ${keeperName} 님에게 공유되었습니다. `,
+        // };
 
-        mailer.sendGmail(emailParam);
+        // mailer.sendGmail(emailParam);
 
         res.status(200).json({
           success: true,
