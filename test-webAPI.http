@@ -76,7 +76,7 @@ Content-Type: application/json
 
 
 ### 3. 특정 컬렉션 id로 상세정보 : GET /api/collections/:collection_id
-GET	{{host}}/api/collections/63291a3fdcc97f368cc4fe92
+GET	{{host}}/api/collections/63326323993a78c1c2ca23e1
 
 
 ### 24. 특정 컬렉션 id로 수정하기 : PUT /api/collections/:collection_id
@@ -103,7 +103,16 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
+
 PUT	{{host}}/api/collections/like/63291a3fdcc97f368cc4fe92
+=======
+PUT	{{host}}/api/collections/like/6329191a69d8145d2cb4988a"
+Content-Type: application/json
+
+### 6-1. 특정 id 댓글에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:comment_id
+PUT	{{host}}/api/collections/heart/633267bca096ccc32f9af689
+Content-Type: application/json
+
 
 ### 6. 컬렉션 담기/담기 취소
 PUT {{host}}/api/collections/keep/63291a3fdcc97f368cc4fe92
@@ -136,7 +145,7 @@ Content-Type: application/json
 
 { 
     "category_ids" :
-     ["6319aeebd1e330e86bbade9f", "631e7d7a4ae4c133c405a964", "631e7d7a4ae4c133c405a966", "631e7d7a4ae4c133c405a965"] 
+     ["6319aeebd1e330e86bbade9f", "631e7d7a4ae4c133c405a964", "631e7d7a4ae4c133c405a966", "631e7d7a4ae4c133c405a965"]
 } 
 
 ### 35. 특정 컬렉션에서 영상을 제거하기
@@ -170,7 +179,7 @@ Content-Type: application/json
 
 
 ### 13. 특정 id를 가진 댓글을 삭제하기  : DELETE /api/comments/:collection_id
-DELETE {{host}}/api/comments/63314b1dd9344ecce0315110
+DELETE {{host}}/api/comments/63326323993a78c1c2ca23e1
 
 
 

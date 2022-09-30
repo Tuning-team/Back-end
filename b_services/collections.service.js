@@ -72,8 +72,8 @@ class CollectionsService {
   // 내가 좋아한 컬렉션 목록 조회 with Pagenation ↔
   getAllCollectionsUserLikes = async (req, res) => {
     try {
-      // const user_id = process.env.TEMP_USER_ID;
-      const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
       const { offset, limit } = req.query;
 
       const { userDataAll, totalContents, hasNext } = await this.collectionRepository.getAllCollectionsUserLikesWithPaging(
@@ -232,7 +232,6 @@ class CollectionsService {
         const categoryData = await this.collectionRepository.getAllCollectionsByCategoryId(category_ids[i]);
         const { categoryName } = await this.categoryRepository.getCategoryInfo(category_ids[i]);
 
-        console.log(categoryName);
         let data = [];
         for (let j in categoryData) {
           let collectionComments = await this.commentRepository.getAllCommentsOnCollectionId(categoryData[j]._id);
@@ -253,7 +252,7 @@ class CollectionsService {
         }
 
         resultData.push({
-          [`res${i + 1}`]: {
+          [`res${Number(i) + 1}`]: {
             categoryInfo: {
               category_id: category_ids[i],
               category_name: categoryName,
@@ -476,7 +475,8 @@ class CollectionsService {
   likeCollection = async (req, res) => {
     try {
       const { collection_id } = req.params;
-      const user_id = res.locals.user_id;
+      const user_id = process.env.TEMP_USER_ID;
+      // const user_id = res.locals.user_id;
 
       // DB에서 현재 컬렉션의 정보와 유저가 지금까지 좋아한 Array 획득
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
@@ -806,24 +806,61 @@ class CollectionsService {
     }
   };
 
+  // getWeatherRecommend10 = async () => {
+  //   const weatherApi = await axios.get("https://goweather.herokuapp.com/weather/seoul");
+  //   const string = weatherApi.data.description;
+  //   const weather = string.split(" ")[string.split(" ").length - 1];
+  //   console.log("string", string, "weather", weather);
+
+  //   try {
+  //     // 기존에 631e7d7a4ae4c133c405a965 가지고 있던 컬렉션들에서 카테고리 제거 (filter)
+  //     await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a965");
+
+  //     // 새로 "날씨별 추천" 컬렉션들을 추려서, 631e7d7a4ae4c133c405a965 카테고리를 부여 (push)
+
+  //     const recommendCollections = await this.collectionRepository.giveCategoryIdOnWeatherRecommendation(weather);
+
+  //     let collectionName = "";
+  //     if (weather.toLowerCase() === "rain") {
+  //       collectionName = "오늘처럼 비오는 날 보기 좋은";
+  //     } else if (weather.toLowerCase() === "cloudy") {
+  //       collectionName = "오늘처럼 흐린 날 보기 좋은";
+  //     } else if (weather.toLowerCase() === "sunny") {
+  //       collectionName = "오늘처럼 맑은 날 보기 좋은";
+  //     } else {
+  //       collectionName = "오늘같은 날 보기 좋은";
+  //     }
+
+  //     await this.categoryRepository.updateCategory("631e7d7a4ae4c133c405a965", collectionName);
+
+  //     return {
+  //       success: true,
+  //       message: `${recommendCollections.length}개의 컬렉션이 ${weather} 날씨에 추천할 카테고리가 되었습니다.`,
+  //       data: recommendCollections,
+  //     };
+  //   } catch (error) {
+  //     console.log(error);
+  //     return { success: false, message: "컬렉션 조회에 실패하였습니다." };
+  //   }
+  // };
   // 카테고리 아이디를 새로 부여하는 함수들을 API로 실행
   giveTodaysPopularCategories = async (req, res) => {
     const result_1 = await this.getLikeTop10();
     const result_2 = await this.getLatestTop10();
     const result_3 = await this.getTimeRecommend10();
-    const result_4 = await this.getWeatherRecommend10();
+    // const result_4 = await this.getWeatherRecommend10();
     res.status(200).json({
       top10: result_1,
       latest10: result_2,
       timeRecommend: result_3,
-      weatherRecommend: result_4,
+      // weatherRecommend: result_4,
     });
 
     setInterval(async () => {
       await this.getLikeTop10();
       await this.getLatestTop10();
       await this.getTimeRecommend10();
-      await this.getWeatherRecommend10();
+      // await this.getWeatherRecommend10();
       console.log("메인화면 추천리스트 재설정 완료 ---- !");
     }, 1000 * 60 * 60); // 1h;
   };
