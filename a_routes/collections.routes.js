@@ -5,7 +5,7 @@ const CollectionsService = require("../b_services/collections.service");
 const collectionsService = new CollectionsService();
 
 const Auth = require("./middleware/auth");
-const { authMiddleware, authMiddleware_session } = new Auth();
+const { authMiddleware } = new Auth();
 
 router.post("/", authMiddleware, collectionsService.createCollection); // 컬렉션 생성
 router.get("/search", collectionsService.getCollectionsBySearch); // 검색어에 맞는 컬렉션 리스트
