@@ -102,11 +102,11 @@ Content-Type: application/json
 
 
 ### 6. 특정 id 컬렉션에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:collection_id
-PUT	{{host}}/api/collections/like/6329191a69d8145d2cb4988a"
+PUT	{{host}}/api/collections/like/63326326993a78c1c2ca240d
 Content-Type: application/json
 
-### 6-1. 특정 id 댓글에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/like/:comment_id
-PUT	{{host}}/api/collections/heart/633267bca096ccc32f9af689
+### 6-1. 특정 id 댓글에 좋아요 누르기 (이미 좋아한 적 있으면 취소됨): PUT /api/collections/heart/:comment_id
+PUT	{{host}}/api/comments/like/633267bca096ccc32f9af689
 Content-Type: application/json
 
 ### 6. 컬렉션 담기/담기 취소
