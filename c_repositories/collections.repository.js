@@ -466,6 +466,18 @@ class CollectionRepository {
       );
     }
   };
+
+  // _id에 해당하는 컬렉션의 isVisible을 true로 바꾼다 (공개)
+  visibleCollection = async (_id) => {
+    const visibleCollection = await Collection.findOneAndUpdate({ _id }, { $set: { isVisible: true } });
+    return visibleCollection;
+  };
+
+  // _id에 해당하는 컬렉션의 isVisible을 false로 바꾼다 (비공개)
+  unvisibleCollection = async (_id) => {
+    const unvisibleCollection = await Collection.findOneAndUpdate({ _id }, { $set: { isVisible: false } });
+    return unvisibleCollection;
+  };
 }
 
 module.exports = CollectionRepository;
