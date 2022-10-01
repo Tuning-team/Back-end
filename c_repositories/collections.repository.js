@@ -348,7 +348,6 @@ class CollectionRepository {
     return unvisibleCollection;
   };
 
-
   // 지금 시간대에 추천할만한 컬렉션 10개에 631e7d7a4ae4c133c405a966 부여
   // giveCategoryIdOnWeatherRecommendation = async (weather) => {
   //   let categoriesToRecommmend = [];
