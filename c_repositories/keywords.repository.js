@@ -12,6 +12,16 @@ class KeywordsRepository {
       return counts + 1;
     }
   };
+
+  getFrequentKeywords = async (limit) => {
+    const frequentKeywords = await Keyword.find({})
+      .sort({
+        counts: -1,
+      })
+      .limit(limit);
+
+    return frequentKeywords;
+  };
 }
 
 module.exports = KeywordsRepository;

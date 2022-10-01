@@ -15,6 +15,7 @@ const { authMiddleware } = new Auth();
 
 router.post("/", authMiddleware, collectionsService.createCollection);
 router.get("/search", collectionsService.getCollectionsBySearch);
+router.get("/search/frequent", collectionsService.getFrequentKeywords);
 router.get("/", collectionsService.getAllCollectionsByCategoryId);
 router.get("/mykeeps", authMiddleware, collectionsService.getAllCollectionsUserKeeps);
 router.get("/mylikes", authMiddleware, collectionsService.getAllCollectionsUserLikes);
