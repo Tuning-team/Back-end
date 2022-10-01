@@ -307,9 +307,9 @@ class CollectionsService {
   createCollection = async (req, res) => {
     try {
       const user_id = res.locals.user_id;
-      let { category_id, collectionTitle, description, videos, isVisible } = req.body;
+      let { category_id, collectionTitle, description, videos } = req.body;
 
-      if (!category_id || !collectionTitle || !description || !videos || !isVisible) {
+      if (!category_id || !collectionTitle || !description || !videos) {
         res.status(400).json({ message: "누락된 항목이 있습니다." });
         return;
       }
@@ -324,8 +324,7 @@ class CollectionsService {
         category_id,
         collectionTitle,
         description,
-        video_ids,
-        isVisible
+        video_ids
       );
 
       const collection_id = returnCollection._id.toString();
@@ -348,13 +347,14 @@ class CollectionsService {
       const user_id = res.locals.user_id;
       const { collection_id } = req.params;
       let { category_id, collectionTitle, description, videos } = req.body;
-
       const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
 
       if (!thisCollection) {
         res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
+        return;
       } else if (user_id !== thisCollection.user_id) {
         res.status(400).json({ success: false, message: "작성자만 수정이 가능합니다." });
+        return;
       }
 
       const createdVideos = await this.videoRepository.createVideosByIds(videos);

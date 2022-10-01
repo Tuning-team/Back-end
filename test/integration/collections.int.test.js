@@ -17,8 +17,9 @@ const Comments = require("../../d_schemas/comment");
 const Videos = require("../../d_schemas/video");
 const Users = require("../../d_schemas/user");
 const { urlencoded } = require("express");
-const authorizationCode =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0xvZ2luIjp0cnVlLCJ1c2VyX2lkIjoiNjMyOTE5MjU2OWQ4MTQ1ZDJjYjQ5YjZiIiwiaWF0IjoxNjY0MjQzODE5LCJleHAiOjE2NjQzMzAyMTl9.A4aFxysFYZtHRJRZMgx8TnRTWiHdFv7rsydCXKWCrwQ";
+
+const TEST_USER = process.env.TEMP_USER_ID;
+const authorizationCode = process.env.TEST_AUTH;
 
 // before All, DB 초기화 : 검증에 필요한 초기데이터를 DB에 넣고 시작
 beforeAll(async () => {
@@ -64,7 +65,7 @@ describe("전체 통합테스트", () => {
   it("4	DELETE /api/collections/:collection_id 컬렉션 삭제 테스트", async () => {
     // 아무거나 내가 쓴 글 하나를 찾는다.
     const { _id } = await Collections.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     const response = await request(app).delete(`/api/collections/${_id}`).set("authorization", authorizationCode);
@@ -74,7 +75,7 @@ describe("전체 통합테스트", () => {
   it("5	PUT	/api/collections/:collection_id 컬렉션에 영상 추가 테스트", async () => {
     // 아무거나 내가 쓴 글 하나를 찾는다.
     const { _id } = await Collections.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     const response = await request(app).put(`/api/collections/${_id}`).set("authorization", authorizationCode).send(addvideos);
@@ -84,18 +85,14 @@ describe("전체 통합테스트", () => {
 
   it("6-1	PUT	/api/collections/like/:collection_id 컬렉션 좋아요 테스트", async () => {
     const { _id, likes } = await Collections.findOne({});
+    console.log("_id", _id, _id.toString(), "likes", likes);
 
-    await request(app).put(`/api/collections/like/${_id}`).set("authorization", authorizationCode);
-
-    const { myLikingCollections } = await Users.findOne({
-      _id: "6329192569d8145d2cb49b6b",
-    });
+    await request(app).put(`/api/collections/like/${_id.toString()}`).set("authorization", authorizationCode);
 
     const { likes: likes_after } = await Collections.findOne({
       _id,
     });
 
-    expect(myLikingCollections[1] + "").toEqual(_id + "");
     expect(likes).not.toStrictEqual(likes_after);
   });
 
@@ -105,7 +102,7 @@ describe("전체 통합테스트", () => {
     await request(app).put(`/api/collections/like/${_id}`).set("authorization", authorizationCode);
 
     const { myLikingCollections } = await Users.findOne({
-      _id: "6329192569d8145d2cb49b6b",
+      _id: TEST_USER,
     });
 
     const { likes: likes_after } = await Collections.findOne({
@@ -149,7 +146,7 @@ describe("전체 통합테스트", () => {
 
   it("11 POST /api/comments/:collection_id", async () => {
     const { _id } = await Collections.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     const response = await request(app).post(`/api/comments/${_id}`).set("authorization", authorizationCode).send({
@@ -160,7 +157,7 @@ describe("전체 통합테스트", () => {
 
   it("12 PUT /api/comments/:comment_id", async () => {
     const { _id } = await Comments.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     const response = await request(app).put(`/api/comments/${_id}`).set("authorization", authorizationCode).send({
@@ -171,7 +168,7 @@ describe("전체 통합테스트", () => {
 
   it("13 DELETE	/api/comments/:comment_id", async () => {
     const { _id } = await Comments.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
     const response = await request(app).delete(`/api/comments/${_id}`).set("authorization", authorizationCode);
     expect(response.statusCode).toBe(200);
@@ -208,7 +205,7 @@ describe("전체 통합테스트", () => {
   it("24	PUT	/api/collections/:collection_id : 컬렉션 수정", async () => {
     // 내가 쓴 글의 id 하나를 찾는다.
     const { _id } = await Collections.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     // 그 id로 API를 적용, 로그인 유저로 정보를 보내본다.
@@ -224,7 +221,7 @@ describe("전체 통합테스트", () => {
 
     // 바뀐 정보 확인
     const { collectionTitle } = await Collections.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     expect(response.statusCode).toBe(200);
@@ -239,7 +236,7 @@ describe("전체 통합테스트", () => {
 
     // 바뀐 정보 확인
     const { myInterestingCategories } = await Users.findOne({
-      _id: "6329192569d8145d2cb49b6b",
+      _id: TEST_USER,
     });
 
     expect(response.statusCode).toBe(200);
@@ -259,7 +256,7 @@ describe("전체 통합테스트", () => {
 
     // 바뀐 정보 확인
     const { myInterestingCategories } = await Users.findOne({
-      _id: "6329192569d8145d2cb49b6b",
+      _id: TEST_USER,
     });
 
     expect(response.statusCode).toBe(200);
@@ -274,7 +271,7 @@ describe("전체 통합테스트", () => {
   it("31	GET	/api/collections/whokeep/:collection_id : 이 컬렉션이 담긴 유저 확인", async () => {
     // 내가 올린 거 아닌 컬렉션을 하나 선택
     const { _id } = await Collections.findOne({
-      $not: { user_id: "6329192569d8145d2cb49b6b" },
+      $not: { user_id: TEST_USER },
     });
     const response = await request(app).get(`/api/collections/whokeep/${_id}`);
 
@@ -305,7 +302,7 @@ describe("전체 통합테스트", () => {
   it("35	DELETE	/api/collections/remove/:collection_id?video_id=", async () => {
     // 내가 쓴 글의 id 하나를 찾는다.
     const { _id, videos } = await Collections.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     // 그 id로 API를 적용, 로그인 유저로 정보를 보내본다.
@@ -314,7 +311,7 @@ describe("전체 통합테스트", () => {
       .set("authorization", authorizationCode);
 
     const { videos: videos_after } = await Collections.findOne({
-      user_id: "6329192569d8145d2cb49b6b",
+      user_id: TEST_USER,
     });
 
     expect(response.statusCode).toBe(200);
