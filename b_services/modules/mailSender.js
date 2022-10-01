@@ -19,6 +19,7 @@ const mailSender = {
       to: param.toEmail,
       subject: param.subject,
       text: param.text,
+      html: param.html,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
