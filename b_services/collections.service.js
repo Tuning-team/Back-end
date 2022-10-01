@@ -585,6 +585,28 @@ class CollectionsService {
     }
   };
 
+  // 인기 키워드를 n개 반환
+  getFrequentKeywords = async (req, res) => {
+    try {
+      const { limit } = req.query;
+      const keywords = await this.keywordsRepository.getFrequentKeywords(limit);
+
+      res.status(200).json({
+        success: true,
+        data: keywords.map((e) => {
+          return { keyword: e.keyword, counts: e.counts };
+        }),
+      });
+      return;
+    } catch (error) {
+      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
+      res.status(400).json({
+        success: false,
+        message: "검색에 실패하였습니다.",
+      });
+    }
+  };
+
   // 컬렉션에 영상 추가
   addVideoOnCollection = async (req, res) => {
     try {
