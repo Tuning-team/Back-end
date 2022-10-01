@@ -9,12 +9,13 @@ const Auth = require("./middleware/auth");
 
 const { authMiddleware } = new Auth();
 // const authMiddleware = (req, res, next) => {
-// res.locals.user_id = process.env.TEMP_USER_ID;
-// next();
+//   res.locals.user_id = process.env.TEMP_USER_ID;
+//   next();
 // }; // dev-test용 authMiddleware
 
 router.post("/", authMiddleware, collectionsService.createCollection);
 router.get("/search", collectionsService.getCollectionsBySearch);
+router.get("/search/frequent", collectionsService.getFrequentKeywords);
 router.get("/", collectionsService.getAllCollectionsByCategoryId);
 router.get("/mykeeps", authMiddleware, collectionsService.getAllCollectionsUserKeeps);
 router.get("/mylikes", authMiddleware, collectionsService.getAllCollectionsUserLikes);

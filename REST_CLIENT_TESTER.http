@@ -138,6 +138,9 @@ GET	{{host}}/api/collections?category_id=6319aeebd1e330e86bbade7c&offset=0&limit
 ### 9. 검색어에 맞는 컬렉션 리스트 찾기 : GET /api/collections?keyword=
 GET	{{host}}/api/collections/search?keyword=BTS&offset=0&limit=2
 
+### 인기 키워드 n개 찾기 : GET /api/collections/search/frequent?limit=
+GET	{{host}}/api/collections/search/frequent?limit=20
+
 
 ### 35. 4가지 카테고리에 해당하는 컬렉션 정보 보내기
 POST	{{host}}/api/collections/recommendation
@@ -150,8 +153,6 @@ Content-Type: application/json
 
 ### 35. 특정 컬렉션에서 영상을 제거하기
 DELETE	{{host}}/api/collections/remove/63314840ad4a58f54fe0c5af?video_id=6312c7b4d3084a7cb866bb8f
-
-
 
 
 
