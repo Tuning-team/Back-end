@@ -11,9 +11,8 @@ module.exports = () => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.REDIRECT_PATH}/api/google_callback`,
         scope: ["profile", "email"],
-        passReqToCallback: false,
+        callbackURL: `${process.env.REDIRECT_PATH}/api/google_callback`,
       },
       // 누군가 로그인에 성공했을 때 실행되는 콜백 함수
       async (accessToken, refreshToken, profile, done) => {

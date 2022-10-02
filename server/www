@@ -1,13 +1,27 @@
 #!/usr/bin/env node
 require("dotenv").config();
+const CollectionsService = require("../b_services/collections.service");
+const collectionsService = new CollectionsService();
+
 const app = require("../app");
-const debug = require("debug")("backend:server");
 const Http = require("http");
 
 const port = process.env.HTTP_PORT;
 app.set("port", port);
 const server = Http.createServer(app);
 
-server.listen(port, () => {
+server.listen(port, async () => {
   console.log(`Server is Listening on ${port}`);
+
+  //
+  await collectionsService.getLikeTop10();
+  await collectionsService.getLatestTop10();
+  await collectionsService.getTimeRecommend10();
+
+  setInterval(async () => {
+    console.log("10분에 한번 메인페이지 재설정");
+    await collectionsService.getLikeTop10();
+    await collectionsService.getLatestTop10();
+    await collectionsService.getTimeRecommend10();
+  }, 1000 * 60 * 5); // 10분에 한번 재설정;
 });
