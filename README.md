@@ -1,6 +1,6 @@
 # **Tuning**
 
-![image](https://user-images.githubusercontent.com/71807433/190448910-237745b4-1544-4559-9303-8fccaa81345e.png)
+![image](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/557bf998-5fe7-4fdc-bc2e-2c5d02bba8b3/tuning-logo-160.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221002%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221002T134348Z&X-Amz-Expires=86400&X-Amz-Signature=c63fbc590767bc2ca854534774040bac988aa7f9f4d1549e05a32241e0b414c2&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22tuning-logo-160.png%22&x-id=GetObject)
 
 > 내가 좋아하는 유투브 영상들로 나만의 컬렉션을 만들고 사람들과 공유하는 커뮤니티 웹앱
 
