@@ -607,40 +607,6 @@ class CollectionsService {
     }
   };
 
-  // 컬렉션에 영상 추가
-  addVideoOnCollection = async (req, res) => {
-    try {
-      const user_id = res.locals.user_id;
-      const { collection_id } = req.params;
-      const { videos } = req.body; //
-
-      const thisCollection = await this.collectionRepository.getCollectionById(collection_id);
-
-      if (!thisCollection) {
-        res.status(400).json({ success: false, message: "해당 컬렉션이 없습니다." });
-      } else if (user_id !== thisCollection.user_id) {
-        res.status(400).json({ success: false, message: "작성자만 추가가 가능합니다." });
-      } else {
-        const resultCollection = await this.collectionRepository.addVideoOnCollection(
-          collection_id,
-          videos //
-        );
-
-        res.status(201).json({
-          success: true,
-          message: "영상이 추가 되었습니다!",
-          data: resultCollection,
-        });
-      }
-    } catch (error) {
-      console.log(`${req.method} ${req.originalUrl} : ${error.message}`);
-      res.status(400).json({
-        success: false,
-        message: "영상 추가에 실패하였습니다.",
-      });
-    }
-  };
-
   // 컬렉션에서 영상 제거
   removeVideoFromCollection = async (req, res) => {
     try {
@@ -765,41 +731,17 @@ class CollectionsService {
       await this.getLikeTop10();
       await this.getLatestTop10();
       await this.getTimeRecommend10();
-      console.log("메인화면 추천리스트 재설정 완료 ---- !");
-    }, 1000 * 60 * 60); // 1h;
+    }, 1000 * 60 * 10); // 10분에 한번 재설정;
+  };
+
+  giveTodaysPopularFn = async () => {
+    console.log("메인 추천튜닝 재설정");
+    setInterval(async () => {
+      await this.getLikeTop10();
+      await this.getLatestTop10();
+      await this.getTimeRecommend10();
+    }, 1000 * 60 * 10); // 10분에 한번 재설정;
   };
 }
 
 module.exports = CollectionsService;
-
-// ---- 코드아카이브 ---
-// // "날씨별 추천" 카테고리 10개 부여 (631e7d7a4ae4c133c405a965)
-// getWeatherRecommend10 = async () => {
-//   const weatherApi = await axios.get("https://goweather.herokuapp.com/weather/seoul");
-//   const string = weatherApi.data.description;
-//   const weather = string.split(" ")[string.split(" ").length - 1];
-//   console.log("string", string, "weather", weather);
-//   try {
-//     await this.collectionRepository.getLidOfCategory("631e7d7a4ae4c133c405a965");
-//     const recommendCollections = await this.collectionRepository.giveCategoryIdOnWeatherRecommendation(weather);
-//     let collectionName = "";
-//     if (weather.toLowerCase() === "rain") {
-//       collectionName = "오늘처럼 비오는 날 보기 좋은";
-//     } else if (weather.toLowerCase() === "cloudy") {
-//       collectionName = "오늘처럼 흐린 날 보기 좋은";
-//     } else if (weather.toLowerCase() === "sunny") {
-//       collectionName = "오늘처럼 맑은 날 보기 좋은";
-//     } else {
-//       collectionName = "오늘같은 날 보기 좋은";
-//     }
-//     await this.categoryRepository.updateCategory("631e7d7a4ae4c133c405a965", collectionName);
-//     return {
-//       success: true,
-//       message: `${recommendCollections.length}개의 컬렉션이 ${weather} 날씨에 추천할 카테고리가 되었습니다.`,
-//       data: recommendCollections,
-//     };
-//   } catch (error) {
-//     console.log(error);
-//     return { success: false, message: "컬렉션 조회에 실패하였습니다." };
-//   }
-// };

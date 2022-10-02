@@ -14,21 +14,22 @@ const { authMiddleware } = new Auth();
 // }; // dev-test용 authMiddleware
 
 router.post("/", authMiddleware, collectionsService.createCollection);
+router.get("/", collectionsService.getAllCollectionsByCategoryId);
 router.get("/search", collectionsService.getCollectionsBySearch);
 router.get("/search/frequent", collectionsService.getFrequentKeywords);
-router.get("/", collectionsService.getAllCollectionsByCategoryId);
 router.get("/mykeeps", authMiddleware, collectionsService.getAllCollectionsUserKeeps);
 router.get("/mylikes", authMiddleware, collectionsService.getAllCollectionsUserLikes);
 router.get("/mine", authMiddleware, collectionsService.getAllCollectionsByUserId);
 router.post("/recommendation", collectionsService.getAllCollectionsByCategories);
 router.put("/today", collectionsService.giveTodaysPopularCategories);
+
 router.get("/:collection_id", collectionsService.getCollection);
 router.put("/:collection_id", authMiddleware, collectionsService.editCollection);
 router.delete("/:collection_id", authMiddleware, collectionsService.deleteCollection);
+
 router.put("/visible/:collection_id", collectionsService.visibleCollection);
 router.put("/like/:collection_id", authMiddleware, collectionsService.likeCollection);
 router.put("/keep/:collection_id", authMiddleware, collectionsService.keepCollection);
-router.put("/:collection_id", authMiddleware, collectionsService.addVideoOnCollection);
 router.get("/whokeep/:collection_id", collectionsService.whoKeepCollection);
 router.delete("/remove/:collection_id", authMiddleware, collectionsService.removeVideoFromCollection);
 
