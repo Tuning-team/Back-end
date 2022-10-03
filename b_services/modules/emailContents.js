@@ -333,7 +333,9 @@ const emailParam = (email, thisCollection, displayName) => {
             <td class="container">
               <div class="content">
                 <!-- START CENTERED WHITE CONTAINER -->
-                <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
+
+                <span class="preheader">안녕하세요, 회원님! 튜닝에 댓글이 추가되었습니다. 자주 방문해주세요!</span>
+
                 <table class="main">
                   <!-- START MAIN CONTENT AREA -->
                   <tbody>

@@ -249,7 +249,7 @@ class CollectionRepository {
   // 컬렉션 좋아요 Top 10개에 카테고리 6319aeebd1e330e86bbade9f 부여
   giveCategoryIdOnLikeTop10 = async () => {
     const likeTopCollections = await Collection.find({
-      createdAt: { $gt: new Date(new Date().setDate(new Date().getDate() - 4)) },
+      createdAt: { $gt: new Date(new Date().setDate(new Date().getDate() - 7)) },
     })
       .sort({
         likes: -1,
