@@ -314,6 +314,11 @@ class CollectionsService {
         return;
       }
 
+      if (collectionTitle.length > 15) {
+        res.status(400).json({ message: "제목은 15자 이내로 작성해 주세요." });
+        return;
+      }
+
       const createdVideos = await this.videoRepository.createVideosByIds(videos);
 
       category_id = [category_id];
