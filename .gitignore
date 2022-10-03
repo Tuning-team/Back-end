@@ -31,5 +31,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # build
 client/dist/*
 
-/coverage
+coverage
 _legacy-samples-codes
