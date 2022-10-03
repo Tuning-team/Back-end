@@ -68,5 +68,6 @@
 ---
 
 ### **⭐️ERD**
+<img width="931" alt="스크린샷 2022-10-02 오전 8 23 16" src="https://user-images.githubusercontent.com/71807433/193512924-e8d7a7a3-da8c-4d3e-a217-517377579aca.png">
 
-<img width="881" alt="스크린샷 2022-08-30 오후 8 34 29" src="https://user-images.githubusercontent.com/71807433/190443295-f02acb16-e570-4e94-991b-b69ae072584e.png">
+
