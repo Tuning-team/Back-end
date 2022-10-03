@@ -2,6 +2,7 @@ const CommentRepository = require("../c_repositories/comments.repository");
 const CollectionRepository = require("../c_repositories/collections.repository");
 const UserRepository = require("../c_repositories/users.repository");
 const mailer = require("./modules/mailSender");
+const emailParam = require("./modules/emailContents.js");
 
 class CommentService {
   commentRepository = new CommentRepository();
@@ -24,12 +25,7 @@ class CommentService {
 
       await this.commentRepository.createComment(user_id, collection_id, comment);
 
-      const emailParam = {
-        toEmail: email,
-        subject: "회원님의 튜닝에 댓글이 추가되었습니다.",
-        text: `${displayName}회원님! ${thisCollection.collectionTitle} 튜닝에 댓글이 추가되었습니다.`,
-      };
-      mailer.sendGmail(emailParam);
+      mailer.sendGmail(emailParam(email, thisCollection, displayName));
 
       res.status(201).json({ success: true, message: "댓글을 생성 하였습니다." });
     } catch (error) {

@@ -249,7 +249,7 @@ class CollectionRepository {
   // 컬렉션 좋아요 Top 10개에 카테고리 6319aeebd1e330e86bbade9f 부여
   giveCategoryIdOnLikeTop10 = async () => {
     const likeTopCollections = await Collection.find({
-      createdAt: { $gt: new Date(new Date().setDate(new Date().getDate() - 3)) },
+      createdAt: { $gt: new Date(new Date().setDate(new Date().getDate() - 4)) },
     })
       .sort({
         likes: -1,
@@ -312,12 +312,8 @@ class CollectionRepository {
     const today = new Date();
     const collectionsToRecommend = await Collection.find({
       category_id: { $elemMatch: { $in: categoriesToRecommmend } },
-      createdAt: { $lt: new Date().toISOString().slice(0, 10) },
-    })
-      .sort({
-        createdAt: -1,
-      })
-      .limit(10);
+      createdAt: { $lt: new Date(new Date().setDate(new Date().getDate() - 3)) },
+    }).limit(10);
     const resultData = [];
     for (let i = 0; i < collectionsToRecommend.length; i++) {
       const pushedCollections = [...collectionsToRecommend[i].category_id, "631e7d7a4ae4c133c405a966"];
@@ -347,73 +343,6 @@ class CollectionRepository {
     const unvisibleCollection = await Collection.findOneAndUpdate({ _id }, { $set: { isVisible: false } });
     return unvisibleCollection;
   };
-
-
-  // 지금 시간대에 추천할만한 컬렉션 10개에 631e7d7a4ae4c133c405a966 부여
-  // giveCategoryIdOnWeatherRecommendation = async (weather) => {
-  //   let categoriesToRecommmend = [];
-
-  //   if (weather.toLowerCase() === "rain") {
-  //     categoriesToRecommmend = [
-  //       "6319aeebd1e330e86bbade7b",
-  //       "6319aeebd1e330e86bbade80",
-  //       "6319aeebd1e330e86bbade83",
-  //       "6319aeebd1e330e86bbade88",
-  //       "6319aeebd1e330e86bbade9e",
-  //     ];
-  //   } else if (weather.toLowerCase() === "cloudy") {
-  //     categoriesToRecommmend = [
-  //       "6319aeebd1e330e86bbade7d",
-  //       "6319aeebd1e330e86bbade8a",
-  //       "6319aeebd1e330e86bbade8e",
-  //       "6319aeebd1e330e86bbade97",
-  //       "6319aeebd1e330e86bbade98",
-  //       "6319aeebd1e330e86bbade9d",
-  //     ];
-  //   } else if (weather.toLowerCase() === "sunny") {
-  //     categoriesToRecommmend = [
-  //       "6319aeebd1e330e86bbade8b",
-  //       "6319aeebd1e330e86bbade93",
-  //       "6319aeebd1e330e86bbade95",
-  //       "6319aeebd1e330e86bbade96",
-  //       "6319aeebd1e330e86bbadea5",
-  //     ];
-  //   } else {
-  //     categoriesToRecommmend = [
-  //       "6319aeebd1e330e86bbade7a",
-  //       "6319aeebd1e330e86bbade7c",
-  //       "6319aeebd1e330e86bbade83",
-  //       "6319aeebd1e330e86bbade84",
-  //       "6319aeebd1e330e86bbadea3",
-  //     ];
-  //   }
-
-  //   const collectionsToRecommend = await Collection.find({
-  //     category_id: { $elemMatch: { $in: categoriesToRecommmend } },
-  //   })
-  //     .sort({
-  //       likes: -1,
-  //     })
-  //     .limit(10);
-
-  //   const resultData = [];
-  //   for (let i = 0; i < collectionsToRecommend.length; i++) {
-  //     const pushedCollections = [...collectionsToRecommend[i].category_id, "631e7d7a4ae4c133c405a965"];
-
-  //     await Collection.findOneAndUpdate(
-  //       { _id: collectionsToRecommend[i]._id },
-  //       {
-  //         $set: {
-  //           category_id: pushedCollections,
-  //         },
-  //       }
-  //     );
-
-  //     resultData.push(collectionsToRecommend[i]._id);
-  //   }
-
-  //   return resultData;
-  // };
 }
 
 module.exports = CollectionRepository;
