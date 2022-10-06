@@ -48,7 +48,7 @@
 ---
 
 - @SpaceTime52 - [GitHub](https://github.com/SpaceTime52) / [Tistory]()
-- @hemi333 - [GitHub](https://github.com/hemi333) / [Tistory](https://bo-hyemi-an.tistory.com/)
+- @hemi333 - [GitHub](https://github.com/hemi333) / [Tistory]()
 - @winmin99 - [GitHub](https://github.com/winmin99) / [Tistory]()
 
 
