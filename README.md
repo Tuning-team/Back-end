@@ -1,39 +1,71 @@
 # **Tuning**
 
-![image](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/557bf998-5fe7-4fdc-bc2e-2c5d02bba8b3/tuning-logo-160.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221002%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221002T134348Z&X-Amz-Expires=86400&X-Amz-Signature=c63fbc590767bc2ca854534774040bac988aa7f9f4d1549e05a32241e0b414c2&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22tuning-logo-160.png%22&x-id=GetObject)
+![image](https://firebasestorage.googleapis.com/v0/b/tuning-project.appspot.com/o/tuning-logo-160.png?alt=media&token=ae7e30a6-1789-4e0f-9974-d8d2134bc1f6)
 
-> 내가 좋아하는 유투브 영상들로 나만의 컬렉션을 만들고 사람들과 공유하는 커뮤니티 웹앱
+
+
+### **[튜닝](https://www.tube-tuning.com/)을 활용하면,**
 
 ---
 
+✅  유튜브 영상들을 **내 방식대로 모아서** 볼 수 있어요!
+
+✅  유튜브의 알고리즘으로부터 벗어나 **시간을 절약**할 수 있어요!
+
+✅  다른 사람이 모아둔 영상들을 보고 **반응을 남기고 소통**할 수 있어요!
+
+✅  내가 봤던 영상들의 즐거움과 인사이트를, **튜닝에 담아 친구들과 공유**할 수 있어요!
+
+✅  ‘어그로’는 이제 그만! **‘아무거’나 보지 않고, 추천된 것만** 골라서 볼 수 있어요! 
+
+
+ㅤ 
+
+### **튜닝의 주요 기능**
+
+---
+
+✅  유튜브 영상 검색 기능
+
+✅  검색된 영상 모으기(컬렉션) 기능
+
+✅  모은 컬렉션 관리(CRUD) 기능
+
+✅  컬렉션 공유 기능
+
+✅  컬렉션 리액션(좋아요/댓글) 기능
+
+✅  컬렉션 검색(검색어별 / 카테고리별) 기능
+
+✅  동영상 플레이 기능
+
+
+ㅤ 
+
+
 ### **⭐️참여자**
+
+---
 
 - @SpaceTime52 - [GitHub](https://github.com/SpaceTime52) / [Tistory]()
 - @hemi333 - [GitHub](https://github.com/hemi333) / [Tistory](https://bo-hyemi-an.tistory.com/)
 - @winmin99 - [GitHub](https://github.com/winmin99) / [Tistory]()
 
----
+
+
+ㅤ 
 
 ### **⭐️개발기간**
+---
 
 2022년 8월 26일 ~ 2022년 10월 07일(6주)
 
----
 
 
-### **⭐️구현 기능**
-
-1. 구글 소셜로그인
-2. 검색기능 (Youtube API, DB)
-3. 카테고리 분류기능
-4. 컬렉션 생성/조회/삭제/좋아요
-5. 댓글 생성/조회/수정/삭제
-6. 페이지네이션
-7. 추천 컬렉션 리스트 
-
----
-
+ㅤ 
 ### **⭐️모듈 리스트**
+
+---
 
 ```json
 "devDependencies": {
@@ -65,9 +97,10 @@
   },
 ```
 
----
+ㅤ 
 
 ### **⭐️ERD**
+---
 <img width="931" alt="스크린샷 2022-10-02 오전 8 23 16" src="https://user-images.githubusercontent.com/71807433/193512924-e8d7a7a3-da8c-4d3e-a217-517377579aca.png">
 
 
