@@ -68,7 +68,7 @@
 ---
 
 ```json
-"devDependencies": {
+"dependencies": {
     "axios": "^0.27.2",
     "connect-mongo": "^4.6.0",
     "connect-mongodb-session": "^3.1.1",
@@ -79,11 +79,12 @@
     "ejs": "~2.6.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
-    "hangul-js": "^0.2.6",
+    "helmet": "^6.0.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.6",
     "morgan": "~1.9.1",
+    "nodemailer": "^6.8.0",
     "nodemon": "^2.0.19",
     "passport": "^0.5.3",
     "passport-google": "^0.3.0",
@@ -94,6 +95,25 @@
     "react-dom": "^17.0.2",
     "urllib": "^3.1.2",
     "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@svgr/webpack": "^6.2.1",
+    "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^29.0.3",
+    "node-mocks-http": "^1.11.0",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.4",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-middleware": "^5.3.1",
+    "webpack-hot-middleware": "^2.25.1"
   },
 ```
 
