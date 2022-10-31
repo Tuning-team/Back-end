@@ -13,13 +13,17 @@ class CollectionRepository {
 
   // user_id를 받아 작성된 모든 컬렉션 조회 (기본값 날짜 내림차순)
   getAllCollectionsByUserId = async (user_id) => {
-    const collections = await Collection.find({ user_id }).sort({ createdAt: -1 });
+    const collections = await Collection.find({ user_id }).sort({
+      createdAt: -1,
+    });
     return collections;
   };
 
   // user_id를 받아 작성된 모든 컬렉션 조회 (페이지네이션 필요한 경우)
   getAllCollectionsByUserIdWithPaging = async (user_id, offset, limit) => {
-    const callForCount = await Collection.find({ user_id }).sort({ createdAt: -1 });
+    const callForCount = await Collection.find({ user_id }).sort({
+      createdAt: -1,
+    });
     const totalContents = callForCount.length;
     const hasNext = totalContents - offset - limit > 0 ? true : false;
     const userDataAll = await Collection.find({ user_id })
@@ -35,7 +39,9 @@ class CollectionRepository {
   // user_id를 받아 유저가 좋아한 모든 컬렉션 조회 (페이지네이션 필요한 경우)
   getAllCollectionsUserLikesWithPaging = async (_id, offset, limit) => {
     const { myLikingCollections } = await User.findOne({ _id });
-    const callForCount = await Collection.find({ _id: myLikingCollections }).sort({ createdAt: -1 });
+    const callForCount = await Collection.find({
+      _id: myLikingCollections,
+    }).sort({ createdAt: -1 });
     const totalContents = callForCount.length;
     const hasNext = totalContents - offset - limit > 0 ? true : false;
     const userDataAll = await Collection.find({ _id: myLikingCollections })
@@ -51,7 +57,9 @@ class CollectionRepository {
   // user_id를 받아 유저가 담은 모든 컬렉션 조회 (페이지네이션 필요한 경우)
   getAllCollectionsUserKeepsWithPaging = async (_id, offset, limit) => {
     const { myKeepingCollections } = await User.findOne({ _id });
-    const callForCount = await Collection.find({ _id: myKeepingCollections }).sort({ createdAt: -1 });
+    const callForCount = await Collection.find({
+      _id: myKeepingCollections,
+    }).sort({ createdAt: -1 });
     const totalContents = callForCount.length;
     const hasNext = totalContents - offset - limit > 0 ? true : false;
     const userDataAll = await Collection.find({ _id: myKeepingCollections })
@@ -75,7 +83,11 @@ class CollectionRepository {
   };
 
   // category_id를 받아 작성된 모든 컬렉션 조회 (페이지네이션 필요한 경우)
-  getAllCollectionsByCategoryIdWithPaging = async (category_id, offset, limit) => {
+  getAllCollectionsByCategoryIdWithPaging = async (
+    category_id,
+    offset,
+    limit
+  ) => {
     const callForCount = await Collection.find({
       category_id: category_id,
     }).sort({ createdAt: -1 });
@@ -102,13 +114,22 @@ class CollectionRepository {
     const { videos } = await Collection.findOne({ _id });
     const totalVideosView = videos.length;
     const hasNext = totalVideosView - offset - limit > 0 ? true : false;
-    const videosIdToShow = videos.slice(Number(offset), Number(offset) + Number(limit));
+    const videosIdToShow = videos.slice(
+      Number(offset),
+      Number(offset) + Number(limit)
+    );
 
     return { videosIdToShow, totalVideosView, hasNext };
   };
 
   // 전달된 내용으로 새로운 컬렉션 생성. returns 작성한 컬렉션 정보
-  createCollection = async (user_id, category_id, collectionTitle, description, videos) => {
+  createCollection = async (
+    user_id,
+    category_id,
+    collectionTitle,
+    description,
+    videos
+  ) => {
     let ytVideos = [];
     for (let i = 0; i < videos.length; i++) {
       const { videoId } = await this.videoRepository.getVideoById(videos[i]);
@@ -137,14 +158,24 @@ class CollectionRepository {
   };
 
   removeVideoFromCollection = async (_id, filteredArr) => {
-    await Collection.findOneAndUpdate({ _id }, { $set: { videos: filteredArr } });
+    await Collection.findOneAndUpdate(
+      { _id },
+      { $set: { videos: filteredArr } }
+    );
     const updatedCollection = await Collection.findOne({ _id });
 
     return updatedCollection;
   };
 
   // _id에 해당하는 컬렉션 수정. return 수정된 컬렉션 정보
-  editCollection = async (user_id, category_id, collectionTitle, description, videos, _id) => {
+  editCollection = async (
+    user_id,
+    category_id,
+    collectionTitle,
+    description,
+    videos,
+    _id
+  ) => {
     let ytVideos = [];
     for (let i = 0; i < videos.length; i++) {
       const { videoId } = await this.videoRepository.getVideoById(videos[i]);
@@ -152,7 +183,16 @@ class CollectionRepository {
     }
     const editCollection = await Collection.updateOne(
       { _id: _id },
-      { $set: { user_id, category_id, collectionTitle, description, videos, ytVideos } }
+      {
+        $set: {
+          user_id,
+          category_id,
+          collectionTitle,
+          description,
+          videos,
+          ytVideos,
+        },
+      }
     );
 
     return editCollection;
@@ -180,7 +220,10 @@ class CollectionRepository {
   keepCollection = async (_id, user_id) => {
     const { keptBy } = await Collection({ _id });
     keptBy.push(user_id);
-    const updatedCollection = await Collection.updateOne({ _id }, { keptBy: keptBy });
+    const updatedCollection = await Collection.updateOne(
+      { _id },
+      { keptBy: keptBy }
+    );
 
     return updatedCollection;
   };
@@ -189,7 +232,10 @@ class CollectionRepository {
   notKeepCollection = async (_id, user_id) => {
     const { keptBy } = await Collection({ _id });
     const filteredArr = keptBy.filter((e) => e !== user_id);
-    const updatedCollection = await Collection.updateOne({ _id }, { keptBy: filteredArr });
+    const updatedCollection = await Collection.updateOne(
+      { _id },
+      { keptBy: filteredArr }
+    );
 
     return updatedCollection;
   };
@@ -208,20 +254,29 @@ class CollectionRepository {
 
   // _id에 해당하는 컬렉션의 좋아요를 1개 올린다. return 좋아한 컬렉션의 현재 좋아요 수
   likeCollection = async (_id) => {
-    const likeCollection = await Collection.findOneAndUpdate({ _id }, { $inc: { likes: +1 } });
+    const likeCollection = await Collection.findOneAndUpdate(
+      { _id },
+      { $inc: { likes: +1 } }
+    );
     return likeCollection.likes;
   };
 
   // _id에 해당하는 컬렉션의 좋아요를 1개 내린다. returns 좋아요 취소한 컬렉션의 현재 좋아요 수
   disLikeCollection = async (_id) => {
-    const disLikeCollection = await Collection.findOneAndUpdate({ _id }, { $inc: { likes: -1 } });
+    const disLikeCollection = await Collection.findOneAndUpdate(
+      { _id },
+      { $inc: { likes: -1 } }
+    );
     return disLikeCollection.likes;
   };
 
   // 검색어에 맞는 컬렉션 리스트
   getCollectionsBySearch = async (keyword) => {
     const searchCollections = await Collection.find({
-      $or: [{ collectionTitle: new RegExp(keyword, "i") }, { description: new RegExp(keyword, "i") }],
+      $or: [
+        { collectionTitle: new RegExp(keyword, "i") },
+        { description: new RegExp(keyword, "i") },
+      ],
     });
 
     return searchCollections;
@@ -230,10 +285,16 @@ class CollectionRepository {
   // 검색어에 맞는 컬렉션 리스트 (페이지네이션 필요한 경우)
   getCollectionsBySearchWithPaging = async (keyword, offset, limit) => {
     const resultForCount = await Collection.find({
-      $or: [{ collectionTitle: new RegExp(keyword, "i") }, { description: new RegExp(keyword, "i") }],
+      $or: [
+        { collectionTitle: new RegExp(keyword, "i") },
+        { description: new RegExp(keyword, "i") },
+      ],
     });
     const resultBySearch = await Collection.find({
-      $or: [{ collectionTitle: new RegExp(keyword, "i") }, { description: new RegExp(keyword, "i") }],
+      $or: [
+        { collectionTitle: new RegExp(keyword, "i") },
+        { description: new RegExp(keyword, "i") },
+      ],
     })
       .sort({
         createdAt: -1,
@@ -248,17 +309,21 @@ class CollectionRepository {
 
   // 컬렉션 좋아요 Top 10개에 카테고리 6319aeebd1e330e86bbade9f 부여
   giveCategoryIdOnLikeTop10 = async () => {
-    const likeTopCollections = await Collection.find({
-      createdAt: { $gt: new Date(new Date().setDate(new Date().getDate() - 7)) },
-    })
+    const likeTopCollections = await Collection.find()
       .sort({
         likes: -1,
       })
       .limit(10);
     const resultData = [];
     for (let i = 0; i < likeTopCollections.length; i++) {
-      const pushedCollections = [...likeTopCollections[i].category_id, "6319aeebd1e330e86bbade9f"];
-      await Collection.findOneAndUpdate({ _id: likeTopCollections[i]._id }, { $set: { category_id: pushedCollections } });
+      const pushedCollections = [
+        ...likeTopCollections[i].category_id,
+        "6319aeebd1e330e86bbade9f",
+      ];
+      await Collection.findOneAndUpdate(
+        { _id: likeTopCollections[i]._id },
+        { $set: { category_id: pushedCollections } }
+      );
       resultData.push(likeTopCollections[i]._id);
     }
 
@@ -274,8 +339,14 @@ class CollectionRepository {
       .limit(10);
     const resultData = [];
     for (let i = 0; i < latestTopCollections.length; i++) {
-      const pushedCollections = [...latestTopCollections[i].category_id, "631e7d7a4ae4c133c405a964"];
-      await Collection.findOneAndUpdate({ _id: latestTopCollections[i]._id }, { $set: { category_id: pushedCollections } });
+      const pushedCollections = [
+        ...latestTopCollections[i].category_id,
+        "631e7d7a4ae4c133c405a964",
+      ];
+      await Collection.findOneAndUpdate(
+        { _id: latestTopCollections[i]._id },
+        { $set: { category_id: pushedCollections } }
+      );
       resultData.push(latestTopCollections[i]._id);
     }
 
@@ -312,12 +383,20 @@ class CollectionRepository {
     const today = new Date();
     const collectionsToRecommend = await Collection.find({
       category_id: { $elemMatch: { $in: categoriesToRecommmend } },
-      createdAt: { $lt: new Date(new Date().setDate(new Date().getDate() - 3)) },
+      createdAt: {
+        $lt: new Date(new Date().setDate(new Date().getDate() - 3)),
+      },
     }).limit(10);
     const resultData = [];
     for (let i = 0; i < collectionsToRecommend.length; i++) {
-      const pushedCollections = [...collectionsToRecommend[i].category_id, "631e7d7a4ae4c133c405a966"];
-      await Collection.findOneAndUpdate({ _id: collectionsToRecommend[i]._id }, { $set: { category_id: pushedCollections } });
+      const pushedCollections = [
+        ...collectionsToRecommend[i].category_id,
+        "631e7d7a4ae4c133c405a966",
+      ];
+      await Collection.findOneAndUpdate(
+        { _id: collectionsToRecommend[i]._id },
+        { $set: { category_id: pushedCollections } }
+      );
       resultData.push(collectionsToRecommend[i]._id);
     }
 
@@ -327,20 +406,31 @@ class CollectionRepository {
   getLidOfCategory = async (category_id) => {
     const collections = await Collection.find({ category_id });
     for (let i = 0; i < collections.length; i++) {
-      const filteredCategories = collections[i].category_id.filter((e) => e !== category_id);
-      await Collection.findOneAndUpdate({ _id: collections[i]._id }, { $set: { category_id: filteredCategories } });
+      const filteredCategories = collections[i].category_id.filter(
+        (e) => e !== category_id
+      );
+      await Collection.findOneAndUpdate(
+        { _id: collections[i]._id },
+        { $set: { category_id: filteredCategories } }
+      );
     }
   };
 
   // _id에 해당하는 컬렉션의 isVisible을 true로 바꾼다 (공개)
   visibleCollection = async (_id) => {
-    const visibleCollection = await Collection.findOneAndUpdate({ _id }, { $set: { isVisible: true } });
+    const visibleCollection = await Collection.findOneAndUpdate(
+      { _id },
+      { $set: { isVisible: true } }
+    );
     return visibleCollection;
   };
 
   // _id에 해당하는 컬렉션의 isVisible을 false로 바꾼다 (비공개)
   invisibleCollection = async (_id) => {
-    const unvisibleCollection = await Collection.findOneAndUpdate({ _id }, { $set: { isVisible: false } });
+    const unvisibleCollection = await Collection.findOneAndUpdate(
+      { _id },
+      { $set: { isVisible: false } }
+    );
     return unvisibleCollection;
   };
 }
